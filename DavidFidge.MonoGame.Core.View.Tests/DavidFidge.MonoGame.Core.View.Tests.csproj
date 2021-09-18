@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DavidFidge.Monogame.Core.View\DavidFidge.Monogame.Core.View.csproj" />
     <ProjectReference Include="..\DavidFidge.TestInfrastructure\DavidFidge.TestInfrastructure.csproj" />
   </ItemGroup>
 

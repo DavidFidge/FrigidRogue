@@ -7,7 +7,6 @@ using DavidFidge.MonoGame.Core.Components;
 using DavidFidge.MonoGame.Core.Configuration;
 using DavidFidge.MonoGame.Core.ConsoleCommands;
 using DavidFidge.MonoGame.Core.Graphics;
-using DavidFidge.MonoGame.Core.Graphics.Models;
 using DavidFidge.MonoGame.Core.Graphics.Quads;
 using DavidFidge.MonoGame.Core.Interfaces.Components;
 using DavidFidge.MonoGame.Core.Interfaces.ConsoleCommands;

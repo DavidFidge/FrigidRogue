@@ -6,6 +6,7 @@ using DavidFidge.TestInfrastructure;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xna.Framework;
+using NGenerics.Extensions;
 
 namespace DavidFidge.MonoGame.Core.Tests.Services
 {
