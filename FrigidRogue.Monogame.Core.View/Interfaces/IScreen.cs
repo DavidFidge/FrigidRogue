@@ -1,4 +1,4 @@
-﻿namespace FrigidRogue.Monogame.Core.View.Interfaces
+﻿namespace FrigidRogue.MonoGame.Core.View.Interfaces
 {
     public interface IScreen
     {

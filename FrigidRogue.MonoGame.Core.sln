@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31613.86
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrigidRogue.MonoGame.Core", "FrigidRogue.MonoGame.Core\FrigidRogue.MonoGame.Core.csproj", "{CBAC5042-E104-46B9-8EBF-6DC1CAE67001}"
 EndProject
@@ -10,6 +10,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrigidRogue.MonoGame.Core.Tests", "FrigidRogue.MonoGame.Core.Tests\FrigidRogue.MonoGame.Core.Tests.csproj", "{D595CC67-044B-4001-B2A9-13626C915159}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrigidRogue.TestInfrastructure", "FrigidRogue.TestInfrastructure\FrigidRogue.TestInfrastructure.csproj", "{07305CA5-010F-44D9-8E0D-145A331E766E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrigidRogue.Monogame.Core.View", "FrigidRogue.Monogame.Core.View\FrigidRogue.Monogame.Core.View.csproj", "{3A0A90AE-1954-4CED-A874-73E43A20D0F3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrigidRogue.MonoGame.Core.View.Tests", "FrigidRogue.MonoGame.Core.View.Tests\FrigidRogue.MonoGame.Core.View.Tests.csproj", "{3088D763-A99D-4244-A2F1-E732446B7992}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeonBit.UI", "..\GeonBit.UI\GeonBit.UI\GeonBit.UI.csproj", "{048572D0-4DE2-4876-8FE3-DF213121D89F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +39,18 @@ Global
 		{07305CA5-010F-44D9-8E0D-145A331E766E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07305CA5-010F-44D9-8E0D-145A331E766E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07305CA5-010F-44D9-8E0D-145A331E766E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A0A90AE-1954-4CED-A874-73E43A20D0F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A0A90AE-1954-4CED-A874-73E43A20D0F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A0A90AE-1954-4CED-A874-73E43A20D0F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A0A90AE-1954-4CED-A874-73E43A20D0F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3088D763-A99D-4244-A2F1-E732446B7992}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3088D763-A99D-4244-A2F1-E732446B7992}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3088D763-A99D-4244-A2F1-E732446B7992}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3088D763-A99D-4244-A2F1-E732446B7992}.Release|Any CPU.Build.0 = Release|Any CPU
+		{048572D0-4DE2-4876-8FE3-DF213121D89F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{048572D0-4DE2-4876-8FE3-DF213121D89F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{048572D0-4DE2-4876-8FE3-DF213121D89F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{048572D0-4DE2-4876-8FE3-DF213121D89F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

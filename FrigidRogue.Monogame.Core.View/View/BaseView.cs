@@ -11,18 +11,16 @@ using FrigidRogue.MonoGame.Core.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
 using FrigidRogue.MonoGame.Core.Messages;
 using FrigidRogue.MonoGame.Core.UserInterface;
-using FrigidRogue.Monogame.Core.View.Interfaces;
-
+using FrigidRogue.MonoGame.Core.View.Interfaces;
+using GeonBit.UI.Entities;
 using InputHandlers.Keyboard;
 using InputHandlers.Mouse;
 
 using MediatR;
 
-using Entity = GeonBit.UI.Entities.Entity;
-
-namespace FrigidRogue.Monogame.Core.View
+namespace FrigidRogue.MonoGame.Core.View
 {
-    public abstract class BaseView<TViewModel, TData> : BaseComponent, IView<Entity>, IRequestHandler<UpdateViewRequest<TData>>
+    public abstract class BaseView<TViewModel, TData> : BaseComponent, IView<IEntity>, IRequestHandler<UpdateViewRequest<TData>>
          where TViewModel : BaseViewModel<TData>
          where TData : new()
     {
@@ -31,7 +29,7 @@ namespace FrigidRogue.Monogame.Core.View
         protected List<IView> _components = new List<IView>();
         protected ViewType _viewType;
 
-        public IRootPanel<Entity> RootPanel { get; set; }
+        public IRootPanel<IEntity> RootPanel { get; set; }
         public IKeyboardHandler KeyboardHandler { get; set; }
         public IMouseHandler MouseHandler { get; set; }
         public TData Data => _viewModel.Data;

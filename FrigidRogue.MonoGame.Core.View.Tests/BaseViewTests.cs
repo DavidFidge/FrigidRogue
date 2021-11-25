@@ -5,8 +5,8 @@ using System.Threading;
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
 using FrigidRogue.MonoGame.Core.Messages;
 using FrigidRogue.MonoGame.Core.UserInterface;
-using FrigidRogue.Monogame.Core.View;
-using FrigidRogue.Monogame.Core.View.Interfaces;
+using FrigidRogue.MonoGame.Core.View;
+using FrigidRogue.MonoGame.Core.View.Interfaces;
 using FrigidRogue.TestInfrastructure;
 
 using GeonBit.UI.Entities;
@@ -54,7 +54,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
         {
             // Arrange
             var testViewModel = new TestViewModel();
-            var rootPanel = Substitute.For<IRootPanel<Entity>>();
+            var rootPanel = Substitute.For<IRootPanel<IEntity>>();
 
             var testView = new TestView(testViewModel)
             {
@@ -77,7 +77,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
             var keyboardHandler = Substitute.For<IKeyboardHandler>();
             var mouseHandler = Substitute.For<IMouseHandler>();
             var gameInputService = Substitute.For<IGameInputService>();
-            var rootPanel = Substitute.For<IRootPanel<Entity>>();
+            var rootPanel = Substitute.For<IRootPanel<IEntity>>();
 
             var testView = new TestView(new TestViewModel())
             {
@@ -95,7 +95,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
 
             // Assert
             var setVisibleCall = rootPanel.ReceivedCalls().Single();
-            var rootPanelType = typeof(IRootPanel<Entity>);
+            var rootPanelType = typeof(IRootPanel<IEntity>);
             var methodInfo = rootPanelType.GetMethod("set_Visible");
 
             Assert.AreEqual(methodInfo, setVisibleCall.GetMethodInfo());
@@ -113,7 +113,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
             var keyboardHandler = Substitute.For<IKeyboardHandler>();
             var mouseHandler = Substitute.For<IMouseHandler>();
             var gameInputService = Substitute.For<IGameInputService>();
-            var rootPanel = Substitute.For<IRootPanel<Entity>>();
+            var rootPanel = Substitute.For<IRootPanel<IEntity>>();
 
             var testView = new TestView(new TestViewModel())
             {
@@ -133,7 +133,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
 
             // Assert
             var setVisibleCall = rootPanel.ReceivedCalls().Single();
-            var rootPanelType = typeof(IRootPanel<Entity>);
+            var rootPanelType = typeof(IRootPanel<IEntity>);
             var methodInfo = rootPanelType.GetMethod("set_Visible");
 
             Assert.AreEqual(methodInfo, setVisibleCall.GetMethodInfo());
@@ -152,7 +152,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
 
             var keyboardHandlerComponent = Substitute.For<IKeyboardHandler>();
             var mouseHandlerComponent = Substitute.For<IMouseHandler>();
-            var rootPanelComponent = Substitute.For<IRootPanel<Entity>>();
+            var rootPanelComponent = Substitute.For<IRootPanel<IEntity>>();
 
             var testComponentView = new TestComponentView(new TestComponentViewModel())
             {
@@ -164,7 +164,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
 
             var keyboardHandler = Substitute.For<IKeyboardHandler>();
             var mouseHandler = Substitute.For<IMouseHandler>();
-            var rootPanel = Substitute.For<IRootPanel<Entity>>();
+            var rootPanel = Substitute.For<IRootPanel<IEntity>>();
 
             var testView = new TestViewWithComponentView(new TestViewWithComponentViewModel(), testComponentView)
             {
@@ -184,7 +184,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
 
             // Assert
             var setVisibleCall = rootPanel.ReceivedCalls().Single();
-            var rootPanelType = typeof(IRootPanel<Entity>);
+            var rootPanelType = typeof(IRootPanel<IEntity>);
             var methodInfo = rootPanelType.GetMethod("set_Visible");
 
             Assert.AreEqual(methodInfo, setVisibleCall.GetMethodInfo());
@@ -195,7 +195,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
                 .ChangeInput(Arg.Is(mouseHandler), Arg.Is(keyboardHandler));
 
             var setVisibleCallComponent = rootPanelComponent.ReceivedCalls().Single();
-            var rootPanelTypeComponent = typeof(IRootPanel<Entity>);
+            var rootPanelTypeComponent = typeof(IRootPanel<IEntity>);
             var methodInfoComponent = rootPanelTypeComponent.GetMethod("set_Visible");
 
             Assert.AreEqual(methodInfoComponent, setVisibleCallComponent.GetMethodInfo());
@@ -218,7 +218,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
 
             var keyboardHandlerComponent = Substitute.For<IKeyboardHandler>();
             var mouseHandlerComponent = Substitute.For<IMouseHandler>();
-            var rootPanelComponent = Substitute.For<IRootPanel<Entity>>();
+            var rootPanelComponent = Substitute.For<IRootPanel<IEntity>>();
 
             var testComponentView = new TestComponentView(new TestComponentViewModel())
             {
@@ -230,7 +230,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
 
             var keyboardHandler = Substitute.For<IKeyboardHandler>();
             var mouseHandler = Substitute.For<IMouseHandler>();
-            var rootPanel = Substitute.For<IRootPanel<Entity>>();
+            var rootPanel = Substitute.For<IRootPanel<IEntity>>();
 
             var testView = new TestViewWithComponentView(new TestViewWithComponentViewModel(), testComponentView)
             {
@@ -253,14 +253,14 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
 
             // Assert
             var setVisibleCall = rootPanel.ReceivedCalls().Single();
-            var rootPanelType = typeof(IRootPanel<Entity>);
+            var rootPanelType = typeof(IRootPanel<IEntity>);
             var methodInfo = rootPanelType.GetMethod("set_Visible");
 
             Assert.AreEqual(methodInfo, setVisibleCall.GetMethodInfo());
             Assert.AreEqual(false, (bool)setVisibleCall.GetArguments().Single());
 
             var setVisibleCallComponent = rootPanelComponent.ReceivedCalls().Single();
-            var rootPanelTypeComponent = typeof(IRootPanel<Entity>);
+            var rootPanelTypeComponent = typeof(IRootPanel<IEntity>);
             var methodInfoComponent = rootPanelTypeComponent.GetMethod("set_Visible");
 
             Assert.AreEqual(methodInfoComponent, setVisibleCallComponent.GetMethodInfo());
@@ -280,7 +280,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
         {
             // Arrange
             var testViewModel = new TestViewModel();
-            var rootPanel = Substitute.For<IRootPanel<Entity>>();
+            var rootPanel = Substitute.For<IRootPanel<IEntity>>();
 
             var testView = new TestView(testViewModel)
             {

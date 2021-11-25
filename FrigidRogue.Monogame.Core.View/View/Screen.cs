@@ -1,31 +1,37 @@
 ﻿using FrigidRogue.MonoGame.Core.Components;
-using FrigidRogue.Monogame.Core.View.Interfaces;
+using FrigidRogue.MonoGame.Core.View.Interfaces;
+using GeonBit.UI.Entities;
 
-using Entity = GeonBit.UI.Entities.Entity;
+using IGeonBitUserInterface = GeonBit.UI.IUserInterface;
 
-namespace FrigidRogue.Monogame.Core.View
+namespace FrigidRogue.MonoGame.Core.View
 {
     public abstract class Screen : BaseComponent, IScreen
     {
-        protected Screen(IView<Entity> primaryView)
+        private readonly IGeonBitUserInterface _screen;
+        private readonly IUserInterface _userInterface;
+
+        protected Screen(IView<IEntity> primaryView, IGeonBitUserInterface screen, IUserInterface userInterface)
         {
+            _screen = screen;
+            _userInterface = userInterface;
             PrimaryView = primaryView;
         }
 
         public bool IsInitialized { get; private set; }
 
-        public bool IsVisible => GeonBit.UI.UserInterface.Active == UserInterface;
+        public bool IsVisible => _userInterface.IsActive(_screen);
 
-        protected GeonBit.UI.UserInterface UserInterface { get; set; }
+        protected IUserInterface UserInterface { get; set; }
 
-        protected IView<Entity> PrimaryView { get; }
+        protected IView<IEntity> PrimaryView { get; }
 
         public void Show()
         {
             if (!IsInitialized)
                 Initialize();
 
-            GeonBit.UI.UserInterface.Active = UserInterface;
+            _userInterface.SetActive(_screen);
 
             PrimaryView.Show();
         }
@@ -37,13 +43,12 @@ namespace FrigidRogue.Monogame.Core.View
 
         public void Initialize()
         {
-            UserInterface = new GeonBit.UI.UserInterface();
-            UserInterface.UseRenderTarget = true;
-            UserInterface.IncludeCursorInRenderTarget = false;
+            _screen.UseRenderTarget = true;
+            _screen.IncludeCursorInRenderTarget = false;
 
             PrimaryView.Initialize();
             
-            PrimaryView.RootPanel.AddRootPanelToGraph(UserInterface.Root);
+            PrimaryView.RootPanel.AddRootPanelToGraph(_screen.Root);
 
             InitializeInternal();
 

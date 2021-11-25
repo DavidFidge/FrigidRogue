@@ -2,7 +2,7 @@
 
 using Microsoft.Xna.Framework;
 
-namespace FrigidRogue.Monogame.Core.View.Extensions
+namespace FrigidRogue.MonoGame.Core.View.Extensions
 {
     public static class EntityExtensions
     {

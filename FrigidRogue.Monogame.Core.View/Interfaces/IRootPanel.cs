@@ -1,6 +1,6 @@
 ﻿using GeonBit.UI.Entities;
 
-namespace FrigidRogue.Monogame.Core.View.Interfaces
+namespace FrigidRogue.MonoGame.Core.View.Interfaces
 {
     public interface IRootPanel<T>
     {
@@ -10,6 +10,6 @@ namespace FrigidRogue.Monogame.Core.View.Interfaces
         void AddChild(T child);
         void AddChild(IRootPanel<T> child);
         void AddRootPanelToGraph(T root);
-        void AddAsChildOf(Panel panel);
+        void AddAsChildOf(IPanel panel);
     }
 }

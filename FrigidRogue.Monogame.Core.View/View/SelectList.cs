@@ -5,7 +5,7 @@ using GeonBit.UI.Entities;
 
 using Microsoft.Xna.Framework;
 
-namespace FrigidRogue.Monogame.Core.View
+namespace FrigidRogue.MonoGame.Core.View
 {
     public class SelectList<T> : SelectList
     {
