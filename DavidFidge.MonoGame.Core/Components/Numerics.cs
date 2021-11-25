@@ -1166,7 +1166,6 @@ namespace DavidFidge.MonoGame.Core.Components
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "unsigned")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "n")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2233:OperationsShouldNotOverflow", MessageId = "31-n")]
-        [CLSCompliant(false)]
         public static uint GetSignificantBitsUnsigned(float value, int n)
         {
             // Reference: http://aras-p.info/blog/2014/01/16/rough-sorting-by-depth/
@@ -1198,7 +1197,6 @@ namespace DavidFidge.MonoGame.Core.Components
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "signed")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "n")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2233:OperationsShouldNotOverflow", MessageId = "32-n")]
-        [CLSCompliant(false)]
         public static uint GetSignificantBitsSigned(float value, int n)
         {
             // Example:

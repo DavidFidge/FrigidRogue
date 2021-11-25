@@ -169,7 +169,6 @@ namespace DavidFidge.MonoGame.Core.Components
         /// Exception: If <paramref name="value"/> is 0 then 0 is returned.
         /// </returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly")]
-        [CLSCompliant(false)]
         public static uint Log2LessOrEqual(uint value)
         {
             // See Game Programming Gems 3, "Fast Base-2 Functions for Logarithms and Random Number Generation.
@@ -234,7 +233,6 @@ namespace DavidFidge.MonoGame.Core.Components
         /// The smallest non-negative integer x such that 2<sup>x</sup> ≥ <paramref name="value"/>.
         /// Exception: If <paramref name="value"/> is 0, 0 is returned.
         /// </returns>
-        [CLSCompliant(false)]
         public static uint Log2GreaterOrEqual(uint value)
         {
             // See Game Programming Gems 3, "Fast Base-2 Functions for Logarithms and Random Number Generation.
@@ -311,7 +309,6 @@ namespace DavidFidge.MonoGame.Core.Components
         /// x.
         /// </para>
         /// </remarks>
-        [CLSCompliant(false)]
         public static uint Bitmask(uint value)
         {
             // Example:                 value = 10000000 00000000 00000000 00000000
@@ -348,7 +345,6 @@ namespace DavidFidge.MonoGame.Core.Components
         /// <remarks>
         /// For example, <c>NextPowerOf2(7)</c> is <c>8</c> and <c>NextPowerOf2(8)</c> is <c>16</c>.
         /// </remarks>
-        [CLSCompliant(false)]
         public static uint NextPowerOf2(uint value)
         {
             return Bitmask(value) + 1;

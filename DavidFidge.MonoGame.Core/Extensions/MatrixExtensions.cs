@@ -33,11 +33,6 @@ namespace DavidFidge.MonoGame.Core.Extensions
 
         public static Vector4 Multiply(this Matrix matrix, Vector4 vector)
         {
-            if (matrix == null)
-                throw new ArgumentNullException("matrix");
-            if (vector == null)
-                throw new ArgumentNullException("vector");
-
             var product = new Vector4();
 
             for (var i = 0; i < 4; i++)
@@ -49,11 +44,6 @@ namespace DavidFidge.MonoGame.Core.Extensions
 
         public static Vector3 Multiply(this Matrix matrix, Vector3 vector)
         {
-            if (matrix == null)
-                throw new ArgumentNullException("matrix");
-            if (vector == null)
-                throw new ArgumentNullException("vector");
-
             var product = new Vector3();
 
             for (var i = 0; i < 3; i++)
