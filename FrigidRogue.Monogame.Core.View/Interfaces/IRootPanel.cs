@@ -10,6 +10,6 @@ namespace FrigidRogue.MonoGame.Core.View.Interfaces
         void AddChild(T child);
         void AddChild(IRootPanel<T> child);
         void AddRootPanelToGraph(T root);
-        void AddAsChildOf(IPanel panel);
+        void AddAsChildOf(Panel panel);
     }
 }

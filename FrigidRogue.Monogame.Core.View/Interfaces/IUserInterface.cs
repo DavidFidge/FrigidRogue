@@ -11,7 +11,8 @@ namespace FrigidRogue.MonoGame.Core.View.Interfaces
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
         void DrawMainRenderTarget(SpriteBatch spriteBatch);
-        void SetActive(GeonBit.UI.IUserInterface userInterface);
-        bool IsActive(GeonBit.UI.IUserInterface userInterface);
+        void SetActive(GeonBit.UI.UserInterface userInterface);
+        bool IsActive(GeonBit.UI.UserInterface userInterface);
+        GeonBit.UI.UserInterface Create();
     }
 }

@@ -1,37 +1,32 @@
 ﻿using FrigidRogue.MonoGame.Core.Components;
 using FrigidRogue.MonoGame.Core.View.Interfaces;
-using GeonBit.UI.Entities;
 
-using IGeonBitUserInterface = GeonBit.UI.IUserInterface;
+using Entity = GeonBit.UI.Entities.Entity;
 
 namespace FrigidRogue.MonoGame.Core.View
 {
     public abstract class Screen : BaseComponent, IScreen
     {
-        private readonly IGeonBitUserInterface _screen;
-        private readonly IUserInterface _userInterface;
+        // Property injected
+        public IUserInterface UserInterface { get; set; }
+        public bool IsInitialized { get; private set; }
+        public bool IsVisible => UserInterface.IsActive(_screen);
 
-        protected Screen(IView<IEntity> primaryView, IGeonBitUserInterface screen, IUserInterface userInterface)
+        protected IView<Entity> PrimaryView { get; }
+
+        private GeonBit.UI.UserInterface _screen;
+
+        protected Screen(IView<Entity> primaryView)
         {
-            _screen = screen;
-            _userInterface = userInterface;
             PrimaryView = primaryView;
         }
-
-        public bool IsInitialized { get; private set; }
-
-        public bool IsVisible => _userInterface.IsActive(_screen);
-
-        protected IUserInterface UserInterface { get; set; }
-
-        protected IView<IEntity> PrimaryView { get; }
 
         public void Show()
         {
             if (!IsInitialized)
                 Initialize();
 
-            _userInterface.SetActive(_screen);
+            UserInterface.SetActive(_screen);
 
             PrimaryView.Show();
         }
@@ -43,8 +38,7 @@ namespace FrigidRogue.MonoGame.Core.View
 
         public void Initialize()
         {
-            _screen.UseRenderTarget = true;
-            _screen.IncludeCursorInRenderTarget = false;
+            _screen = UserInterface.Create();
 
             PrimaryView.Initialize();
             

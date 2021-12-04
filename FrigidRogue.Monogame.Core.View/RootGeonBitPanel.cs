@@ -1,13 +1,13 @@
 ﻿using FrigidRogue.MonoGame.Core.View.Extensions;
 using FrigidRogue.MonoGame.Core.View.Interfaces;
-
 using GeonBit.UI.Entities;
-
 using Microsoft.Xna.Framework;
+
+using Entity = GeonBit.UI.Entities.Entity;
 
 namespace FrigidRogue.MonoGame.Core.UserInterface
 {
-    public class RootGeonBitPanel : IRootPanel<IEntity>
+    public class RootGeonBitPanel : IRootPanel<Entity>
     {
         private Panel _panel;
 
@@ -28,22 +28,22 @@ namespace FrigidRogue.MonoGame.Core.UserInterface
             _panel.Identifier = panelIdentifier;
         }
 
-        public void AddChild(IEntity child)
+        public void AddChild(Entity child)
         {
             _panel.AddChild((Entity)child);
         }
 
-        public void AddChild(IRootPanel<IEntity> child)
+        public void AddChild(IRootPanel<Entity> child)
         {
             child.AddRootPanelToGraph(_panel);
         }
 
-        public void AddAsChildOf(IPanel panel)
+        public void AddAsChildOf(Panel panel)
         {
             panel.AddChild(_panel);
         }
 
-        public void AddRootPanelToGraph(IEntity root)
+        public void AddRootPanelToGraph(Entity root)
         {
             root.AddChild(_panel);
         }

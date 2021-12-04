@@ -14,12 +14,12 @@ namespace FrigidRogue.MonoGame.Core.View.Installers
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                Component.For<IRootPanel<IEntity>>()
+                Component.For<IRootPanel<Entity>>()
                     .ImplementedBy<RootGeonBitPanel>()
                     .LifeStyle.Transient,
 
                 Component.For<IUserInterface>()
-                    .ImplementedBy<IUserInterface>()
+                    .ImplementedBy<GeonBitUserInterfaceWrapper>()
             );
         }
     }

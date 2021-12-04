@@ -1,5 +1,6 @@
 ﻿using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel.Registration;
+using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 
@@ -37,6 +38,8 @@ namespace FrigidRogue.MonoGame.Core.Installers
                 .CreateLogger();
 
             container.AddFacility<TypedFactoryFacility>();
+
+            container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel, true));
 
             container.Install(new MediatorInstaller());
 
