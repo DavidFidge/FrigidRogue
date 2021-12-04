@@ -6,14 +6,13 @@ using Microsoft.Xna.Framework;
 
 namespace FrigidRogue.MonoGame.Core.Graphics.Camera
 {
-    public class StrategyGameCamera : BaseCamera, IGameCamera
+    public class GameCamera : BaseCamera, IGameCamera
     {
-        private Quaternion _cameraRotationUp;
-        private Quaternion _cameraRotationLeft;
+        private Quaternion _cameraRotation;
 
         public CameraMovement GameUpdateContinuousMovement { get; set; }
 
-        public StrategyGameCamera(IGameProvider gameProvider) : base(gameProvider)
+        public GameCamera(IGameProvider gameProvider) : base(gameProvider)
         {
             Reset();
         }
@@ -21,8 +20,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
         public override void Reset()
         {
             _cameraPosition = new Vector3(0f, 0f, 100f);
-            _cameraRotationUp = Quaternion.Identity;
-            _cameraRotationLeft = Quaternion.Identity;
+            _cameraRotation = Quaternion.Identity;
             SetViewMatrix();
         }
 
@@ -55,7 +53,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
             if (cameraMovement.HasFlag(CameraMovement.Backward))
                 movementVector.Z += moveMagnitude;
 
-            var rotatedVector = Vector3.Transform(movementVector, _cameraRotationUp);
+            var rotatedVector = Vector3.Transform(movementVector, _cameraRotation);
 
             ChangeTranslationRelative(rotatedVector);
         }
@@ -77,20 +75,16 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
             if (cameraMovement.HasFlag(CameraMovement.RotateRight))
                 leftRightRotation -= rotateMagnitude;
 
-            var additionalRotationUp = Quaternion.CreateFromAxisAngle(Vector3.Backward, upDownRotation);
+            var additionalRotation = Quaternion.CreateFromAxisAngle(Vector3.Up, upDownRotation) * Quaternion.CreateFromAxisAngle(Vector3.Right, leftRightRotation);
 
-            var additionalRotationLeft = Quaternion.CreateFromAxisAngle(Vector3.Left, leftRightRotation);
-
-            _cameraRotationUp = _cameraRotationUp * additionalRotationUp;
-            _cameraRotationLeft = _cameraRotationLeft * additionalRotationLeft;
+            _cameraRotation = _cameraRotation * additionalRotation;
         }
 
         protected void SetViewMatrix()
         {
-            var cameraRotation = _cameraRotationUp * _cameraRotationLeft;
-            var cameraRotatedTarget = Vector3.Transform(Vector3.Forward, cameraRotation);
+            var cameraRotatedTarget = Vector3.Transform(Vector3.Forward, _cameraRotation);
             var cameraFinalTarget = _cameraPosition + cameraRotatedTarget;
-            var cameraRotatedUpVector = Vector3.Transform(Vector3.Up, cameraRotation);
+            var cameraRotatedUpVector = Vector3.Transform(Vector3.Up, _cameraRotation);
 
             View = Matrix.CreateLookAt(
                 _cameraPosition,
