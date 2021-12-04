@@ -29,18 +29,18 @@ namespace FrigidRogue.MonoGame.Core.Services
             args.GraphicsDeviceInformation.GraphicsProfile = GraphicsProfile.HiDef;
         }
 
-        public List<DisplayMode> GetSupportedDisplayModes()
+        public List<DisplayDimensions> GetSupportedDisplayModes()
         {
-            var supportedDisplayModes = new HashSet<DisplayMode>();
+            var supportedDisplayModes = new HashSet<DisplayDimensions>();
 
-            foreach (Microsoft.Xna.Framework.Graphics.DisplayMode displaymode in GraphicsDevice.Adapter.SupportedDisplayModes)
+            foreach (var displayMode in GraphicsDevice.Adapter.SupportedDisplayModes)
             {
-                if (displaymode.Width >= 1000 && displaymode.Height >= 900)
+                if (displayMode.Width >= 1000 && displayMode.Height >= 900)
                 {
-                    var supportedDisplayMode = new DisplayMode(
-                        displaymode.Width,
-                        displaymode.Height,
-                        displaymode.AspectRatio);
+                    var supportedDisplayMode = new DisplayDimensions(
+                        displayMode.Width,
+                        displayMode.Height,
+                        displayMode.AspectRatio);
 
                     supportedDisplayModes.Add(supportedDisplayMode);
                 }
@@ -49,11 +49,13 @@ namespace FrigidRogue.MonoGame.Core.Services
             return supportedDisplayModes.ToList();
         }
 
-        public void SetDisplayMode(DisplayMode displayMode, bool isFullScreen)
+        public void SetDisplayMode(DisplaySettings displaySettings)
         {
-            PreferredBackBufferWidth = displayMode.Width;
-            PreferredBackBufferHeight = displayMode.Height;
-            IsFullScreen = isFullScreen;
+            PreferredBackBufferWidth = displaySettings.DisplayDimensions.Width;
+            PreferredBackBufferHeight = displaySettings.DisplayDimensions.Height;
+            IsFullScreen = displaySettings.IsFullScreen;
+            HardwareModeSwitch = displaySettings.IsFullScreen && !displaySettings.IsBorderlessWindowed;
+            IsVerticalSync = displaySettings.IsVerticalSync;
 
             ApplyChanges();
         }

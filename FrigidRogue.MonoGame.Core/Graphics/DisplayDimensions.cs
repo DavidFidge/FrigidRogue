@@ -3,13 +3,13 @@ using System.Linq;
 
 namespace FrigidRogue.MonoGame.Core.Services
 {
-    public class DisplayMode
+    public class DisplayDimensions
     {
         public int Width { get; }
         public int Height { get; }
         public float AspectRatio { get; }
 
-        public DisplayMode(int width, int height, float aspectRatio)
+        public DisplayDimensions(int width, int height, float aspectRatio)
         {
             Width = width;
             Height = height;
@@ -23,16 +23,16 @@ namespace FrigidRogue.MonoGame.Core.Services
 
         public override bool Equals(object obj)
         {
-            if (obj != null && obj is DisplayMode mode)
+            if (obj != null && obj is DisplayDimensions mode)
                 return Equals(mode);
 
             return false;
         }
 
-        public bool Equals(DisplayMode displayMode)
+        public bool Equals(DisplayDimensions displayDimensions)
         {
-            return Width == displayMode.Width
-                   && Height == displayMode.Height;
+            return Width == displayDimensions.Width
+                   && Height == displayDimensions.Height;
         }
 
         public override int GetHashCode()
