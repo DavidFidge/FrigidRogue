@@ -54,19 +54,6 @@ namespace FrigidRogue.MonoGame.Core.Services
             PreferredBackBufferWidth = displaySettings.DisplayDimensions.Width;
             PreferredBackBufferHeight = displaySettings.DisplayDimensions.Height;
 
-            if (IsFullScreen != displaySettings.IsFullScreen && displaySettings.IsFullScreen == false)
-            {
-                var smallestWindowSize = GetSupportedDisplayModes()
-                    .OrderBy(dm => dm.Height)
-                    .FirstOrDefault();
-
-                if (smallestWindowSize != null)
-                {
-                    PreferredBackBufferWidth = smallestWindowSize.Width;
-                    PreferredBackBufferHeight = smallestWindowSize.Height;
-                }
-            }
-
             IsFullScreen = displaySettings.IsFullScreen;
 
             HardwareModeSwitch = displaySettings.IsFullScreen && !displaySettings.IsBorderlessWindowed;
