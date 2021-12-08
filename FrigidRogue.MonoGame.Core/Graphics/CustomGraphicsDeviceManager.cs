@@ -29,15 +29,15 @@ namespace FrigidRogue.MonoGame.Core.Services
             args.GraphicsDeviceInformation.GraphicsProfile = GraphicsProfile.HiDef;
         }
 
-        public List<DisplayDimensions> GetSupportedDisplayModes()
+        public List<DisplayDimension> GetSupportedDisplayModes()
         {
-            var supportedDisplayModes = new HashSet<DisplayDimensions>();
+            var supportedDisplayModes = new HashSet<DisplayDimension>();
 
             foreach (var displayMode in GraphicsDevice.Adapter.SupportedDisplayModes)
             {
                 if (displayMode.Width >= 1000 && displayMode.Height >= 900)
                 {
-                    var supportedDisplayMode = new DisplayDimensions(
+                    var supportedDisplayMode = new DisplayDimension(
                         displayMode.Width,
                         displayMode.Height,
                         displayMode.AspectRatio);
@@ -51,8 +51,8 @@ namespace FrigidRogue.MonoGame.Core.Services
 
         public void SetDisplayMode(DisplaySettings displaySettings)
         {
-            PreferredBackBufferWidth = displaySettings.DisplayDimensions.Width;
-            PreferredBackBufferHeight = displaySettings.DisplayDimensions.Height;
+            PreferredBackBufferWidth = displaySettings.DisplayDimension.Width;
+            PreferredBackBufferHeight = displaySettings.DisplayDimension.Height;
 
             IsFullScreen = displaySettings.IsFullScreen;
 

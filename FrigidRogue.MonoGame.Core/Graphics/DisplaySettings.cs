@@ -4,14 +4,14 @@ namespace FrigidRogue.MonoGame.Core.Services
 {
     public class DisplaySettings
     {
-        public DisplayDimensions DisplayDimensions { get; }
+        public DisplayDimension DisplayDimension { get; }
         public bool IsFullScreen { get; }
         public bool IsVerticalSync { get; }
         public bool IsBorderlessWindowed { get; }
 
-        public DisplaySettings(DisplayDimensions displayDimensions, bool isFullScreen, bool isVerticalSync, bool isBorderlessWindowed)
+        public DisplaySettings(DisplayDimension displayDimension, bool isFullScreen, bool isVerticalSync, bool isBorderlessWindowed)
         {
-            DisplayDimensions = displayDimensions;
+            DisplayDimension = displayDimension;
             IsFullScreen = isFullScreen;
             IsVerticalSync = isVerticalSync;
             IsBorderlessWindowed = isBorderlessWindowed;

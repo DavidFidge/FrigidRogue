@@ -1,4 +1,8 @@
-﻿using FrigidRogue.MonoGame.Core.View.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+
+using FrigidRogue.MonoGame.Core.Services;
+using FrigidRogue.MonoGame.Core.View.Interfaces;
 
 using GeonBit.UI;
 
@@ -12,6 +16,25 @@ namespace FrigidRogue.MonoGame.Core.View
     // and instances of user interfaces that are effectively different screens in the game.
     public class GeonBitUserInterfaceWrapper : IUserInterface
     {
+        public RenderResolution RenderResolution
+        {
+            get => _renderResolution;
+            set
+            {
+                _renderResolution = value;
+
+                foreach (var userInterface in _userInterfaces)
+                {
+                    userInterface.RenderTargetWidth = _renderResolution.Width;
+                    userInterface.RenderTargetHeight = _renderResolution.Height;
+                }
+            }
+        }
+
+        private readonly List<GeonBit.UI.UserInterface> _userInterfaces = new List<GeonBit.UI.UserInterface>();
+
+        private RenderResolution _renderResolution;
+
         public void Initialize(ContentManager content)
         {
             // create and init the UI manager
@@ -27,8 +50,16 @@ namespace FrigidRogue.MonoGame.Core.View
         public GeonBit.UI.UserInterface Create()
         {
             var userInterface = new GeonBit.UI.UserInterface();
+            _userInterfaces.Add(userInterface);
+
             userInterface.UseRenderTarget = true;
             userInterface.IncludeCursorInRenderTarget = false;
+
+            if (RenderResolution != null)
+            {
+                userInterface.RenderTargetWidth = RenderResolution.Width;
+                userInterface.RenderTargetHeight = RenderResolution.Height;
+            }
 
             return userInterface;
         }
