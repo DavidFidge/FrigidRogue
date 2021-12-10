@@ -5,9 +5,8 @@
         bool IsInitialized { get; }
         bool IsVisible { get; }
         void Show();
+        void Hide();
         void Initialize();
-        void LoadContent();
-        void UnloadContent();
         void Update();
         void Draw();
     }

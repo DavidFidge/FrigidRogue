@@ -10,9 +10,10 @@ namespace FrigidRogue.MonoGame.Core.View
         // Property injected
         public IUserInterface UserInterface { get; set; }
         public bool IsInitialized { get; private set; }
-        public bool IsVisible => UserInterface.IsActive(_screen);
+        public bool IsVisible => UserInterface.IsActive(ScreenUserInterface);
 
         protected IView<Entity> PrimaryView { get; }
+        public GeonBit.UI.UserInterface ScreenUserInterface => _screen;
 
         private GeonBit.UI.UserInterface _screen;
 
@@ -26,7 +27,7 @@ namespace FrigidRogue.MonoGame.Core.View
             if (!IsInitialized)
                 Initialize();
 
-            UserInterface.SetActive(_screen);
+            UserInterface.SetActive(this);
 
             PrimaryView.Show();
         }
@@ -42,31 +43,19 @@ namespace FrigidRogue.MonoGame.Core.View
 
             PrimaryView.Initialize();
             
-            PrimaryView.RootPanel.AddRootPanelToGraph(_screen.Root);
-
-            InitializeInternal();
+            PrimaryView.RootPanel.AddRootPanelToGraph(ScreenUserInterface.Root);
 
             IsInitialized = true;
         }
 
-        protected virtual void InitializeInternal()
-        {
-        }
-
-        public virtual void LoadContent()
-        {
-        }
-
-        public virtual void UnloadContent()
-        {
-        }
-
         public virtual void Update()
         {
+            PrimaryView.Update();
         }
 
         public virtual void Draw()
         {
+            PrimaryView.Draw();
         }
     }
 }

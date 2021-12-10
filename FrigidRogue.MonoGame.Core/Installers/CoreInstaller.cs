@@ -41,6 +41,9 @@ namespace FrigidRogue.MonoGame.Core.Installers
 
             container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel, true));
 
+            container.Kernel.ComponentModelBuilder.AddContributor(new RequestHandlerContributor());
+            container.Kernel.ComponentModelBuilder.AddContributor(new NotificationHandlerContributor());
+
             container.Install(new MediatorInstaller());
 
             container.Register(

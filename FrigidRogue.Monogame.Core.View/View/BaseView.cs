@@ -21,7 +21,7 @@ using Entity = GeonBit.UI.Entities.Entity;
 
 namespace FrigidRogue.MonoGame.Core.View
 {
-    public abstract class BaseView<TViewModel, TData> : BaseComponent, IView<Entity>, IRequestHandler<UpdateViewRequest<TData>>
+    public abstract class BaseView<TViewModel, TData> : BaseComponent, IView<Entity>, IRequestHandler<NotifyViewModelChangedRequest<TData>>
          where TViewModel : BaseViewModel<TData>
          where TData : new()
     {
@@ -111,14 +111,22 @@ namespace FrigidRogue.MonoGame.Core.View
             return string.Join(" ", values);
         }
 
-        protected virtual void UpdateView()
+        protected virtual void ViewModelChanged()
         {
         }
 
-        public Task<Unit> Handle(UpdateViewRequest<TData> request, CancellationToken cancellationToken)
+        public Task<Unit> Handle(NotifyViewModelChangedRequest<TData> notifyViewModelChangedRequest, CancellationToken cancellationToken)
         {
-            UpdateView();
+            ViewModelChanged();
             return Unit.Task;
+        }
+
+        public virtual void Draw()
+        {
+        }
+
+        public virtual void Update()
+        {
         }
     }
 }

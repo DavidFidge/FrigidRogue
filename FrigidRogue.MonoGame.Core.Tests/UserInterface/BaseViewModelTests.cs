@@ -12,7 +12,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
     public class BaseViewModelTests : BaseTest
     {
         [TestMethod]
-        public void Notify_Should_Send_UpdateViewRequest()
+        public void Notify_Should_Send_NotifyViewModelChangedRequest()
         {
             // Arrange
             var testViewModel = new TestViewModel();
@@ -22,7 +22,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
             testViewModel.TestNotify();
 
             // Assert
-            testViewModel.Mediator.Received().Send(Arg.Any<UpdateViewRequest<TestData>>());
+            testViewModel.Mediator.Received().Send(Arg.Any<NotifyViewModelChangedRequest<TestData>>());
         }
 
         public class TestData
