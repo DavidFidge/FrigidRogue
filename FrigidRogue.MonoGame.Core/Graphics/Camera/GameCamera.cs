@@ -1,12 +1,21 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
+using FrigidRogue.MonoGame.Core.Messages;
+
+using MediatR;
 
 using Microsoft.Xna.Framework;
 
 namespace FrigidRogue.MonoGame.Core.Graphics.Camera
 {
-    public class GameCamera : BaseCamera, IGameCamera
+    public class GameCamera : BaseCamera,
+        IGameCamera,
+        IRequestHandler<MoveViewRequest>,
+        IRequestHandler<RotateViewRequest>,
+        IRequestHandler<ZoomViewRequest>
     {
         private Quaternion _cameraRotation;
 
@@ -102,6 +111,34 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
                 magnitude > 0 ? CameraMovement.Forward : CameraMovement.Backward,
                 Math.Abs(magnitude) * _zoomSpeed
             );
+        }
+
+        public Task<Unit> Handle(ZoomViewRequest request, CancellationToken cancellationToken)
+        {
+            Zoom(request.Difference);
+            return Unit.Task;
+        }
+
+        public Task<Unit> Handle(MoveViewRequest request, CancellationToken cancellationToken)
+        {
+            GameUpdateContinuousMovement = request.CameraMovementFlags;
+
+            return Unit.Task;
+        }
+
+        public Task<Unit> Handle(RotateViewRequest request, CancellationToken cancellationToken)
+        {
+            if (request.XRotation > float.Epsilon)
+                Rotate(CameraMovement.RotateDown, request.XRotation);
+            else if (request.XRotation < float.Epsilon)
+                Rotate(CameraMovement.RotateUp, -request.XRotation);
+
+            if (request.ZRotation > float.Epsilon)
+                Rotate(CameraMovement.RotateLeft, request.ZRotation);
+            else if (request.ZRotation < float.Epsilon)
+                Rotate(CameraMovement.RotateRight, -request.ZRotation);
+
+            return Unit.Task;
         }
     }
 }
