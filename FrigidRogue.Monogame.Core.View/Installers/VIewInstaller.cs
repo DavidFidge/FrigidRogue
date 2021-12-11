@@ -13,6 +13,8 @@ namespace FrigidRogue.MonoGame.Core.View.Installers
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
+            container.Kernel.ComponentModelBuilder.AddContributor(new ScreenContributor());
+
             container.Register(
                 Component.For<IRootPanel<Entity>>()
                     .ImplementedBy<RootGeonBitPanel>()

@@ -276,7 +276,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
         }
 
         [TestMethod]
-        public void UpdateViewRequest_Should_Call_UpdateView()
+        public void NotifyViewModelChangedRequest_Should_Call_ViewModelChanged()
         {
             // Arrange
             var testViewModel = new TestViewModel();
@@ -288,16 +288,16 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
             };
 
             // Act
-            testView.Handle(new UpdateViewRequest<TestData>(), new CancellationToken());
+            testView.Handle(new NotifyViewModelChangedRequest<TestData>(), new CancellationToken());
 
             // Assert
-            Assert.IsTrue(testView.UpdateViewCalled);
+            Assert.IsTrue(testView.ViewModelChangedCalled);
         }
 
         public class TestView : BaseView<TestViewModel, TestData>
         {
             public bool IsInitializeInternalCalled { get; private set; }
-            public bool UpdateViewCalled { get; private set; }
+            public bool ViewModelChangedCalled { get; private set; }
 
             public TestView(TestViewModel viewModel) : base(viewModel)
             {
@@ -318,9 +318,9 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
                 return LabelFor(() => Data.PropertyWithoutDisplay);
             }
 
-            protected override void UpdateView()
+            protected override void ViewModelChanged()
             {
-                UpdateViewCalled = true;
+                ViewModelChangedCalled = true;
             }
         }
 

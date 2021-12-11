@@ -2,7 +2,7 @@
 
 namespace FrigidRogue.MonoGame.Core.Messages
 {
-    public class UpdateViewRequest<T> : IRequest
+    public class NotifyViewModelChangedRequest<T> : IRequest
     {
     }
 }

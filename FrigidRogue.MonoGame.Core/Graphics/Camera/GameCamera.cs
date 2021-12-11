@@ -1,16 +1,25 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
+using FrigidRogue.MonoGame.Core.Messages;
+
+using MediatR;
 
 using Microsoft.Xna.Framework;
 
 namespace FrigidRogue.MonoGame.Core.Graphics.Camera
 {
-    public class GameCamera : BaseCamera, IGameCamera
+    public class GameCamera : BaseCamera,
+        IGameCamera,
+        IRequestHandler<MoveViewRequest>,
+        IRequestHandler<RotateViewRequest>,
+        IRequestHandler<ZoomViewRequest>
     {
         private Quaternion _cameraRotation;
 
-        public CameraMovement GameUpdateContinuousMovement { get; set; }
+        public CameraMovementType ContinuousCameraMovementType { get; set; }
 
         public GameCamera(IGameProvider gameProvider) : base(gameProvider)
         {
@@ -19,38 +28,38 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
 
         public override void Reset()
         {
-            _cameraPosition = new Vector3(0f, 0f, 100f);
+            _cameraPosition = Vector3.Zero;
             _cameraRotation = Quaternion.Identity;
             SetViewMatrix();
         }
 
         public override void Update()
         {
-            Move(GameUpdateContinuousMovement, _moveSpeed);
-            Rotate(GameUpdateContinuousMovement, _rotateSpeed);
+            Move(ContinuousCameraMovementType, _moveSpeed);
+            Rotate(ContinuousCameraMovementType, _rotateSpeed);
             SetViewMatrix();
         }
 
-        public void Move(CameraMovement cameraMovement, float moveMagnitude)
+        public void Move(CameraMovementType cameraMovementType, float moveMagnitude)
         {
             var movementVector = new Vector3();
 
-            if (cameraMovement.HasFlag(CameraMovement.PanLeft))
+            if (cameraMovementType.HasFlag(CameraMovementType.PanLeft))
                 movementVector.X -= moveMagnitude;
 
-            if (cameraMovement.HasFlag(CameraMovement.PanRight))
+            if (cameraMovementType.HasFlag(CameraMovementType.PanRight))
                 movementVector.X += moveMagnitude;
 
-            if (cameraMovement.HasFlag(CameraMovement.PanUp))
+            if (cameraMovementType.HasFlag(CameraMovementType.PanUp))
                 movementVector.Y += moveMagnitude;
 
-            if (cameraMovement.HasFlag(CameraMovement.PanDown))
+            if (cameraMovementType.HasFlag(CameraMovementType.PanDown))
                 movementVector.Y -= moveMagnitude;
 
-            if (cameraMovement.HasFlag(CameraMovement.Forward))
+            if (cameraMovementType.HasFlag(CameraMovementType.Forward))
                 movementVector.Z -= moveMagnitude;
 
-            if (cameraMovement.HasFlag(CameraMovement.Backward))
+            if (cameraMovementType.HasFlag(CameraMovementType.Backward))
                 movementVector.Z += moveMagnitude;
 
             var rotatedVector = Vector3.Transform(movementVector, _cameraRotation);
@@ -58,21 +67,21 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
             ChangeTranslationRelative(rotatedVector);
         }
 
-        public void Rotate(CameraMovement cameraMovement, float rotateMagnitude)
+        public void Rotate(CameraMovementType cameraMovementType, float rotateMagnitude)
         {
             var upDownRotation = 0f;
             var leftRightRotation = 0f;
 
-            if (cameraMovement.HasFlag(CameraMovement.RotateUp))
+            if (cameraMovementType.HasFlag(CameraMovementType.RotateUp))
                 upDownRotation -= rotateMagnitude;
 
-            if (cameraMovement.HasFlag(CameraMovement.RotateDown))
+            if (cameraMovementType.HasFlag(CameraMovementType.RotateDown))
                 upDownRotation += rotateMagnitude;
 
-            if (cameraMovement.HasFlag(CameraMovement.RotateLeft))
+            if (cameraMovementType.HasFlag(CameraMovementType.RotateLeft))
                 leftRightRotation += rotateMagnitude;
 
-            if (cameraMovement.HasFlag(CameraMovement.RotateRight))
+            if (cameraMovementType.HasFlag(CameraMovementType.RotateRight))
                 leftRightRotation -= rotateMagnitude;
 
             var additionalRotation = Quaternion.CreateFromAxisAngle(Vector3.Up, upDownRotation) * Quaternion.CreateFromAxisAngle(Vector3.Right, leftRightRotation);
@@ -99,9 +108,37 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
                 return;
 
             Move(
-                magnitude > 0 ? CameraMovement.Forward : CameraMovement.Backward,
+                magnitude > 0 ? CameraMovementType.Forward : CameraMovementType.Backward,
                 Math.Abs(magnitude) * _zoomSpeed
             );
+        }
+
+        public Task<Unit> Handle(ZoomViewRequest request, CancellationToken cancellationToken)
+        {
+            Zoom(request.Difference);
+            return Unit.Task;
+        }
+
+        public Task<Unit> Handle(MoveViewRequest request, CancellationToken cancellationToken)
+        {
+            ContinuousCameraMovementType = request.CameraMovementTypeFlags;
+
+            return Unit.Task;
+        }
+
+        public Task<Unit> Handle(RotateViewRequest request, CancellationToken cancellationToken)
+        {
+            if (request.XRotation > float.Epsilon)
+                Rotate(CameraMovementType.RotateDown, request.XRotation);
+            else if (request.XRotation < float.Epsilon)
+                Rotate(CameraMovementType.RotateUp, -request.XRotation);
+
+            if (request.ZRotation > float.Epsilon)
+                Rotate(CameraMovementType.RotateLeft, request.ZRotation);
+            else if (request.ZRotation < float.Epsilon)
+                Rotate(CameraMovementType.RotateRight, -request.ZRotation);
+
+            return Unit.Task;
         }
     }
 }

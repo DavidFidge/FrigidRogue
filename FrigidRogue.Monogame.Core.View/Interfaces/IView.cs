@@ -10,5 +10,7 @@
         void Show();
         void Hide();
         void Initialize();
+        void Draw();
+        void Update();
     }
 }

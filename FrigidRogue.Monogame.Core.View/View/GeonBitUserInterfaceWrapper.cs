@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Services;
 using FrigidRogue.MonoGame.Core.View.Interfaces;
 
@@ -16,6 +16,13 @@ namespace FrigidRogue.MonoGame.Core.View
     // and instances of user interfaces that are effectively different screens in the game.
     public class GeonBitUserInterfaceWrapper : IUserInterface
     {
+        private readonly IGameProvider _gameProvider;
+
+        public GeonBitUserInterfaceWrapper(IGameProvider gameProvider)
+        {
+            _gameProvider = gameProvider;
+        }
+
         public RenderResolution RenderResolution
         {
             get => _renderResolution;
@@ -34,6 +41,8 @@ namespace FrigidRogue.MonoGame.Core.View
         private readonly List<GeonBit.UI.UserInterface> _userInterfaces = new List<GeonBit.UI.UserInterface>();
 
         private RenderResolution _renderResolution;
+
+        private IScreen _activeScreen;
 
         public void Initialize(ContentManager content)
         {
@@ -67,26 +76,46 @@ namespace FrigidRogue.MonoGame.Core.View
         public void Update(GameTime gameTime)
         {
             GeonBit.UI.UserInterface.Active.Update(gameTime);
+
+            _activeScreen?.Update();
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             GeonBit.UI.UserInterface.Active.Draw(spriteBatch);
-        }
 
-        public void DrawMainRenderTarget(SpriteBatch spriteBatch)
-        {
+            _gameProvider.Game.GraphicsDevice.Clear(Color.Black);
+
+            // Reset graphics device properties after SpriteBatch drawing
+            // https://blogs.msdn.microsoft.com/shawnhar/2010/06/18/spritebatch-and-renderstates-in-xna-game-studio-4-0/
+            _gameProvider.Game.GraphicsDevice.BlendState = BlendState.Opaque;
+            _gameProvider.Game.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            _gameProvider.Game.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+
+            _activeScreen?.Draw();
+
             GeonBit.UI.UserInterface.Active.DrawMainRenderTarget(spriteBatch);
         }
 
-        public void SetActive(GeonBit.UI.UserInterface userInterface)
+        public void SetActive(Screen screen)
         {
-            GeonBit.UI.UserInterface.Active = userInterface;
+            _activeScreen = screen;
+            
+            GeonBit.UI.UserInterface.Active = screen.ScreenUserInterface;
         }
 
         public bool IsActive(GeonBit.UI.UserInterface userInterface)
         {
             return GeonBit.UI.UserInterface.Active == userInterface;
+        }
+
+        public void ShowScreen(IScreen screen)
+        {
+            _activeScreen?.Hide();
+
+            screen.Show();
+
+            _activeScreen = screen;
         }
     }
 }
