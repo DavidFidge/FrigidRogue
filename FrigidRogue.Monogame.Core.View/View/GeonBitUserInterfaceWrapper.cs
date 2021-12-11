@@ -84,7 +84,7 @@ namespace FrigidRogue.MonoGame.Core.View
         {
             GeonBit.UI.UserInterface.Active.Draw(spriteBatch);
 
-            _gameProvider.Game.GraphicsDevice.Clear(Color.CornflowerBlue);
+            _gameProvider.Game.GraphicsDevice.Clear(Color.Black);
 
             // Reset graphics device properties after SpriteBatch drawing
             // https://blogs.msdn.microsoft.com/shawnhar/2010/06/18/spritebatch-and-renderstates-in-xna-game-studio-4-0/
