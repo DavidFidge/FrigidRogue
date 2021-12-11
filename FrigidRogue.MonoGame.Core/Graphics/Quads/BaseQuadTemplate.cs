@@ -1,4 +1,5 @@
-﻿using FrigidRogue.MonoGame.Core.Extensions;
+﻿using System.Linq;
+using FrigidRogue.MonoGame.Core.Extensions;
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 
 using Microsoft.Xna.Framework;
@@ -36,20 +37,29 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
                 projection
             );
 
+
             if (AlphaEnabled)
             {
                 graphicsDevice.BlendState = BlendState.AlphaBlend;
 
-                Effect.Parameters["AlphaEnabled"].SetValue(true);
+                if (Effect is BasicEffect basicEffect)
+                    basicEffect.Alpha = 1.0f;
+                else
+                    Effect.Parameters["AlphaEnabled"].SetValue(true);
 
                 DrawOpaquePixels(graphicsDevice);
                 DrawTransparentPixels(graphicsDevice);
             }
             else
             {
-                Effect.Parameters["AlphaEnabled"].SetValue(false);
+                if (Effect is BasicEffect basicEffect)
+                    basicEffect.Alpha = 0f;
+                else
+                    Effect.Parameters["AlphaEnabled"].SetValue(false);
+
                 DrawQuad(graphicsDevice);
             }
+
 
             // Reset render states
             graphicsDevice.BlendState = BlendState.Opaque;
@@ -60,7 +70,8 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         {
             graphicsDevice.DepthStencilState = DepthStencilState.Default;
 
-            Effect.Parameters["AlphaTestGreater"].SetValue(true);
+            if (!(Effect is BasicEffect))
+                Effect.Parameters["AlphaTestGreater"].SetValue(true);
 
             DrawQuad(graphicsDevice);
         }
@@ -69,7 +80,8 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         {
             graphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
 
-            Effect.Parameters["AlphaTestGreater"].SetValue(false);
+            if (!(Effect is BasicEffect))
+                Effect.Parameters["AlphaTestGreater"].SetValue(false);
 
             DrawQuad(graphicsDevice);
         }

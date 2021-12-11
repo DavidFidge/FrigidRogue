@@ -28,7 +28,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
 
         public override void Reset()
         {
-            _cameraPosition = new Vector3(0f, 0f, 100f);
+            _cameraPosition = Vector3.Zero;
             _cameraRotation = Quaternion.Identity;
             SetViewMatrix();
         }
