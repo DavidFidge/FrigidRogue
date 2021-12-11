@@ -6,11 +6,11 @@ namespace FrigidRogue.MonoGame.Core.Messages
 {
     public class MoveViewRequest : IRequest
     {
-        public CameraMovement CameraMovementFlags { get; }
+        public CameraMovementType CameraMovementTypeFlags { get; }
 
-        public MoveViewRequest(CameraMovement cameraMovementFlags)
+        public MoveViewRequest(CameraMovementType cameraMovementTypeFlags)
         {
-            CameraMovementFlags = cameraMovementFlags;
+            CameraMovementTypeFlags = cameraMovementTypeFlags;
         }
     }
 }

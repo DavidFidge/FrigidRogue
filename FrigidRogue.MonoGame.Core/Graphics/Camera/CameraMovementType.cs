@@ -3,7 +3,7 @@
 namespace FrigidRogue.MonoGame.Core.Graphics.Camera
 {
     [Flags]
-    public enum CameraMovement
+    public enum CameraMovementType
     {
         None = 0,
         PanLeft = 1,
