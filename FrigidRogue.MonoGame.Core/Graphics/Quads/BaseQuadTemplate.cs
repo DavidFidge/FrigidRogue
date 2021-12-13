@@ -37,6 +37,8 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
                 projection
             );
 
+            SetEffectParameters();
+
             if (AlphaEnabled)
             {
                 graphicsDevice.BlendState = BlendState.AlphaBlend;
@@ -62,6 +64,10 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             // Reset render states
             graphicsDevice.BlendState = BlendState.Opaque;
             graphicsDevice.DepthStencilState = DepthStencilState.Default;
+        }
+
+        protected virtual void SetEffectParameters()
+        {
         }
 
         private void DrawOpaquePixels(GraphicsDevice graphicsDevice)

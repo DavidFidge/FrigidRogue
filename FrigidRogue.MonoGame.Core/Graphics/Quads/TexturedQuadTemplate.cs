@@ -7,6 +7,8 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 {
     public class TexturedQuadTemplate : BaseQuadTemplate
     {
+        public Texture2D Texture { get; private set; }
+
         public TexturedQuadTemplate(IGameProvider gameProvider)
            : base(gameProvider)
         {
@@ -15,6 +17,8 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 
         public void LoadContent(float width, float height, Texture2D texture)
         {
+            Texture = texture;
+
             LoadContent(width, height);
 
             Effect = _gameProvider.Game.EffectCollection.BuildMaterialTextureEffect(texture);
@@ -22,6 +26,8 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         
         public void LoadContent(float width, float height, Texture2D texture, Effect effect)
         {
+            Texture = texture;
+
             LoadContent(width, height);
 
             Effect = effect;
@@ -37,12 +43,12 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             LoadContent(size.X, size.Y, texture);
         }
 
-        public void SetTexture(Texture2D texture)
+        protected override void SetEffectParameters()
         {
             if (Effect is BasicEffect basicEffect)
-                basicEffect.Texture = texture;
+                basicEffect.Texture = Texture;
             else
-                Effect.Parameters["Texture"].SetValue(texture);
+                Effect.Parameters["Texture"].SetValue(Texture);
         }
     }
 }
