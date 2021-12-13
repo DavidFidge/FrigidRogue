@@ -26,7 +26,10 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 
             Effect = effect;
 
-            Effect.Parameters["Texture"].SetValue(texture);
+            if (Effect is BasicEffect basicEffect)
+                basicEffect.Texture = texture;
+            else
+                Effect.Parameters["Texture"].SetValue(texture);
         }
 
         public void LoadContent(Vector2 size, Texture2D texture)
@@ -38,6 +41,8 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         {
             if (Effect is BasicEffect basicEffect)
                 basicEffect.Texture = texture;
+            else
+                Effect.Parameters["Texture"].SetValue(texture);
         }
     }
 }
