@@ -7,7 +7,8 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 {
     public class TexturedQuadTemplate : BaseQuadTemplate
     {
-        public Texture2D Texture { get; private set; }
+        public Texture2D Texture { get; set; }
+        public Color Colour { get; set; }
 
         public TexturedQuadTemplate(IGameProvider gameProvider)
            : base(gameProvider)
@@ -46,9 +47,15 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         protected override void SetEffectParameters()
         {
             if (Effect is BasicEffect basicEffect)
+            {
                 basicEffect.Texture = Texture;
+                basicEffect.DiffuseColor = Colour.ToVector3();
+            }
             else
+            {
                 Effect.Parameters["Texture"].SetValue(Texture);
+                Effect.Parameters["Colour"].SetValue(Colour.ToVector4());
+            }
         }
     }
 }

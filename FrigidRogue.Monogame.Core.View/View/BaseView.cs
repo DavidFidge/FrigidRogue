@@ -25,7 +25,7 @@ namespace FrigidRogue.MonoGame.Core.View
          where TViewModel : BaseViewModel<TData>
          where TData : new()
     {
-        private readonly TViewModel _viewModel;
+        protected readonly TViewModel _viewModel;
 
         protected List<IView> _components = new List<IView>();
         protected ViewType _viewType;

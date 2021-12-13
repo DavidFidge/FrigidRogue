@@ -7,20 +7,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 {
     public class MaterialQuadTemplate : BaseQuadTemplate
     {
-        private Color _colour;
-
-        public Color Color
-        {
-            get => _colour;
-
-            set
-            {
-                _colour = value;
-
-                if (Effect is BasicEffect basicEffect)
-                    basicEffect.DiffuseColor = _colour.ToVector3();
-            }
-        }
+        public Color Colour { get; set; }
 
         public MaterialQuadTemplate(IGameProvider gameProvider) : base(gameProvider)
         {
@@ -28,8 +15,9 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 
         public void LoadContent(float width, float height, Color colour)
         {
+            Colour = colour;
+
             LoadContent(width, height, colour, Vector3.Zero);
-            _colour = colour;
         }
 
         public void LoadContent(Vector2 size, Color colour)
@@ -43,8 +31,9 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             Color colour,
             Vector3 displacement)
         {
+            Colour = colour;
+
             LoadContent(width, height, displacement);
-            _colour = colour;
             Effect = _gameProvider.Game.EffectCollection.BuildMaterialEffect(colour);
         }
 
@@ -53,7 +42,20 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             Color colour,
             Vector3 displacement)
         {
+            Colour = colour;
             LoadContent(size.X, size.Y, colour, displacement);
+        }
+
+        protected override void SetEffectParameters()
+        {
+            if (Effect is BasicEffect basicEffect)
+            {
+                basicEffect.DiffuseColor = Colour.ToVector3();
+            }
+            else
+            {
+                Effect.Parameters["Colour"].SetValue(Colour.ToVector4());
+            }
         }
     }
 }
