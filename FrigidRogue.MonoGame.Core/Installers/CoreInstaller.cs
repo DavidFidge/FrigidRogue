@@ -1,4 +1,5 @@
-﻿using Castle.Facilities.TypedFactory;
+﻿using System.Reflection;
+using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.MicroKernel.SubSystems.Configuration;
@@ -34,6 +35,7 @@ namespace FrigidRogue.MonoGame.Core.Installers
             var config = new LoggerConfiguration()
                 .WriteTo.Seq("http://localhost:5341/")
                 .WriteTo.Console()
+                .WriteTo.File($"{Assembly.GetEntryAssembly()?.GetName().Name ?? "Game"}.log")
                 .MinimumLevel.Debug()
                 .CreateLogger();
 
