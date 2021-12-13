@@ -6,8 +6,8 @@ using Microsoft.Xna.Framework.Input;
 
 namespace FrigidRogue.MonoGame.Core.Messages
 {
-    [ActionMap(Name = "Exit Game", DefaultKey = Keys.Escape)]
-    public class ExitGameRequest : IRequest
+    [ActionMap(Name = "Quit to Desktop", DefaultKey = Keys.Escape)]
+    public class QuitToDesktopRequest : IRequest
     {
     }
 }
