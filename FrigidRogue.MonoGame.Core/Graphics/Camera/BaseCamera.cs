@@ -16,9 +16,9 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
         protected float _viewportHeight;
         protected Vector3 _cameraPosition;
 
-        protected float _moveSpeed = 1f;
-        protected float _zoomSpeed = 0.1f;
-        protected float _rotateSpeed = 0.01f;
+        public float MoveSensitivity { get; set;  } = 1f;
+        public float ZoomSensitivity { get; set; } = 1f;
+        public float RotateSensitivity { get; set; } = 1f;
 
         public Matrix View { get; protected set; }
         public Matrix Projection { get; private set; }

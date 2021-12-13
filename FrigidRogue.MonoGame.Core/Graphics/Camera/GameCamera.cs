@@ -35,8 +35,12 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
 
         public override void Update()
         {
-            Move(ContinuousCameraMovementType, _moveSpeed);
-            Rotate(ContinuousCameraMovementType, _rotateSpeed);
+            if (MoveSensitivity > 0)
+                Move(ContinuousCameraMovementType, MoveSensitivity);
+
+            if (RotateSensitivity > 0)
+                Rotate(ContinuousCameraMovementType, RotateSensitivity);
+
             SetViewMatrix();
         }
 
@@ -104,12 +108,12 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
 
         public void Zoom(int magnitude)
         {
-            if (magnitude == 0)
+            if (magnitude == 0 && ZoomSensitivity > 0)
                 return;
 
             Move(
                 magnitude > 0 ? CameraMovementType.Forward : CameraMovementType.Backward,
-                Math.Abs(magnitude) * _zoomSpeed
+                Math.Abs(magnitude) * ZoomSensitivity
             );
         }
 

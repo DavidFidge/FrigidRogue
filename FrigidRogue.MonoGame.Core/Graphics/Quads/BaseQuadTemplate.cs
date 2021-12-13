@@ -37,7 +37,6 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
                 projection
             );
 
-
             if (AlphaEnabled)
             {
                 graphicsDevice.BlendState = BlendState.AlphaBlend;
@@ -59,7 +58,6 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 
                 DrawQuad(graphicsDevice);
             }
-
 
             // Reset render states
             graphicsDevice.BlendState = BlendState.Opaque;
