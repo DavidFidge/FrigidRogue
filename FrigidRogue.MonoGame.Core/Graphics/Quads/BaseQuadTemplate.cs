@@ -21,6 +21,11 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 
         public bool AlphaEnabled { get; set; }
 
+        /// <summary>
+        /// None means that quads drawn first can never appear 'on top' of quads drawn later
+        /// </summary>
+        public DepthStencilState OpaquePixelDepthStencilState { get; } = DepthStencilState.None;
+
         public void Draw(Matrix view, Matrix projection, Matrix world)
         {
             var graphicsDevice = _gameProvider.Game.GraphicsDevice;
@@ -72,7 +77,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 
         private void DrawOpaquePixels(GraphicsDevice graphicsDevice)
         {
-            graphicsDevice.DepthStencilState = DepthStencilState.Default;
+            graphicsDevice.DepthStencilState = OpaquePixelDepthStencilState;
 
             if (!(Effect is BasicEffect))
                 Effect.Parameters["AlphaTestGreater"].SetValue(true);
