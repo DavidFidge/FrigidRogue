@@ -24,7 +24,6 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
         public Matrix View { get; protected set; }
         public Matrix Projection { get; private set; }
 
-
         protected BaseCamera(IGameProvider gameProvider)
         {
             _gameProvider = gameProvider;
