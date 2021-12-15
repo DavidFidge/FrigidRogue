@@ -8,7 +8,8 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
     public abstract class BaseCamera : ICamera
     {
         private readonly IGameProvider _gameProvider;
-        private int _projectionAngle = 90;
+        private const int ProjectionAngle = 90;
+
         private float _nearClippingPlane = 0.5f;
         private float _farClippingPlane = 10000f;
 
@@ -40,7 +41,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
         public void RecalculateProjectionMatrix()
         {
             Projection = Matrix.CreatePerspectiveFieldOfView(
-                MathHelper.ToRadians(_projectionAngle),
+                MathHelper.ToRadians(ProjectionAngle),
                 _gameProvider.Game.GraphicsDevice.Viewport.AspectRatio,
                 _nearClippingPlane,
                 _farClippingPlane
