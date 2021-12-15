@@ -8,7 +8,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
     public abstract class BaseCamera : ICamera
     {
         private readonly IGameProvider _gameProvider;
-        public const int ProjectionAngle = 90;
+        private const int ProjectionAngle = 90;
 
         private float _nearClippingPlane = 0.5f;
         private float _farClippingPlane = 10000f;
