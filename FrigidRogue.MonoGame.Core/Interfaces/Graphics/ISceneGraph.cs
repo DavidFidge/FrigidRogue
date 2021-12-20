@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using FrigidRogue.MonoGame.Core.Components;
 
@@ -14,6 +15,8 @@ namespace FrigidRogue.MonoGame.Core.Interfaces.Graphics
         void DeselectAll();
         void Add(Entity entity, Entity parent);
         void Remove(Entity entity);
+        void ClearChildren(Entity entity);
+        Entity Find(Predicate<Entity> predicate);
         Entity Select(Ray ray);
         List<Entity> GetEntitiesByBreadthFirstSearch();
         Matrix RecalculateWorldTransform(Entity entity);

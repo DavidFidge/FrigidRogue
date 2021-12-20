@@ -57,6 +57,24 @@ namespace FrigidRogue.MonoGame.Core.Graphics
             _sceneGraphNodes[parent].AddChild(node);
         }
 
+        public Entity Find(Predicate<Entity> predicate)
+        {
+            return _sceneGraphNodes.Keys.FirstOrDefault(k => predicate(k));
+        }
+
+        public void ClearChildren(Entity entity)
+        {
+            var node = Root.Node.FindNode(n => n.Equals(entity));
+
+            var visitor = new BreadthFirstNodeCollectionVisitor();
+            node.BreadthFirstTraversal(visitor);
+
+            foreach (var entityUnderRemovedNode in visitor.VisitedEntities)
+            {
+                _sceneGraphNodes.Remove(entityUnderRemovedNode);
+            }
+        }
+
         public void Remove(Entity entity)
         {
             if (Root.Node.Data == entity)
@@ -74,6 +92,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics
 
             node.Parent.Remove(node);
         }
+
 
         public Entity Select(Ray ray)
         {

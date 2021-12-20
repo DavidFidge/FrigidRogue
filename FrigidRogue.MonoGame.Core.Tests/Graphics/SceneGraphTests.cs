@@ -376,6 +376,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Graphics
             public Matrix World { get; set; }
             public TestEntity NodeBefore { get; set; }
             public TestEntity NodeAfter { get; set; }
+            public bool IsVisible { get; set; } = true;
 
             public bool HasLoadContentBeenCalled { get; private set; }
             public bool HasDrawBeenCalled { get; private set; }

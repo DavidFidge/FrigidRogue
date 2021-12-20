@@ -22,7 +22,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics
 
         public void Visit(Entity entity)
         {
-            if (entity is IDrawable drawable)
+            if (entity is IDrawable { IsVisible: true } drawable)
             {
                 drawable.Draw(_view, _projection, _sceneGraph.GetWorldTransform(entity));
             }

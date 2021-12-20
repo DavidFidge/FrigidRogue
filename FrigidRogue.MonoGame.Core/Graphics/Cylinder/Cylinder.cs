@@ -14,6 +14,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Cylinder
         private IndexBuffer _indexBuffer;
         private Effect _effect;
         private int _primitiveCount;
+        public bool IsVisible { get; set; } = true;
 
         public Cylinder(IGameProvider gameProvider)
         {

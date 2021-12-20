@@ -26,6 +26,8 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         /// </summary>
         public DepthStencilState OpaquePixelDepthStencilState { get; } = DepthStencilState.None;
 
+        public bool IsVisible { get; set; } = true;
+
         public void Draw(Matrix view, Matrix projection, Matrix world)
         {
             var graphicsDevice = _gameProvider.Game.GraphicsDevice;

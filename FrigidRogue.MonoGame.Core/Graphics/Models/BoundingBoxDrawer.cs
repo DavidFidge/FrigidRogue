@@ -11,12 +11,14 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Models
         private readonly BoundingBoxModel _boundingBoxModel;
         private readonly IGameProvider _gameProvider;
 
+        public bool IsVisible { get; set; } = true;
+
         public BoundingBoxDrawer(BoundingBoxModel boundingBoxModel, IGameProvider gameProvider)
         {
             _boundingBoxModel = boundingBoxModel;
             _gameProvider = gameProvider;
         }
-        
+
         public void Draw(Matrix view, Matrix projection, Matrix world)
         {
             if (_boundingBoxModel.BoundingBoxVertexBuffer != null)

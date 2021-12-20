@@ -9,8 +9,10 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Models
     {
         private Matrix[] _transforms;
         private Matrix[] _modelWorldTransforms;
+        public bool IsVisible { get; set; } = true;
 
         protected GameModel Model { get; set; }
+
 
         protected ModelDrawer()
         {
