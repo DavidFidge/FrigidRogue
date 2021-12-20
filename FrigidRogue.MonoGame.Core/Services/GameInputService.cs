@@ -22,6 +22,7 @@ namespace FrigidRogue.MonoGame.Core.Services
         {
             _mouseInput = mouseInput;
             _keyboardInput = keyboardInput;
+            _keyboardInput.RepeatDelay = 500;
         }
 
         public void Poll()

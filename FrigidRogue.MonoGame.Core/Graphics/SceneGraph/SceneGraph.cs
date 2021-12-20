@@ -71,7 +71,11 @@ namespace FrigidRogue.MonoGame.Core.Graphics
 
             foreach (var entityUnderRemovedNode in visitor.VisitedEntities)
             {
-                _sceneGraphNodes.Remove(entityUnderRemovedNode);
+                if (entityUnderRemovedNode != node.Data)
+                {
+                    _sceneGraphNodes.Remove(entityUnderRemovedNode);
+                    node.Remove(entityUnderRemovedNode);
+                }
             }
         }
 
