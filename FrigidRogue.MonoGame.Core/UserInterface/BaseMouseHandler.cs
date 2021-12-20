@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace FrigidRogue.MonoGame.Core.UserInterface
 {
-    public abstract class BaseMouseHandler : BaseComponent, IMouseHandler
+    public abstract class BaseMouseHandler : BaseGameComponent, IMouseHandler
     {
         public virtual void HandleMouseScrollWheelMove(MouseState mouseState, int difference)
         {

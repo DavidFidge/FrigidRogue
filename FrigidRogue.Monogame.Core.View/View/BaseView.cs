@@ -21,7 +21,7 @@ using Entity = GeonBit.UI.Entities.Entity;
 
 namespace FrigidRogue.MonoGame.Core.View
 {
-    public abstract class BaseView<TViewModel, TData> : BaseComponent, IView<Entity>, IRequestHandler<NotifyViewModelChangedRequest<TData>>
+    public abstract class BaseView<TViewModel, TData> : BaseGameComponent, IView<Entity>, IRequestHandler<NotifyViewModelChangedRequest<TData>>
          where TViewModel : BaseViewModel<TData>
          where TData : new()
     {
