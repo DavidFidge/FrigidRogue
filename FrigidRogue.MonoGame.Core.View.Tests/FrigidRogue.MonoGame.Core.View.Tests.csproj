@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="InputHandlers.MonoGame.WindowsDX" Version="1.3.0" />
+    <PackageReference Include="InputHandlers.MonoGame.WindowsDX" Version="1.5.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.0.1641" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.7" />
