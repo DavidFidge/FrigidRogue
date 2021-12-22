@@ -16,6 +16,8 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0" />
     <PackageReference Include="Serilog.Sinks.Seq" Version="5.0.1" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
+    <PackageReference Include="TheSadRogue.Primitives" Version="1.1.1" />
+    <PackageReference Include="TheSadRogue.Primitives.MonoGame" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
