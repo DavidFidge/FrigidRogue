@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
@@ -44,7 +45,7 @@ namespace FrigidRogue.MonoGame.Core.Services
         private string GetGameOptionsFilePath<T>()
         {
             var localFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            var gameFolder = Path.Combine(localFolderPath, "Augmented");
+            var gameFolder = Path.Combine(localFolderPath, Assembly.GetEntryAssembly().GetName().Name);
 
             if (!Directory.Exists(gameFolder))
                 Directory.CreateDirectory(gameFolder);

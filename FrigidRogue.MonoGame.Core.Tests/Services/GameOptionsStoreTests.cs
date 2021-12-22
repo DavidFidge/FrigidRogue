@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-
+using System.Reflection;
 using FrigidRogue.MonoGame.Core.Services;
 using FrigidRogue.TestInfrastructure;
 
@@ -19,18 +19,13 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         {
             base.Setup();
 
-            var gameOptionsFolder = GetGameOptionsFolder();
-
-            if (!Directory.Exists(gameOptionsFolder))
-                Directory.CreateDirectory(gameOptionsFolder);
-
             _gameOptionsStore = new GameOptionsStore();
         }
 
         [TestCleanup]
         public override void TearDown()
         {
-            var optionsFile = GetOptionsFile();
+            var optionsFile = GetGameOptionsFilePath<GameOptionsStoreTestData>();
 
             File.Delete(optionsFile);
         }
@@ -41,7 +36,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             // Arrange
             var testData = new GameOptionsStoreTestData();
 
-            var optionsFile = GetOptionsFile();
+            var optionsFile = GetGameOptionsFilePath<GameOptionsStoreTestData>();
 
             // Act
             _gameOptionsStore.SaveToStore(new Memento<GameOptionsStoreTestData>(testData));
@@ -56,7 +51,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             // Arrange
             var testData = new GameOptionsStoreTestData();
 
-            var gameOptionsFolder = GetGameOptionsFolder();
+            var gameOptionsFolder = GetGameOptionsFilePath<GameOptionsStoreTestData>();
 
             var nonExistantFolder = Path.Combine(gameOptionsFolder, "NonExistantFolder");
 
@@ -86,19 +81,21 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             Assert.AreEqual(2, loadedData.ListProperty[1].IntProperty);
         }
 
-        private string GetGameOptionsFolder()
+        private string GetGameOptionsFilePath<T>()
         {
             var localFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            var gameOptionsFolder = Path.Combine(localFolderPath, "Augmented");
-            var optionsFolder = Path.Combine(gameOptionsFolder, "Options");
+            var gameFolder = Path.Combine(localFolderPath, Assembly.GetEntryAssembly().GetName().Name);
 
-            return optionsFolder;
-        }
-        
-        private string GetOptionsFile()
-        {
-            var gameOptionsFolder = GetGameOptionsFolder();
-            var optionsFile = Path.Combine(gameOptionsFolder, $"{typeof(GameOptionsStoreTestData).Name}.txt");
+            if (!Directory.Exists(gameFolder))
+                Directory.CreateDirectory(gameFolder);
+
+            var optionsFolder = Path.Combine(gameFolder, "Options");
+
+            if (!Directory.Exists(optionsFolder))
+                Directory.CreateDirectory(optionsFolder);
+
+            var optionsFile = Path.Combine(optionsFolder, $"{typeof(T).Name}.txt");
+
             return optionsFile;
         }
 

@@ -233,6 +233,11 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         [TestMethod]
         public void RevertInput_Should_Do_Nothing_If_No_Subscriptions()
         {
+            // Arrange
+            // Clear calls due to initialisation of properties e.g. RepeatDelay
+            _mouseInput.ClearReceivedCalls();
+            _keyboardInput.ClearReceivedCalls();
+
             // Act
             _gameInputService.RevertInputUpToAndIncluding(Substitute.For<IMouseHandler>(), Substitute.For<IKeyboardHandler>());
 
@@ -240,7 +245,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             Assert.AreEqual(0, _mouseInput.ReceivedCalls().Count());
             Assert.AreEqual(0, _keyboardInput.ReceivedCalls().Count());
         }
-        
+
         [TestMethod]
         public void Poll_Should_Poll_Both_Keyboard_And_Mouse_Handlers()
         {
