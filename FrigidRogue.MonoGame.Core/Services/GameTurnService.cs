@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 
 using FrigidRogue.MonoGame.Core.Components;
+using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
 
 using MonoGame.Extended;
+
 using NGenerics.Extensions;
 
 namespace FrigidRogue.MonoGame.Core.Services
 {
-    public class GameTurnService : BaseComponent, IGameTurnService
+    public class GameTurnService : BaseComponent, IGameTurnService, ITurnNumber
     {
-        public int TurnNumber { get; private set; }
-        public int SequenceNumber { get; private set; }
+        public int TurnNumber { get; set; }
+        public int SequenceNumber { get; set; }
 
         private Dictionary<int, List<int>> _turnNumbersToSequenceNumbers = new Dictionary<int, List<int>>();
         private Dictionary<int, int> _sequenceNumbersToTurnNumber = new Dictionary<int, int>();
@@ -72,7 +74,10 @@ namespace FrigidRogue.MonoGame.Core.Services
         public int GetTurnNumberFromSequenceNumber(int sequenceNumber)
         {
             if (!_sequenceNumbersToTurnNumber.ContainsKey(sequenceNumber))
-                throw new ArgumentException($"Sequence number {sequenceNumber} has not yet been reached", nameof(sequenceNumber));
+                throw new ArgumentException(
+                    $"Sequence number {sequenceNumber} has not yet been reached",
+                    nameof(sequenceNumber)
+                );
 
             return _sequenceNumbersToTurnNumber[sequenceNumber];
         }
@@ -85,7 +90,16 @@ namespace FrigidRogue.MonoGame.Core.Services
             if (_turnNumbersToSequenceNumbers[turnNumber].IsEmpty())
                 return new Range<int>(0);
 
-            return new Range<int>(_turnNumbersToSequenceNumbers[turnNumber].Min(), _turnNumbersToSequenceNumbers[turnNumber].Max());
+            return new Range<int>(
+                _turnNumbersToSequenceNumbers[turnNumber].Min(),
+                _turnNumbersToSequenceNumbers[turnNumber].Max()
+            );
+        }
+
+        public void Populate(ITurnNumber turnNumber)
+        {
+            turnNumber.TurnNumber = TurnNumber;
+            turnNumber.SequenceNumber = SequenceNumber;
         }
     }
 }

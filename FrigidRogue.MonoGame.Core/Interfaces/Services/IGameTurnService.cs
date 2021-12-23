@@ -1,4 +1,5 @@
-﻿using FrigidRogue.MonoGame.Core.Interfaces.Components;
+﻿using FrigidRogue.MonoGame.Core.Components;
+using FrigidRogue.MonoGame.Core.Interfaces.Components;
 
 using MonoGame.Extended;
 
@@ -45,5 +46,11 @@ namespace FrigidRogue.MonoGame.Core.Interfaces.Services
         /// </summary>
         /// <returns>Sequence number range</returns>
         Range<int> GetSequenceNumberRangeForTurn(int turnNumber);
+
+        /// <summary>
+        /// Populates turn details on object passed in
+        /// </summary>
+        /// <param name="turnNumber"></param>
+        public void Populate(ITurnNumber turnNumber);
     }
 }

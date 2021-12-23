@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+
 using FrigidRogue.MonoGame.Core.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Services;
@@ -74,6 +75,16 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             {
                 TestProperty = state.State.TestProperty;
                 TestProperty2 = state.State.TestProperty2;
+            }
+
+            public override void Execute()
+            {
+                throw new NotImplementedException();
+            }
+
+            public override void Undo()
+            {
+                throw new NotImplementedException();
             }
         }
     }

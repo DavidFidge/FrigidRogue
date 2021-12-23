@@ -2,7 +2,7 @@
 
 namespace FrigidRogue.MonoGame.Core.Components
 {
-    public abstract class BaseStatefulCommand<T> : BaseComponent
+    public abstract class BaseStatefulCommand<T> : BaseCommand
     {
         public abstract IMemento<T> GetState();
         public abstract void SetState(IMemento<T> state);
