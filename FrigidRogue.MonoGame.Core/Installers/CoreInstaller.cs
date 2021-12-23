@@ -53,6 +53,12 @@ namespace FrigidRogue.MonoGame.Core.Installers
                 Component.For<IGameTimeService>()
                     .ImplementedBy<GameTimeService>(),
 
+                Component.For<IGameTurnService>()
+                    .ImplementedBy<GameTurnService>(),
+
+                Component.For<ISaveGameStore>()
+                    .ImplementedBy<SaveGameStore>(),
+
                 Component.For<IRandom>()
                     .ImplementedBy<Random>(),
 
