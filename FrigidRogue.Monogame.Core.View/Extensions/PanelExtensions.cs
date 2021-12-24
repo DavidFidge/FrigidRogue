@@ -41,9 +41,30 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
             return panel;
         }
 
-        public static Panel Opacity75Percent(this Panel panel)
+        public static Panel Opacity70Percent(this Panel panel)
         {
-            panel.Opacity = (int)(256 * 0.75);
+            panel.Opacity = (int)(256 * 0.7);
+
+            return panel;
+        }
+
+        public static Panel Opacity80Percent(this Panel panel)
+        {
+            panel.Opacity = (int)(256 * 0.8);
+
+            return panel;
+        }
+
+        public static Panel Opacity90Percent(this Panel panel)
+        {
+            panel.Opacity = (int)(256 * 0.9);
+
+            return panel;
+        }
+
+        public static Panel Opacity100Percent(this Panel panel)
+        {
+            panel.Opacity = Byte.MaxValue;
 
             return panel;
         }

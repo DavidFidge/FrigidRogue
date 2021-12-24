@@ -1,4 +1,5 @@
-﻿using FrigidRogue.MonoGame.Core.View.Extensions;
+﻿using System.Linq;
+using FrigidRogue.MonoGame.Core.View.Extensions;
 using FrigidRogue.MonoGame.Core.View.Interfaces;
 using GeonBit.UI.Entities;
 using Microsoft.Xna.Framework;
@@ -30,12 +31,27 @@ namespace FrigidRogue.MonoGame.Core.UserInterface
 
         public void AddChild(Entity child)
         {
-            _panel.AddChild((Entity)child);
+            _panel.AddChild(child);
+        }
+
+        public void ClearParent()
+        {
+            _panel.RemoveFromParent();
         }
 
         public void AddChild(IRootPanel<Entity> child)
         {
             child.AddRootPanelToGraph(_panel);
+        }
+
+        public bool HasChild(IRootPanel<Entity> child)
+        {
+            return child.IsChildOf(_panel);
+        }
+
+        public bool IsChildOf(Entity root)
+        {
+            return root.Children.Any(c => c == _panel);
         }
 
         public void AddAsChildOf(Panel panel)

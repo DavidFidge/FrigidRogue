@@ -36,6 +36,8 @@ namespace FrigidRogue.MonoGame.Core.View
         public TData Data => _viewModel.Data;
         public IGameInputService GameInputService { get; set; }
 
+        protected bool IsInitialised;
+
         protected BaseView(TViewModel viewModel)
         {
             _viewType = ViewType.Root;
@@ -44,6 +46,11 @@ namespace FrigidRogue.MonoGame.Core.View
 
         public void Initialize()
         {
+            if (IsInitialised)
+                return;
+
+            IsInitialised = true;
+
             _viewModel.Initialize();
 
             RootPanel.Initialize(GetType().Name);
