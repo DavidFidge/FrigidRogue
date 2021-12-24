@@ -29,7 +29,7 @@ namespace FrigidRogue.MonoGame.Core.Services
 
         public override string ToString()
         {
-            return $"{Height}p ({Name})";
+            return $"{Height}p";
         }
 
         public override bool Equals(object obj)
