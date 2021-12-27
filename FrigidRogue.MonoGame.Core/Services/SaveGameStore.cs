@@ -41,7 +41,7 @@ namespace FrigidRogue.MonoGame.Core.Services
             _jsonObjectStore.Add(typeof(T), jsonString);
         }
 
-        public void SaveStoreToFile(string saveGameName)
+        public SaveGameResult SaveStoreToFile(string saveGameName, bool overwrite)
         {
             var saveGameFolder = GetSaveGamePath();
 
@@ -51,7 +51,22 @@ namespace FrigidRogue.MonoGame.Core.Services
 
             var saveGameBytes = GZipStream.CompressString(saveGameString);
 
-            File.WriteAllBytes(saveGameFile, saveGameBytes);
+            if (!overwrite && File.Exists(saveGameFile))
+                return SaveGameResult.Overwrite;
+
+            try
+            {
+                File.WriteAllBytes(saveGameFile, saveGameBytes);
+            }
+            catch (Exception e)
+            {
+                var messageTemplate = $"Error when saving game to filesystem. Filename: {saveGameFile}";
+
+                Logger.Error(e, messageTemplate);
+                return new SaveGameResult { ErrorMessage = $"{messageTemplate} - {e.Message}" };
+            }
+
+            return SaveGameResult.Success;
         }
 
         public void LoadStoreFromFile(string saveGameName)

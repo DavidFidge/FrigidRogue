@@ -15,4 +15,12 @@ namespace FrigidRogue.MonoGame.Core.Services
 
         public T State { get; set; }
     }
+
+    public static class MementoExtensions
+    {
+        public static Memento<T> CreateMemento<T>(this T item)
+        {
+            return new Memento<T>(item);
+        }
+    }
 }

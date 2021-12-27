@@ -45,7 +45,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
 
             // Act
             _saveGameStore.SaveToStore(testCommand.GetState());
-            _saveGameStore.SaveStoreToFile(_saveGameName);
+            var result = _saveGameStore.SaveStoreToFile(_saveGameName, false);
             _saveGameStore.LoadStoreFromFile(_saveGameName);
 
             var loadedTestData = _saveGameStore.GetFromStore<TestData>();
@@ -53,6 +53,46 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             // Assert
             Assert.AreEqual(testCommand.TestProperty, loadedTestData.State.TestProperty);
             Assert.AreEqual(testCommand.TestProperty2, loadedTestData.State.TestProperty2);
+            Assert.IsFalse(result.RequiresOverwrite);
+            Assert.IsNull(result.ErrorMessage);
+            Assert.AreEqual(SaveGameResult.Success, result);
+        }
+
+        [TestMethod]
+        public void Should_Return_Overwrite_Result_If_File_Exists()
+        {
+            // Arrange
+            var testCommand = new TestCommand();
+            testCommand.TestProperty = 1;
+            testCommand.TestProperty2 = "hello";
+            _saveGameStore.SaveToStore(testCommand.GetState());
+            _saveGameStore.SaveStoreToFile(_saveGameName, false);
+
+            // Act
+            var result = _saveGameStore.SaveStoreToFile(_saveGameName, false);
+
+            // Assert
+            Assert.IsTrue(result.RequiresOverwrite);
+            Assert.AreEqual(SaveGameResult.Overwrite, result);
+        }
+
+        [TestMethod]
+        public void Should_Save_If_Overwrite_Is_True()
+        {
+            // Arrange
+            var testCommand = new TestCommand();
+            testCommand.TestProperty = 1;
+            testCommand.TestProperty2 = "hello";
+            _saveGameStore.SaveToStore(testCommand.GetState());
+            _saveGameStore.SaveStoreToFile(_saveGameName, false);
+
+            // Act
+            var result = _saveGameStore.SaveStoreToFile(_saveGameName, true);
+
+            // Assert
+            Assert.IsFalse(result.RequiresOverwrite);
+            Assert.IsNull(result.ErrorMessage);
+            Assert.AreEqual(SaveGameResult.Success, result);
         }
 
         private class TestData

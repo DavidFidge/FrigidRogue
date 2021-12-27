@@ -1,4 +1,5 @@
-﻿using GeonBit.UI.Entities;
+﻿using System;
+using GeonBit.UI.Entities;
 
 using Microsoft.Xna.Framework;
 
@@ -30,6 +31,12 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
             return entity;
         }
 
+        public static T Visible<T>(this T entity) where T : Entity
+        {
+            entity.Visible = true;
+            return entity;
+        }
+
         public static T WithParent<T>(this T entity, Entity parent) where T : Entity
         {
             parent.AddChild(entity);
@@ -51,6 +58,71 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
             panel.AddChild(entity);
 
             panelParent.AddChild(panel);
+
+            return entity;
+        }
+
+
+        public static T WidthOfButton<T>(this T entity) where T : Entity
+        {
+            entity.Size = Button.DefaultStyle.GetStyleProperty("DefaultSize").asVector;
+
+            return entity;
+        }
+
+        public static T WidthOfButtonWithPadding<T>(this T entity) where T : Entity
+        {
+            entity.Size = Button.DefaultStyle.GetStyleProperty("DefaultSize").asVector + Entity.DefaultStyle.GetStyleProperty("Padding").asVector * 2;
+
+            return entity;
+        }
+
+        public static T WidthOfButton<T>(this T entity, float height) where T : Entity
+        {
+            entity.Size = new Vector2(Button.DefaultStyle.GetStyleProperty("DefaultSize").asVector.X, height);
+
+            return entity;
+        }
+
+        public static T WidthOfButtonWithPadding<T>(this T entity, float height) where T : Entity
+        {
+            entity.Size = new Vector2((Button.DefaultStyle.GetStyleProperty("DefaultSize").asVector + Entity.DefaultStyle.GetStyleProperty("Padding").asVector * 2).X, height);
+
+            return entity;
+        }
+
+
+        public static T Invisible<T>(this T entity) where T : Entity
+        {
+            entity.Opacity = 0;
+
+            return entity;
+        }
+
+        public static T Opacity70Percent<T>(this T entity) where T : Entity
+        {
+            entity.Opacity = (int)(256 * 0.7);
+
+            return entity;
+        }
+
+        public static T Opacity80Percent<T>(this T entity) where T : Entity
+        {
+            entity.Opacity = (int)(256 * 0.8);
+
+            return entity;
+        }
+
+        public static T Opacity90Percent<T>(this T entity) where T : Entity
+        {
+            entity.Opacity = (int)(256 * 0.9);
+
+            return entity;
+        }
+
+        public static T Opacity100Percent<T>(this T entity) where T : Entity
+        {
+            entity.Opacity = Byte.MaxValue;
 
             return entity;
         }
