@@ -59,7 +59,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         }
 
         [TestMethod]
-        public void Should_Return_Overwrite_Result_If_File_Exists()
+        public void SaveStoreToFile_Should_Return_Overwrite_Result_If_File_Exists()
         {
             // Arrange
             var testCommand = new TestCommand();
@@ -77,7 +77,36 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         }
 
         [TestMethod]
-        public void Should_Save_If_Overwrite_Is_True()
+        public void CanSaveStoreToFile_Should_Return_Overwrite_Result_If_File_Exists()
+        {
+            // Arrange
+            var testCommand = new TestCommand();
+            testCommand.TestProperty = 1;
+            testCommand.TestProperty2 = "hello";
+            _saveGameStore.SaveToStore(testCommand.GetState());
+            _saveGameStore.SaveStoreToFile(_saveGameName, false);
+
+            // Act
+            var result = _saveGameStore.CanSaveStoreToFile(_saveGameName);
+
+            // Assert
+            Assert.IsTrue(result.RequiresOverwrite);
+            Assert.AreEqual(SaveGameResult.Overwrite, result);
+        }
+
+        [TestMethod]
+        public void CanSaveStoreToFile_Should_Return_Success_Result_If_File_Does_Not_Exist()
+        {
+            // Act
+            var result = _saveGameStore.CanSaveStoreToFile(_saveGameName);
+
+            // Assert
+            Assert.IsFalse(result.RequiresOverwrite);
+            Assert.AreEqual(SaveGameResult.Success, result);
+        }
+
+        [TestMethod]
+        public void SaveStoreToFile_Should_Save_If_Overwrite_Is_True()
         {
             // Arrange
             var testCommand = new TestCommand();

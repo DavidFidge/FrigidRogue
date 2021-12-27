@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-
+using AutoMapper;
 using FrigidRogue.MonoGame.Core.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
@@ -18,6 +18,8 @@ namespace FrigidRogue.MonoGame.Core.Services
         private readonly JsonSerializerSettings _jsonSerializerSettings;
 
         private Dictionary<Type, string> _jsonObjectStore = new Dictionary<Type, string>();
+
+        public IMapper Mapper { get; set; }
 
         public SaveGameStore()
         {
@@ -39,6 +41,18 @@ namespace FrigidRogue.MonoGame.Core.Services
             var jsonString = JsonConvert.SerializeObject(memento.State, _jsonSerializerSettings);
 
             _jsonObjectStore.Add(typeof(T), jsonString);
+        }
+
+        public SaveGameResult CanSaveStoreToFile(string saveGameName)
+        {
+            var saveGameFolder = GetSaveGamePath();
+
+            var saveGameFile = Path.Combine(saveGameFolder, $"{saveGameName}.sav");
+
+            if (File.Exists(saveGameFile))
+                return SaveGameResult.Overwrite;
+            else
+                return SaveGameResult.Success;
         }
 
         public SaveGameResult SaveStoreToFile(string saveGameName, bool overwrite)
