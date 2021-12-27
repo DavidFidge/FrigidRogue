@@ -7,6 +7,15 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
 {
     public static class EntityExtensions
     {
+        public static T ForceDirty<T>(this T entity) where T : Entity
+        {
+            var oldSize = entity.Size;
+            entity.Size = new Vector2(entity.Size.X, float.MaxValue);
+            entity.Size = oldSize;
+
+            return entity;
+        }
+
         public static T WithSmallButtonScale<T>(this T entity) where T : Entity
         {
             entity.Scale = 0.7f;

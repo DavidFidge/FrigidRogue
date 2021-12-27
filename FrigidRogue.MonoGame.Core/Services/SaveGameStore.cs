@@ -66,6 +66,11 @@ namespace FrigidRogue.MonoGame.Core.Services
             SaveToStore(new Memento<TSaveData>(saveData));
         }
 
+        public void Clear()
+        {
+            _jsonObjectStore = new Dictionary<Type, string>();
+        }
+
         public SaveGameResult CanSaveStoreToFile(string saveGameName)
         {
             var saveGameFolder = GetSaveGamePath();

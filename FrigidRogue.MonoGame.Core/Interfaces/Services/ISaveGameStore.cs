@@ -1,10 +1,16 @@
 ﻿using AutoMapper;
 using FrigidRogue.MonoGame.Core.Services;
+using SharpDX.Direct3D9;
 
 namespace FrigidRogue.MonoGame.Core.Interfaces.Services
 {
     public interface ISaveGameStore : IGameStore
     {
+        /// <summary>
+        /// Clear all existing data from the in memory store;
+        /// </summary>
+        void Clear();
+
         /// <summary>
         /// See if the game can be saved to file. Will return Success if it can or Overwrite if it needs permission to overwrite the existing save.
         /// </summary>
