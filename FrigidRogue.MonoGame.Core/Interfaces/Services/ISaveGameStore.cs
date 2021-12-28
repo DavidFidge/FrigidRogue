@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using FrigidRogue.MonoGame.Core.Services;
 using SharpDX.Direct3D9;
 
@@ -30,7 +31,7 @@ namespace FrigidRogue.MonoGame.Core.Interfaces.Services
         /// Loads a save game from file into memory. You then use GetFromStore to get specific objects from the memory store.
         /// </summary>
         /// <param name="saveGameName"></param>
-        void LoadStoreFromFile(string saveGameName);
+        LoadGameResult LoadStoreFromFile(string saveGameName);
 
         /// <summary>
         /// Gets a specific object from the in memory save game storage. This method handles the conversion for you (the default
@@ -63,6 +64,12 @@ namespace FrigidRogue.MonoGame.Core.Interfaces.Services
         /// <typeparam name="TSaveData">A data-only object which can be serialised (default implementation uses json)</typeparam>
         /// <param name="item"></param>
         void SaveToStore<T, TSaveData>(T item);
+
+        /// <summary>
+        /// Gets a list of games that can be loaded.
+        /// </summary>
+        /// <returns>List of games that can be loaded with details of each</returns>
+        IList<LoadGameDetails> GetLoadGameList();
 
         /// <summary>
         /// The adapter which will convert an object used in the game to a data-only object which can be serialised.

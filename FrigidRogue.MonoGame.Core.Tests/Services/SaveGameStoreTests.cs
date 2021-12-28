@@ -1,12 +1,15 @@
 ﻿using System;
 using System.IO;
-
+using System.Linq;
+using AutoMapper;
 using FrigidRogue.MonoGame.Core.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
+using FrigidRogue.MonoGame.Core.Interfaces.Services;
 using FrigidRogue.MonoGame.Core.Services;
 using FrigidRogue.TestInfrastructure;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
 
 namespace FrigidRogue.MonoGame.Core.Tests.Services
 {
@@ -41,7 +44,6 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             var testCommand = new TestCommand();
             testCommand.TestProperty = 1;
             testCommand.TestProperty2 = "hello";
-
 
             // Act
             _saveGameStore.SaveToStore(testCommand.GetState());
@@ -124,10 +126,104 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             Assert.AreEqual(SaveGameResult.Success, result);
         }
 
+        [TestMethod]
+        public void Should_Save_To_And_Load_From_Store_Using_AutoMapper()
+        {
+            // Arrange
+            var testClass = new TestClass();
+
+            var loadedTestClass = new TestClass();
+
+            var testData2 = new TestData2();
+
+            var mapper = Substitute.For<IMapper>();
+
+            mapper.Map<TestClass, TestData2>(Arg.Is(testClass))
+                .Returns(testData2);
+
+            mapper.Map<TestData2, TestClass>(Arg.Is<TestData2>(td => td.LoadGameDetail == testData2.LoadGameDetail))
+                .Returns(loadedTestClass);
+
+            _saveGameStore.Mapper = mapper;
+
+            // Act
+            _saveGameStore.SaveToStore<TestClass, TestData2>(testClass);
+            var loadedTestClassResult = _saveGameStore.GetFromStore<TestClass, TestData2>();
+
+            // Assert
+            Assert.AreSame(loadedTestClassResult, loadedTestClass);
+        }
+
+        [TestMethod]
+        public void GetLoadGameList_Should_Populate_LoadGameDetails()
+        {
+            // Arrange
+            var dateTimeNow = DateTime.Now;
+
+            var testClass = new TestClass
+            {
+                LoadGameDetail = "Load Details"
+            };
+
+            var loadedTestClass = new TestClass
+            {
+                LoadGameDetail = testClass.LoadGameDetail
+            };
+
+            var testData2 = new TestData2
+            {
+                LoadGameDetail = testClass.LoadGameDetail
+            };
+
+            var mapper = Substitute.For<IMapper>();
+
+            mapper.Map<TestClass, TestData2>(Arg.Is(testClass))
+                .Returns(testData2);
+
+            mapper.Map<TestData2, TestClass>(Arg.Is<TestData2>(td => td.LoadGameDetail == testData2.LoadGameDetail))
+                .Returns(loadedTestClass);
+
+            _saveGameStore.Mapper = mapper;
+
+            _saveGameStore.SaveToStore<TestClass, TestData2>(testClass);
+            _saveGameStore.SaveStoreToFile(_saveGameName, false);
+
+            // Act
+            var loadGameList = _saveGameStore.GetLoadGameList();
+
+            // Assert
+            var gameToLoad = loadGameList.Single(l => l.Filename == _saveGameName);
+
+            Assert.AreEqual(_saveGameName, gameToLoad.Filename);
+            Assert.IsTrue(dateTimeNow <= gameToLoad.DateTime);
+            Assert.AreEqual(testClass.LoadGameDetail, gameToLoad.LoadGameDetail);
+        }
+
         private class TestData
         {
             public int TestProperty { get; set; }
             public string TestProperty2 { get; set; }
+        }
+
+        private class TestData2 : ILoadGameDetail
+        {
+            public string LoadGameDetail { get; set; }
+        }
+
+        private class TestClass : ILoadGameDetail, ISaveable
+        {
+            public int TestProperty { get; set; }
+            public string LoadGameDetail { get; set; }
+
+            public void SaveGame(ISaveGameStore saveGameStore)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void LoadGame(ISaveGameStore saveGameStore)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         private class TestCommand : BaseGameActionCommand<TestData>

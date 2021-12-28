@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 using AutoMapper;
@@ -12,6 +13,7 @@ using FrigidRogue.MonoGame.Core.Interfaces.Services;
 using MonoGame.Framework.Utilities.Deflate;
 
 using Newtonsoft.Json;
+using NGenerics.Extensions;
 
 namespace FrigidRogue.MonoGame.Core.Services
 {
@@ -36,6 +38,18 @@ namespace FrigidRogue.MonoGame.Core.Services
             var jsonString = _jsonObjectStore[typeof(T)];
 
             return new Memento<T>(JsonConvert.DeserializeObject<T>(jsonString, _jsonSerializerSettings));
+        }
+
+        private T GetFromStore<T>(Dictionary<Type, string> jsonStore)
+        {
+            var key = jsonStore.Keys.FirstOrDefault(k => typeof(ILoadGameDetail).IsAssignableFrom(k));
+
+            if (key == null)
+                throw new Exception($"An object was not found in the store which is or can be assigned as a type {typeof(T)}");
+
+            var jsonString = jsonStore[key];
+
+            return (T)JsonConvert.DeserializeObject(jsonString, key, _jsonSerializerSettings);
         }
 
         public void SaveToStore<T>(IMemento<T> memento)
@@ -111,17 +125,39 @@ namespace FrigidRogue.MonoGame.Core.Services
             return SaveGameResult.Success;
         }
 
-        public void LoadStoreFromFile(string saveGameName)
+        public LoadGameResult LoadStoreFromFile(string saveGameName)
         {
             var saveGameFolder = GetSaveGamePath();
 
+            try
+            {
+                var deserialisedStore = DeserialiseStoreFromFile(saveGameName, saveGameFolder);
+
+                _jsonObjectStore = deserialisedStore;
+            }
+            catch (Exception e)
+            {
+                var message = $"Could not load game {saveGameName}";
+                Logger.Error(e, message);
+
+                return new LoadGameResult { ErrorMessage = $"{message}: {e.Message}" };
+            }
+
+            return LoadGameResult.Success;
+        }
+
+        private Dictionary<Type, string> DeserialiseStoreFromFile(string saveGameName, string saveGameFolder)
+        {
             var saveGameFile = Path.Combine(saveGameFolder, $"{saveGameName}.sav");
 
             var saveGameBytes = File.ReadAllBytes(saveGameFile);
 
             var saveGameString = GZipStream.UncompressString(saveGameBytes);
 
-            _jsonObjectStore = JsonConvert.DeserializeObject<Dictionary<Type, string>>(saveGameString, _jsonSerializerSettings);
+            var deserialisedStore =
+                JsonConvert.DeserializeObject<Dictionary<Type, string>>(saveGameString, _jsonSerializerSettings);
+
+            return deserialisedStore;
         }
 
         public string GetSaveGamePath()
@@ -138,6 +174,55 @@ namespace FrigidRogue.MonoGame.Core.Services
                 Directory.CreateDirectory(saveGameFolder);
 
             return saveGameFolder;
+        }
+
+        public IList<LoadGameDetails> GetLoadGameList()
+        {
+            var saveGamePath = GetSaveGamePath();
+
+            var directoryInfo = new DirectoryInfo(saveGamePath);
+
+            var fileInfos = directoryInfo.GetFiles("*.sav");
+
+            var loadGameList = new List<LoadGameDetails>(fileInfos.Length);
+
+            foreach (var fileInfo in fileInfos)
+            {
+                Dictionary<Type, string> deserialisedFile;
+
+                try
+                {
+                    deserialisedFile = DeserialiseStoreFromFile(Path.GetFileNameWithoutExtension(fileInfo.Name), saveGamePath);
+                }
+                catch (Exception e)
+                {
+                    Logger.Warning(e, $"Exception occurred when deserialising file {fileInfo.Name}");
+                    continue;
+                }
+
+                ILoadGameDetail loadGameDetails;
+
+                try
+                {
+                    loadGameDetails = GetFromStore<ILoadGameDetail>(deserialisedFile);
+                }
+                catch (Exception e)
+                {
+                    Logger.Warning(e, $"Exception occurred when getting ILoadGameDetail from save file {fileInfo.Name}");
+                    continue;
+                }
+
+                loadGameList.Add(
+                    new LoadGameDetails
+                    {
+                        DateTime = fileInfo.LastWriteTime,
+                        Filename = Path.GetFileNameWithoutExtension(fileInfo.Name),
+                        LoadGameDetail = loadGameDetails.LoadGameDetail
+                    }
+                );
+            }
+
+            return loadGameList;
         }
     }
 }

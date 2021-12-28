@@ -86,6 +86,13 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
             return entity;
         }
 
+        public static T WidthOfScreen<T>(this T entity) where T : Entity
+        {
+            entity.Size = new Vector2(0.95f, entity.Size.Y);
+
+            return entity;
+        }
+
         public static T WidthOfButton<T>(this T entity, float height) where T : Entity
         {
             entity.Size = new Vector2(Button.DefaultStyle.GetStyleProperty("DefaultSize").asVector.X, height);
@@ -100,6 +107,12 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
             return entity;
         }
 
+        public static T Centred<T>(this T entity) where T : Entity
+        {
+            entity.Anchor = Anchor.AutoCenter;
+
+            return entity;
+        }
 
         public static T Invisible<T>(this T entity) where T : Entity
         {
