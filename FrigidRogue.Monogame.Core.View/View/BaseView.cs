@@ -11,7 +11,9 @@ using FrigidRogue.MonoGame.Core.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
 using FrigidRogue.MonoGame.Core.Messages;
 using FrigidRogue.MonoGame.Core.UserInterface;
+using FrigidRogue.MonoGame.Core.View.Extensions;
 using FrigidRogue.MonoGame.Core.View.Interfaces;
+using GeonBit.UI.Entities;
 using InputHandlers.Keyboard;
 using InputHandlers.Mouse;
 
@@ -134,6 +136,74 @@ namespace FrigidRogue.MonoGame.Core.View
 
         public virtual void Update()
         {
+        }
+
+        protected void SetupChildPanelWithButton<TRequest, TChildViewModel, TChildData>(Panel parentPanel, string buttonLabel, BaseView<TChildViewModel, TChildData> childView)
+            where TRequest : IRequest, new()
+            where TChildViewModel : BaseViewModel<TChildData>
+            where TChildData : new()
+        {
+            new Button(buttonLabel)
+                .SendOnClick<TRequest>(Mediator)
+                .AddTo(parentPanel);
+
+            SetupChildPanel(childView);
+        }
+
+        protected void SetupSharedChildPanelWithButton<TRequest, TChildViewModel, TChildData>(Panel parentPanel, string buttonLabel, BaseView<TChildViewModel, TChildData> childView)
+            where TRequest : IRequest, new()
+            where TChildViewModel : BaseViewModel<TChildData>
+            where TChildData : new()
+        {
+            new Button(buttonLabel)
+                .SendOnClick<TRequest>(Mediator)
+                .AddTo(parentPanel);
+
+            // Only initialize, do not add as child to root panel - this is done when handling the message
+            // as it is a view which is shared with another view.
+            childView.Initialize();
+        }
+
+        protected Task<Unit> ShowChildView<TChildViewModel, TChildData>(BaseView<TChildViewModel, TChildData> childView, Panel panel)
+            where TChildViewModel : BaseViewModel<TChildData>
+            where TChildData : new()
+        {
+            childView.Show();
+            panel.Visible = false;
+            return Unit.Task;
+        }
+
+        protected Task<Unit> ShowChildViewWithRootSwap<TChildViewModel, TChildData>(BaseView<TChildViewModel, TChildData> childView, Panel panel)
+            where TChildViewModel : BaseViewModel<TChildData>
+            where TChildData : new()
+        {
+            childView.RootPanel.ClearParent();
+            RootPanel.AddChild(childView.RootPanel);
+            childView.Show();
+            panel.Visible = false;
+            return Unit.Task;
+        }
+
+        protected Task<Unit> HideChildView<TChildViewModel, TChildData>(BaseView<TChildViewModel, TChildData> childView, Panel panel)
+            where TChildViewModel : BaseViewModel<TChildData>
+            where TChildData : new()
+        {
+            if (RootPanel.HasChild(childView.RootPanel))
+            {
+                childView.Hide();
+                panel.Visible = true;
+            }
+
+            return Unit.Task;
+        }
+
+        protected void SetupChildPanel<TChildViewModel, TChildData>(BaseView<TChildViewModel, TChildData> childView)
+            where TChildViewModel : BaseViewModel<TChildData>
+            where TChildData : new()
+        {
+            childView.Initialize();
+
+            RootPanel.AddChild(childView.RootPanel);
         }
     }
 }

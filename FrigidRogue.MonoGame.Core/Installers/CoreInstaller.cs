@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Reflection;
+
 using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
@@ -47,6 +49,7 @@ namespace FrigidRogue.MonoGame.Core.Installers
             container.Kernel.ComponentModelBuilder.AddContributor(new NotificationHandlerContributor());
 
             container.Install(new MediatorInstaller());
+            container.Install(new AutoMapperInstaller());
 
             container.Register(
 
