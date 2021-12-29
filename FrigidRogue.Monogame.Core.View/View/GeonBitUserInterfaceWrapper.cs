@@ -111,6 +111,9 @@ namespace FrigidRogue.MonoGame.Core.View
 
         public void ShowScreen(IScreen screen)
         {
+            if (_activeScreen != null && _activeScreen.Equals(screen))
+                return;
+
             _activeScreen?.Hide();
 
             screen.Show();

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace FrigidRogue.MonoGame.Core.ConsoleCommands
 {
@@ -6,14 +7,16 @@ namespace FrigidRogue.MonoGame.Core.ConsoleCommands
     {
         private readonly string _command;
 
+        public string Name { get; }
+        public IList<string> Params { get; }
+        public string Result { get; set; }
+
         public ConsoleCommand(string command)
         {
             _command = command;
+            Name = _command.Split(' ').First();
+            Params = _command.Split(' ').Skip(1).ToList();
         }
-
-        public string Name => _command.Split(' ').First();
-
-        public string Result { get; set; }
 
         public override string ToString()
         {
