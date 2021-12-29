@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+
 using AutoMapper;
+
+using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Services;
-using SharpDX.Direct3D9;
 
 namespace FrigidRogue.MonoGame.Core.Interfaces.Services
 {
@@ -31,39 +33,36 @@ namespace FrigidRogue.MonoGame.Core.Interfaces.Services
         /// Loads a save game from file into memory. You then use GetFromStore to get specific objects from the memory store.
         /// </summary>
         /// <param name="saveGameName"></param>
+        /// <returns>Result from loading the game</returns>
         LoadGameResult LoadStoreFromFile(string saveGameName);
 
         /// <summary>
-        /// Gets a specific object from the in memory save game storage. This method handles the conversion for you (the default
-        /// implementation uses AutoMapper).
-        /// Objects are keyed by their type so you can only have one object per type.
-        /// Use a list of objects if you need to store multiple objects for a type.
+        /// Gets an object from the in memory save game storage and calls SetState on IMementoState.
         /// </summary>
-        /// <typeparam name="T">Game object</typeparam>
         /// <typeparam name="TSaveData">A data-only object which can be serialised (default implementation uses json)</typeparam>
-        /// <returns></returns>
-        T GetFromStore<T, TSaveData>();
+        /// <param name="existingObject">Object which gets the data-only object sent to it</param>
+        void GetFromStore<TSaveData>(IMementoState<TSaveData> existingObject);
 
         /// <summary>
-        /// Gets a specific object from the in memory save game storage. This method handles the conversion for you (the default
-        /// implementation uses AutoMapper). This version allows you to pass an existing destination object who's values will get
-        /// overwritten with that from the save game store.
-        /// Objects are keyed by their type so you can only have one object per type.
-        /// Use a list of objects if you need to store multiple objects for a type.
+        /// Writes an object to the in memory save game store by calling GetState on IMementoState.
         /// </summary>
-        /// <typeparam name="T">Game object</typeparam>
         /// <typeparam name="TSaveData">A data-only object which can be serialised (default implementation uses json)</typeparam>
-        /// <returns></returns>
-        T GetFromStore<T, TSaveData>(T existingObject);
+        /// <param name="item">Object which creates the data-only object</param>
+        void SaveToStore<TSaveData>(IMementoState<TSaveData> item);
 
         /// <summary>
-        /// Writes an object to the in memory save game store. This method handles the conversion for you (the default
-        /// implementation uses AutoMapper).
+        /// Gets a list of objects from the in memory store
         /// </summary>
-        /// <typeparam name="T">An object used in the game</typeparam>
         /// <typeparam name="TSaveData">A data-only object which can be serialised (default implementation uses json)</typeparam>
-        /// <param name="item"></param>
-        void SaveToStore<T, TSaveData>(T item);
+        /// <returns>list of data-only objects wrapped in memento</returns>
+        IList<IMemento<TSaveData>> GetListFromStore<TSaveData>();
+
+        /// <summary>
+        /// Writes an object to the in memory store
+        /// </summary>
+        /// <typeparam name="TSaveData">A data-only object which can be serialised (default implementation uses json)</typeparam>
+        /// <param name="item">data-only objects wrapped in memento</param>
+        void SaveListToStore<TSaveData>(IList<IMemento<TSaveData>> item);
 
         /// <summary>
         /// Gets a list of games that can be loaded.

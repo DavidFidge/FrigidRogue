@@ -40,6 +40,13 @@ namespace FrigidRogue.MonoGame.Core.Services
             return new Memento<T>(JsonConvert.DeserializeObject<T>(jsonString, _jsonSerializerSettings));
         }
 
+        public void GetFromStore<TSaveData>(IMementoState<TSaveData> existingObject)
+        {
+            var memento = GetFromStore<TSaveData>();
+
+            existingObject.SetState(memento, Mapper);
+        }
+
         private T GetFromStore<T>(Dictionary<Type, string> jsonStore)
         {
             var key = jsonStore.Keys.FirstOrDefault(k => typeof(ILoadGameDetail).IsAssignableFrom(k));
@@ -59,25 +66,27 @@ namespace FrigidRogue.MonoGame.Core.Services
             _jsonObjectStore.Add(typeof(T), jsonString);
         }
 
-        public T GetFromStore<T, TSaveData>()
+        public void SaveToStore<TSaveData>(IMementoState<TSaveData> item)
         {
-            var saveData = GetFromStore<TSaveData>().State;
+            var state = item.GetState(Mapper);
 
-            return Mapper.Map<TSaveData, T>(saveData);
+            SaveToStore(state);
         }
 
-        public T GetFromStore<T, TSaveData>(T existingObject)
+        public IList<IMemento<TSaveData>> GetListFromStore<TSaveData>()
         {
-            var saveData = GetFromStore<TSaveData>().State;
+            var jsonString = _jsonObjectStore[typeof(IList<TSaveData>)];
 
-            return Mapper.Map(saveData, existingObject);
+            var list = JsonConvert.DeserializeObject<IList<TSaveData>>(jsonString, _jsonSerializerSettings);
+
+            return list.Select(i => new Memento<TSaveData>(i)).Cast<IMemento<TSaveData>>().ToList();
         }
 
-        public void SaveToStore<T, TSaveData>(T item)
+        public void SaveListToStore<TSaveData>(IList<IMemento<TSaveData>> item)
         {
-            var saveData = Mapper.Map<T, TSaveData>(item);
+            var jsonString = JsonConvert.SerializeObject(item, _jsonSerializerSettings);
 
-            SaveToStore(new Memento<TSaveData>(saveData));
+            _jsonObjectStore.Add(typeof(IList<TSaveData>), jsonString);
         }
 
         public void Clear()
