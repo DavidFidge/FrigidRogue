@@ -18,7 +18,7 @@ namespace FrigidRogue.MonoGame.Core.Services
         {
             foreach (var saveableComponent in _saveableComponent)
             {
-                saveableComponent.LoadGame(saveGameStore);
+                saveableComponent.LoadState(saveGameStore);
             }
         }
 
@@ -26,7 +26,7 @@ namespace FrigidRogue.MonoGame.Core.Services
         {
             foreach (var saveableComponent in _saveableComponent)
             {
-                saveableComponent.SaveGame(saveGameStore);
+                saveableComponent.SaveState(saveGameStore);
             }
         }
     }

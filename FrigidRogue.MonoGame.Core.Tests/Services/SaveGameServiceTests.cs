@@ -35,7 +35,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             _saveGameService.LoadGame(saveGameStore);
 
             // Assert
-            saveableComponent.Received().LoadGame(Arg.Is(saveGameStore));
+            saveableComponent.Received().LoadState(Arg.Is(saveGameStore));
 
         }
 
@@ -52,7 +52,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             _saveGameService.SaveGame(saveGameStore);
 
             // Assert
-            saveableComponent.Received().SaveGame(Arg.Is(saveGameStore));
+            saveableComponent.Received().SaveState(Arg.Is(saveGameStore));
         }
     }
 }

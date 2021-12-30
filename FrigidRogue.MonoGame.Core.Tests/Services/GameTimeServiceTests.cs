@@ -120,7 +120,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             saveGameStore.GetFromStore<GameTimeServiceSaveData>().Returns(memento);
 
             // Act
-            _gameTimeService.LoadGame(saveGameStore);
+            _gameTimeService.LoadState(saveGameStore);
 
             // Assert
             Assert.AreEqual(TimeSpan.Zero, _gameTimeService.GameTime.ElapsedGameTime);
@@ -139,7 +139,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             var saveGameStore = Substitute.For<ISaveGameStore>();
 
             // Act
-            _gameTimeService.SaveGame(saveGameStore);
+            _gameTimeService.SaveState(saveGameStore);
 
 
             // Assert

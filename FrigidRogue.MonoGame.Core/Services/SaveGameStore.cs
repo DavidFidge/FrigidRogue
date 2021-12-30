@@ -59,25 +59,20 @@ namespace FrigidRogue.MonoGame.Core.Services
             _jsonObjectStore.Add(typeof(T), jsonString);
         }
 
-        public T GetFromStore<T, TSaveData>()
+        public IList<IMemento<TSaveData>> GetListFromStore<TSaveData>()
         {
-            var saveData = GetFromStore<TSaveData>().State;
+            var jsonString = _jsonObjectStore[typeof(IList<TSaveData>)];
 
-            return Mapper.Map<TSaveData, T>(saveData);
+            var list = JsonConvert.DeserializeObject<IList<IMemento<TSaveData>>>(jsonString, _jsonSerializerSettings);
+
+            return list;
         }
 
-        public T GetFromStore<T, TSaveData>(T existingObject)
+        public void SaveListToStore<TSaveData>(IList<IMemento<TSaveData>> item)
         {
-            var saveData = GetFromStore<TSaveData>().State;
+            var jsonString = JsonConvert.SerializeObject(item, _jsonSerializerSettings);
 
-            return Mapper.Map(saveData, existingObject);
-        }
-
-        public void SaveToStore<T, TSaveData>(T item)
-        {
-            var saveData = Mapper.Map<T, TSaveData>(item);
-
-            SaveToStore(new Memento<TSaveData>(saveData));
+            _jsonObjectStore.Add(typeof(IList<TSaveData>), jsonString);
         }
 
         public void Clear()

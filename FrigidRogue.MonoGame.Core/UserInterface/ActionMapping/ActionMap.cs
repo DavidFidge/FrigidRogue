@@ -32,16 +32,23 @@ namespace FrigidRogue.MonoGame.Core.UserInterface
             if (actionMaps.IsNullOrEmpty())
                 throw new Exception($"No {typeof(ActionMapAttribute).Name} found on class {typeof(T).Name}");
 
-            var actionMap = actionMaps.First();
-
             if (selector != null)
             {
-                actionMap = actionMaps.SingleOrDefault(a => a.Name == selector);
+                var actionMap = actionMaps.SingleOrDefault(a => a.Name == selector);
 
                 if (actionMap == null)
-                    throw new Exception($"No {typeof(ActionMapAttribute).Name} with name {selector} found on class {typeof(T).Name}");
+                    throw new Exception(
+                        $"No {typeof(ActionMapAttribute).Name} with name {selector} found on class {typeof(T).Name}"
+                    );
+
+                return KeyMatchesAction(keyCombination, actionMap);
             }
 
+            return actionMaps.Any(actionMap => KeyMatchesAction(keyCombination, actionMap));
+        }
+
+        private bool KeyMatchesAction(KeyCombination keyCombination, ActionMapAttribute actionMap)
+        {
             var actionToKey = _actionMapStore.GetKeyMap();
 
             if (!actionToKey.ContainsKey(actionMap.Name))

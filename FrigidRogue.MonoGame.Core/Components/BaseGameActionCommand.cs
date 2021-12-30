@@ -1,4 +1,5 @@
-﻿using FrigidRogue.MonoGame.Core.Interfaces.Components;
+﻿using AutoMapper;
+using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
 
 namespace FrigidRogue.MonoGame.Core.Components
@@ -21,7 +22,7 @@ namespace FrigidRogue.MonoGame.Core.Components
             _advanceSequenceNumber = false;
         }
 
-        public override void SetState(IMemento<T> state)
+        public override void SetLoadState(IMemento<T> memento, IMapper mapper)
         {
             _advanceSequenceNumber = false;
         }

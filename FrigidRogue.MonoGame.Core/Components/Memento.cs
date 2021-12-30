@@ -1,4 +1,5 @@
-﻿using FrigidRogue.MonoGame.Core.Interfaces.Components;
+﻿using AutoMapper;
+using FrigidRogue.MonoGame.Core.Interfaces.Components;
 
 namespace FrigidRogue.MonoGame.Core.Services
 {
@@ -14,13 +15,17 @@ namespace FrigidRogue.MonoGame.Core.Services
         }
 
         public T State { get; set; }
-    }
 
-    public static class MementoExtensions
-    {
-        public static Memento<T> CreateMemento<T>(this T item)
+        public static IMemento<T> CreateWithAutoMapper<TItem>(TItem item, IMapper mapper)
         {
-            return new Memento<T>(item);
+            var state = mapper.Map<TItem, T>(item);
+
+            return new Memento<T>(state);
+        }
+
+        public static void SetWithAutoMapper<TItem>(TItem item, IMemento<T> memento, IMapper mapper)
+        {
+            mapper.Map(memento.State, item);
         }
     }
 }

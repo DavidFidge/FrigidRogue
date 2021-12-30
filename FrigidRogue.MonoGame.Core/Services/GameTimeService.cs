@@ -134,7 +134,7 @@ namespace FrigidRogue.MonoGame.Core.Services
                 PauseGame();
         }
 
-        public void SaveGame(ISaveGameStore saveGameStore)
+        public void SaveState(ISaveGameStore saveGameStore)
         {
             var memento = new Memento<GameTimeServiceSaveData>(
                 new GameTimeServiceSaveData
@@ -145,7 +145,7 @@ namespace FrigidRogue.MonoGame.Core.Services
             saveGameStore.SaveToStore(memento);
         }
 
-        public void LoadGame(ISaveGameStore saveGameStore)
+        public void LoadState(ISaveGameStore saveGameStore)
         {
             Initialise();
 
