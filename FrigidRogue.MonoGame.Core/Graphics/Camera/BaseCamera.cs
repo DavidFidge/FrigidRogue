@@ -1,6 +1,6 @@
 ﻿using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Graphics;
-
+using FrigidRogue.MonoGame.Core.Services;
 using Microsoft.Xna.Framework;
 
 namespace FrigidRogue.MonoGame.Core.Graphics.Camera
@@ -13,8 +13,6 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
         private float _nearClippingPlane = 0.5f;
         private float _farClippingPlane = 10000f;
 
-        protected float _viewportWidth;
-        protected float _viewportHeight;
         protected Vector3 _cameraPosition;
 
         public float MoveSensitivity { get; set;  } = 1f;
@@ -23,6 +21,18 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
 
         public Matrix View { get; protected set; }
         public Matrix Projection { get; private set; }
+
+        private RenderResolution _renderResolution;
+
+        public RenderResolution RenderResolution
+        {
+            get => _renderResolution;
+            set
+            {
+                _renderResolution = value;
+                RecalculateProjectionMatrix();
+            }
+        }
 
         protected BaseCamera(IGameProvider gameProvider)
         {
@@ -40,15 +50,16 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
 
         public void RecalculateProjectionMatrix()
         {
+            var aspectRatio = _renderResolution == null
+                ? _gameProvider.Game.GraphicsDevice.Viewport.AspectRatio
+                : (float)_renderResolution.Width / _renderResolution.Height;
+
             Projection = Matrix.CreatePerspectiveFieldOfView(
                 MathHelper.ToRadians(ProjectionAngle),
-                _gameProvider.Game.GraphicsDevice.Viewport.AspectRatio,
+                aspectRatio,
                 _nearClippingPlane,
                 _farClippingPlane
             );
-
-            _viewportHeight = _gameProvider.Game.GraphicsDevice.Viewport.Height;
-            _viewportWidth = _gameProvider.Game.GraphicsDevice.Viewport.Width;
         }
 
         public Ray GetPointerRay(int x, int y, bool normalised = true)

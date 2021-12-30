@@ -80,21 +80,9 @@ namespace FrigidRogue.MonoGame.Core.View
             _activeScreen?.Update();
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void DrawActiveScreen(SpriteBatch spriteBatch)
         {
-            GeonBit.UI.UserInterface.Active.Draw(spriteBatch);
-
-            _gameProvider.Game.GraphicsDevice.Clear(Color.Black);
-
-            // Reset graphics device properties after SpriteBatch drawing
-            // https://blogs.msdn.microsoft.com/shawnhar/2010/06/18/spritebatch-and-renderstates-in-xna-game-studio-4-0/
-            _gameProvider.Game.GraphicsDevice.BlendState = BlendState.Opaque;
-            _gameProvider.Game.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-            _gameProvider.Game.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
-
             _activeScreen?.Draw();
-
-            GeonBit.UI.UserInterface.Active.DrawMainRenderTarget(spriteBatch);
         }
 
         public void SetActive(Screen screen)

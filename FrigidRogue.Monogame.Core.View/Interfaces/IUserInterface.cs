@@ -12,7 +12,7 @@ namespace FrigidRogue.MonoGame.Core.View.Interfaces
         void Initialize(ContentManager content);
         void Initialize(ContentManager content, string theme);
         void Update(GameTime gameTime);
-        void Draw(SpriteBatch spriteBatch);
+        void DrawActiveScreen(SpriteBatch spriteBatch);
         void SetActive(Screen screen);
         void ShowScreen(IScreen screen);
         bool IsActive(GeonBit.UI.UserInterface userInterface);
