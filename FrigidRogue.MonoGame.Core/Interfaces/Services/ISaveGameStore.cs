@@ -37,20 +37,6 @@ namespace FrigidRogue.MonoGame.Core.Interfaces.Services
         LoadGameResult LoadStoreFromFile(string saveGameName);
 
         /// <summary>
-        /// Gets an object from the in memory save game storage and calls SetState on IMementoState.
-        /// </summary>
-        /// <typeparam name="TSaveData">A data-only object which can be serialised (default implementation uses json)</typeparam>
-        /// <param name="existingObject">Object which gets the data-only object sent to it</param>
-        void GetFromStore<TSaveData>(IMementoState<TSaveData> existingObject);
-
-        /// <summary>
-        /// Writes an object to the in memory save game store by calling GetState on IMementoState.
-        /// </summary>
-        /// <typeparam name="TSaveData">A data-only object which can be serialised (default implementation uses json)</typeparam>
-        /// <param name="item">Object which creates the data-only object</param>
-        void SaveToStore<TSaveData>(IMementoState<TSaveData> item);
-
-        /// <summary>
         /// Gets a list of objects from the in memory store
         /// </summary>
         /// <typeparam name="TSaveData">A data-only object which can be serialised (default implementation uses json)</typeparam>

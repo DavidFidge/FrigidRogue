@@ -40,13 +40,6 @@ namespace FrigidRogue.MonoGame.Core.Services
             return new Memento<T>(JsonConvert.DeserializeObject<T>(jsonString, _jsonSerializerSettings));
         }
 
-        public void GetFromStore<TSaveData>(IMementoState<TSaveData> existingObject)
-        {
-            var memento = GetFromStore<TSaveData>();
-
-            existingObject.SetState(memento, Mapper);
-        }
-
         private T GetFromStore<T>(Dictionary<Type, string> jsonStore)
         {
             var key = jsonStore.Keys.FirstOrDefault(k => typeof(ILoadGameDetail).IsAssignableFrom(k));
@@ -66,20 +59,13 @@ namespace FrigidRogue.MonoGame.Core.Services
             _jsonObjectStore.Add(typeof(T), jsonString);
         }
 
-        public void SaveToStore<TSaveData>(IMementoState<TSaveData> item)
-        {
-            var state = item.GetState(Mapper);
-
-            SaveToStore(state);
-        }
-
         public IList<IMemento<TSaveData>> GetListFromStore<TSaveData>()
         {
             var jsonString = _jsonObjectStore[typeof(IList<TSaveData>)];
 
-            var list = JsonConvert.DeserializeObject<IList<TSaveData>>(jsonString, _jsonSerializerSettings);
+            var list = JsonConvert.DeserializeObject<IList<IMemento<TSaveData>>>(jsonString, _jsonSerializerSettings);
 
-            return list.Select(i => new Memento<TSaveData>(i)).Cast<IMemento<TSaveData>>().ToList();
+            return list;
         }
 
         public void SaveListToStore<TSaveData>(IList<IMemento<TSaveData>> item)

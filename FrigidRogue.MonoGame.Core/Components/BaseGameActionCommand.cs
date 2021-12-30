@@ -22,7 +22,7 @@ namespace FrigidRogue.MonoGame.Core.Components
             _advanceSequenceNumber = false;
         }
 
-        public override void SetState(IMemento<T> state, IMapper mapper)
+        public override void SetLoadState(IMemento<T> memento, IMapper mapper)
         {
             _advanceSequenceNumber = false;
         }

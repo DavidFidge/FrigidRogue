@@ -46,7 +46,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             testCommand.TestProperty2 = "hello";
 
             // Act
-            _saveGameStore.SaveToStore(testCommand.GetState());
+            _saveGameStore.SaveToStore(testCommand.GetSaveState(Mapper));
             var result = _saveGameStore.SaveStoreToFile(_saveGameName, false);
             _saveGameStore.LoadStoreFromFile(_saveGameName);
 
@@ -67,7 +67,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             var testCommand = new TestCommand();
             testCommand.TestProperty = 1;
             testCommand.TestProperty2 = "hello";
-            _saveGameStore.SaveToStore(testCommand.GetState());
+            _saveGameStore.SaveToStore(testCommand.GetSaveState(Mapper));
             _saveGameStore.SaveStoreToFile(_saveGameName, false);
 
             // Act
@@ -85,7 +85,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             var testCommand = new TestCommand();
             testCommand.TestProperty = 1;
             testCommand.TestProperty2 = "hello";
-            _saveGameStore.SaveToStore(testCommand.GetState());
+            _saveGameStore.SaveToStore(testCommand.GetSaveState(Mapper));
             _saveGameStore.SaveStoreToFile(_saveGameName, false);
 
             // Act
@@ -114,7 +114,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             var testCommand = new TestCommand();
             testCommand.TestProperty = 1;
             testCommand.TestProperty2 = "hello";
-            _saveGameStore.SaveToStore(testCommand.GetState());
+            _saveGameStore.SaveToStore(testCommand.GetSaveState(Mapper));
             _saveGameStore.SaveStoreToFile(_saveGameName, false);
 
             // Act
@@ -124,34 +124,6 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             Assert.IsFalse(result.RequiresOverwrite);
             Assert.IsNull(result.ErrorMessage);
             Assert.AreEqual(SaveGameResult.Success, result);
-        }
-
-        [TestMethod]
-        public void Should_Save_To_And_Load_From_Store_Using_AutoMapper()
-        {
-            // Arrange
-            var testClass = new TestClass();
-
-            var loadedTestClass = new TestClass();
-
-            var testData2 = new TestData2();
-
-            var mapper = Substitute.For<IMapper>();
-
-            mapper.Map<TestClass, TestData2>(Arg.Is(testClass))
-                .Returns(testData2);
-
-            mapper.Map<TestData2, TestClass>(Arg.Is<TestData2>(td => td.LoadGameDetail == testData2.LoadGameDetail))
-                .Returns(loadedTestClass);
-
-            _saveGameStore.Mapper = mapper;
-
-            // Act
-            _saveGameStore.SaveToStore<TestClass, TestData2>(testClass);
-            var loadedTestClassResult = _saveGameStore.GetFromStore<TestClass, TestData2>();
-
-            // Assert
-            Assert.AreSame(loadedTestClassResult, loadedTestClass);
         }
 
         [TestMethod]
@@ -165,27 +137,12 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
                 LoadGameDetail = "Load Details"
             };
 
-            var loadedTestClass = new TestClass
-            {
-                LoadGameDetail = testClass.LoadGameDetail
-            };
-
             var testData2 = new TestData2
             {
                 LoadGameDetail = testClass.LoadGameDetail
             };
 
-            var mapper = Substitute.For<IMapper>();
-
-            mapper.Map<TestClass, TestData2>(Arg.Is(testClass))
-                .Returns(testData2);
-
-            mapper.Map<TestData2, TestClass>(Arg.Is<TestData2>(td => td.LoadGameDetail == testData2.LoadGameDetail))
-                .Returns(loadedTestClass);
-
-            _saveGameStore.Mapper = mapper;
-
-            _saveGameStore.SaveToStore<TestClass, TestData2>(testClass);
+            _saveGameStore.SaveToStore(new Memento<TestData2> { State = testData2 });
             _saveGameStore.SaveStoreToFile(_saveGameName, false);
 
             // Act
@@ -196,7 +153,6 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
 
             Assert.AreEqual(_saveGameName, gameToLoad.Filename);
             Assert.IsTrue(dateTimeNow <= gameToLoad.DateTime);
-            Assert.AreEqual(testClass.LoadGameDetail, gameToLoad.LoadGameDetail);
         }
 
         private class TestData
@@ -215,12 +171,12 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             public int TestProperty { get; set; }
             public string LoadGameDetail { get; set; }
 
-            public void SaveGame(ISaveGameStore saveGameStore)
+            public void SaveState(ISaveGameStore saveGameStore)
             {
                 throw new NotImplementedException();
             }
 
-            public void LoadGame(ISaveGameStore saveGameStore)
+            public void LoadState(ISaveGameStore saveGameStore)
             {
                 throw new NotImplementedException();
             }
@@ -231,17 +187,6 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             public int TestProperty { get; set; }
             public string TestProperty2 { get; set; }
 
-            public override IMemento<TestData> GetState()
-            {
-                return new Memento<TestData>(new TestData { TestProperty = TestProperty, TestProperty2 = TestProperty2});
-            }
-
-            public override void SetState(IMemento<TestData> state)
-            {
-                TestProperty = state.State.TestProperty;
-                TestProperty2 = state.State.TestProperty2;
-            }
-
             public override void Execute()
             {
                 throw new NotImplementedException();
@@ -250,6 +195,18 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             public override void Undo()
             {
                 throw new NotImplementedException();
+            }
+
+            public override IMemento<TestData> GetSaveState(IMapper mapper)
+            {
+                return new Memento<TestData>(new TestData { TestProperty = TestProperty, TestProperty2 = TestProperty2 });
+            }
+
+            public override void SetLoadState(IMemento<TestData> memento, IMapper mapper)
+            {
+                base.SetLoadState(memento, mapper);
+                TestProperty = memento.State.TestProperty;
+                TestProperty2 = memento.State.TestProperty2;
             }
         }
     }

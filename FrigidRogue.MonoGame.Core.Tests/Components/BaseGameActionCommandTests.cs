@@ -1,5 +1,5 @@
 ﻿using System;
-
+using AutoMapper;
 using FrigidRogue.MonoGame.Core.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
@@ -62,7 +62,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Components
         public void SetState_Then_Execute_Calls_Should_Not_Call_GameTurnService()
         {
             // Arrange
-            _testGameActionCommand.SetState(new Memento<TestData>(new TestData()));
+            _testGameActionCommand.SetLoadState(new Memento<TestData>(new TestData()), Mapper);
 
             // Act
             _testGameActionCommand.Execute();
@@ -78,7 +78,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Components
             {
             }
 
-            public override IMemento<TestData> GetState()
+            public override IMemento<TestData> GetSaveState(IMapper mapper)
             {
                 return new Memento<TestData>();
             }

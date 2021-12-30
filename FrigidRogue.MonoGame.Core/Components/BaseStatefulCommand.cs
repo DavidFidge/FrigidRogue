@@ -5,7 +5,7 @@ namespace FrigidRogue.MonoGame.Core.Components
 {
     public abstract class BaseStatefulCommand<T> : BaseCommand, IMementoState<T>
     {
-        public abstract IMemento<T> GetState(IMapper mapper);
-        public abstract void SetState(IMemento<T> state, IMapper mapper);
+        public abstract IMemento<T> GetSaveState(IMapper mapper);
+        public abstract void SetLoadState(IMemento<T> memento, IMapper mapper);
     }
 }

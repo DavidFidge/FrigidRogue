@@ -1,4 +1,5 @@
-﻿using FrigidRogue.MonoGame.Core.Components;
+﻿using AutoMapper;
+using FrigidRogue.MonoGame.Core.Components;
 
 using MediatR;
 
@@ -13,9 +14,12 @@ namespace FrigidRogue.TestInfrastructure
     [TestClass]
     public abstract class BaseTest
     {
+        protected IMapper Mapper;
+
         [TestInitialize]
         public virtual void Setup()
         {
+            Mapper = Substitute.For<IMapper>();
         }
 
         [TestCleanup]
