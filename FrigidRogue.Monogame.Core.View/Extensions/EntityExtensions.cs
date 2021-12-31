@@ -16,9 +16,15 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
             return entity;
         }
 
+        public static T WithScale<T>(this T entity, float scale) where T : Entity
+        {
+            entity.Scale = scale;
+            return entity;
+        }
+
         public static T WithSmallButtonScale<T>(this T entity) where T : Entity
         {
-            entity.Scale = 0.7f;
+            entity.WithScale(0.7f);
             return entity;
         }
 
@@ -26,6 +32,59 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
         {
             entity.Padding = padding;
             return entity;
+        }
+
+        public static T WithAnchor<T>(this T entity, Anchor anchor) where T : Entity
+        {
+            entity.Anchor = anchor;
+            return entity;
+        }
+
+        public static T WithSize<T>(this T entity, Vector2 size) where T : Entity
+        {
+            entity.Size = size;
+            return entity;
+        }
+
+        public static T WithOffset<T>(this T entity, Vector2 offset) where T : Entity
+        {
+            entity.Offset = offset;
+            return entity;
+        }
+
+        public static T Bold<T>(this T entity) where T : Paragraph
+        {
+            entity.TextStyle = FontStyle.Bold;
+            return entity;
+        }
+
+        public static T WithFillColor<T>(this T entity, Color fillColor) where T : Entity
+        {
+            entity.FillColor = fillColor;
+            return entity;
+        }
+
+        public static T WithSkin<T>(this T panelBase, PanelSkin panelSkin) where T : PanelBase
+        {
+            panelBase.Skin = panelSkin;
+            return panelBase;
+        }
+
+        public static T NoSkin<T>(this T panelBase) where T : PanelBase
+        {
+            panelBase.WithSkin(PanelSkin.None);
+            return panelBase;
+        }
+        public static T SimpleSkin<T>(this T panelBase) where T : PanelBase
+        {
+            panelBase.WithSkin(PanelSkin.Simple);
+            return panelBase;
+        }
+
+        public static T DefaultSkin<T>(this T panelBase) where T : PanelBase
+        {
+            panelBase.WithSkin(PanelSkin.Default);
+            return panelBase;
         }
 
         public static T NoPadding<T>(this T entity) where T : Entity
@@ -88,7 +147,14 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
 
         public static T WidthOfScreen<T>(this T entity) where T : Entity
         {
-            entity.Size = new Vector2(0.95f, entity.Size.Y);
+            entity.Size = new Vector2(-1, entity.Size.Y);
+
+            return entity;
+        }
+
+        public static T Height<T>(this T entity, float height) where T : Entity
+        {
+            entity.Size = new Vector2(entity.Size.X, height);
 
             return entity;
         }
