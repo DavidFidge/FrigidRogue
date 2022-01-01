@@ -1,17 +1,26 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
 
 namespace FrigidRogue.MonoGame.Core.Components
 {
-    public abstract class BaseGameActionCommand<T> : BaseStatefulCommand<T>
+    public abstract class BaseGameActionCommand<T> : BaseCommand, IMementoState<T>
     {
+        protected CommandResult _commandResult;
+
         public TurnDetails TurnDetails { get; set; } = new TurnDetails();
+
+        /// <summary>
+        /// Whether to advance the sequence number when calling execute. You only want to advance the
+        /// sequence number when the game is being played, not during a replay.
+        /// </summary>
         private bool _advanceSequenceNumber = true;
 
         public IGameTurnService GameTurnService { get; set; }
 
-        public override void Execute()
+        public override CommandResult Execute()
         {
             if (_advanceSequenceNumber && GameTurnService != null)
             {
@@ -20,11 +29,39 @@ namespace FrigidRogue.MonoGame.Core.Components
             }
 
             _advanceSequenceNumber = false;
+
+            return ExecuteInternal();
         }
 
-        public override void SetLoadState(IMemento<T> memento, IMapper mapper)
+        public virtual void SetLoadState(IMemento<T> memento, IMapper mapper)
         {
             _advanceSequenceNumber = false;
         }
+
+        public abstract IMemento<T> GetSaveState(IMapper mapper);
+
+        protected abstract CommandResult ExecuteInternal();
+
+        protected CommandResult Result(CommandResult commandResult)
+        {
+            _commandResult = commandResult;
+
+            return _commandResult;
+        }
+
+        public override void Undo()
+        {
+            if (_commandResult != null)
+            {
+                foreach (var command in _commandResult.SubsequentCommands)
+                {
+                    command.Undo();
+                }
+            }
+
+            UndoInternal();
+        }
+
+        protected abstract void UndoInternal();
     }
 }

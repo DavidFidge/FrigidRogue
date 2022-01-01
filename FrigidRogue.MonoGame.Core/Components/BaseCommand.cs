@@ -2,7 +2,7 @@
 {
     public abstract class BaseCommand : BaseComponent
     {
-        public abstract void Execute();
+        public abstract CommandResult Execute();
         public abstract void Undo();
     }
 }
