@@ -5,7 +5,7 @@ namespace FrigidRogue.MonoGame.Core.Components
 {
     public class CommandResult
     {
-        private CommandResultEnum Result { get; set; }
+        public CommandResultEnum Result { get; set; }
         public IList<string> Messages { get; set; } = Array.Empty<string>();
         public IList<BaseCommand> SubsequentCommands { get; set; } = Array.Empty<BaseCommand>();
 
@@ -37,6 +37,20 @@ namespace FrigidRogue.MonoGame.Core.Components
             {
                 Result = CommandResultEnum.Success,
                 SubsequentCommands = new List<BaseCommand> { subsequentCommand }
+            };
+        }
+
+        public static CommandResult Success(string message)
+        {
+            return Success(new List<string> { message });
+        }
+
+        public static CommandResult Success(List<string> messages)
+        {
+            return new CommandResult
+            {
+                Result = CommandResultEnum.Success,
+                Messages = messages
             };
         }
     }

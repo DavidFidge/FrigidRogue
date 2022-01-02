@@ -3,6 +3,7 @@
     public enum CommandResultEnum
     {
         Success = 0,
-        Failure = 1
+        Failure = 1,
+        Confirmation = 2
     }
 }

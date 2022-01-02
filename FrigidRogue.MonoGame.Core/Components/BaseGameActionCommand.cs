@@ -8,7 +8,7 @@ namespace FrigidRogue.MonoGame.Core.Components
 {
     public abstract class BaseGameActionCommand<T> : BaseCommand, IMementoState<T>
     {
-        protected CommandResult _commandResult;
+        public CommandResult CommandResult { get; private set; }
 
         public TurnDetails TurnDetails { get; set; } = new TurnDetails();
 
@@ -44,16 +44,16 @@ namespace FrigidRogue.MonoGame.Core.Components
 
         protected CommandResult Result(CommandResult commandResult)
         {
-            _commandResult = commandResult;
+            CommandResult = commandResult;
 
-            return _commandResult;
+            return CommandResult;
         }
 
         public override void Undo()
         {
-            if (_commandResult != null)
+            if (CommandResult != null)
             {
-                foreach (var command in _commandResult.SubsequentCommands)
+                foreach (var command in CommandResult.SubsequentCommands)
                 {
                     command.Undo();
                 }
