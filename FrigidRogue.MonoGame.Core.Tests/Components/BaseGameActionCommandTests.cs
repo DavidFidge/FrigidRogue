@@ -74,13 +74,18 @@ namespace FrigidRogue.MonoGame.Core.Tests.Components
 
         private class TestGameActionCommand : BaseGameActionCommand<TestData>
         {
-            public override void Undo()
-            {
-            }
-
             public override IMemento<TestData> GetSaveState(IMapper mapper)
             {
                 return new Memento<TestData>();
+            }
+
+            protected override CommandResult ExecuteInternal()
+            {
+                return CommandResult.Success();
+            }
+
+            protected override void UndoInternal()
+            {
             }
         }
 

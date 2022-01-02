@@ -187,19 +187,19 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             public int TestProperty { get; set; }
             public string TestProperty2 { get; set; }
 
-            public override void Execute()
-            {
-                throw new NotImplementedException();
-            }
-
-            public override void Undo()
-            {
-                throw new NotImplementedException();
-            }
-
             public override IMemento<TestData> GetSaveState(IMapper mapper)
             {
                 return new Memento<TestData>(new TestData { TestProperty = TestProperty, TestProperty2 = TestProperty2 });
+            }
+
+            protected override CommandResult ExecuteInternal()
+            {
+                throw new NotImplementedException();
+            }
+
+            protected override void UndoInternal()
+            {
+                throw new NotImplementedException();
             }
 
             public override void SetLoadState(IMemento<TestData> memento, IMapper mapper)
