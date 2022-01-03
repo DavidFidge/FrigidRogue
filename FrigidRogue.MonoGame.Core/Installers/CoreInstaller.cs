@@ -114,7 +114,7 @@ namespace FrigidRogue.MonoGame.Core.Installers
 
                 Component.For<ISceneGraph>()
                     .ImplementedBy<SceneGraph>()
-                    .Forward<INotificationHandler<EntityTransformChanged>>()
+                    .LifeStyle.Transient
             );
         }
     }

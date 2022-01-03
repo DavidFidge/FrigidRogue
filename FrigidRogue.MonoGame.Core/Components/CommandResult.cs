@@ -7,7 +7,7 @@ namespace FrigidRogue.MonoGame.Core.Components
     {
         public CommandResultEnum Result { get; set; }
         public IList<string> Messages { get; set; } = Array.Empty<string>();
-        public IList<BaseCommand> SubsequentCommands { get; set; } = Array.Empty<BaseCommand>();
+        public IList<BaseGameActionCommand> SubsequentCommands { get; set; } = Array.Empty<BaseGameActionCommand>();
 
         public static CommandResult Failure(string message)
         {
@@ -31,12 +31,12 @@ namespace FrigidRogue.MonoGame.Core.Components
             };
         }
 
-        public static CommandResult Success(BaseCommand subsequentCommand)
+        public static CommandResult Success(BaseGameActionCommand subsequentCommand)
         {
             return new CommandResult
             {
                 Result = CommandResultEnum.Success,
-                SubsequentCommands = new List<BaseCommand> { subsequentCommand }
+                SubsequentCommands = new List<BaseGameActionCommand> { subsequentCommand }
             };
         }
 

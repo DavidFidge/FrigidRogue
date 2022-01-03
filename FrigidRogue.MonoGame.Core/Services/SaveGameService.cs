@@ -104,7 +104,7 @@ namespace FrigidRogue.MonoGame.Core.Services
 
                 try
                 {
-                    loadGameDetails = _saveGameStore.GetFromStore<ILoadGameDetail>();
+                    loadGameDetails = saveGameStore.GetFromStore<ILoadGameDetail>();
                 }
                 catch (Exception e)
                 {

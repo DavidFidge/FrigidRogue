@@ -13,7 +13,7 @@ namespace FrigidRogue.MonoGame.Core.Components
 
         public void TransformChanged()
         {
-            Mediator?.Publish(new EntityTransformChanged(this));
+            Mediator?.Publish(new EntityTransformChangedNotification(this));
         }
     }
 }

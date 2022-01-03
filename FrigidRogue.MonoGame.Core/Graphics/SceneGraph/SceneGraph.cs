@@ -17,7 +17,7 @@ using NGenerics.Patterns.Visitor;
 
 namespace FrigidRogue.MonoGame.Core.Graphics
 {
-    public class SceneGraph : ISceneGraph, INotificationHandler<EntityTransformChanged>
+    public class SceneGraph : ISceneGraph
     {
         private SceneGraphNode Root { get; set; }
         private Dictionary<Entity, SceneGraphNode> _sceneGraphNodes = new Dictionary<Entity, SceneGraphNode>();
@@ -183,16 +183,16 @@ namespace FrigidRogue.MonoGame.Core.Graphics
             return _sceneGraphNodes[entity].WorldTransform.Value;
         }
 
-        public Task Handle(EntityTransformChanged request, CancellationToken cancellationToken)
+        public void HandleEntityTransformChanged(EntityTransformChangedNotification entityTransformChangedNotification)
         {
-            InvalidateWorldTransform(request.Entity);
-
-            return Unit.Task;
+            InvalidateWorldTransform(entityTransformChangedNotification.Entity);
         }
 
         public void InvalidateWorldTransform(Entity entity)
         {
-            if (_sceneGraphNodes[entity].WorldTransform == null)
+            _sceneGraphNodes.TryGetValue(entity, out SceneGraphNode sceneGraphNode);
+
+            if (sceneGraphNode?.WorldTransform == null)
                 return;
 
             _sceneGraphNodes[entity].Node.BreadthFirstTraversal(new ActionVisitor<Entity>(e => _sceneGraphNodes[e].WorldTransform = null));

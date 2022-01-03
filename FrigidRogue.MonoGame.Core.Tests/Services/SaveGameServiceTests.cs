@@ -186,7 +186,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             }
         }
 
-        private class TestCommand : BaseGameActionCommand<TestData>
+        private class TestCommand : BaseStatefulGameActionCommand<TestData>
         {
             public int TestProperty { get; set; }
             public string TestProperty2 { get; set; }

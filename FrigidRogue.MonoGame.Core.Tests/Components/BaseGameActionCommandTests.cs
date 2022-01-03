@@ -72,7 +72,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Components
             _testGameActionCommand.GameTurnService.DidNotReceive().Populate(Arg.Any<ITurnNumber>());
         }
 
-        private class TestGameActionCommand : BaseGameActionCommand<TestData>
+        private class TestGameActionCommand : BaseStatefulGameActionCommand<TestData>
         {
             public override IMemento<TestData> GetSaveState(IMapper mapper)
             {

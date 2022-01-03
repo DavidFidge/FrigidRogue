@@ -4,9 +4,9 @@ using MediatR;
 
 namespace FrigidRogue.MonoGame.Core.Messages
 {
-    public class EntityTransformChanged : INotification
+    public class EntityTransformChangedNotification : INotification
     {
-        public EntityTransformChanged(Entity entity)
+        public EntityTransformChangedNotification(Entity entity)
         {
             Entity = entity;
         }
