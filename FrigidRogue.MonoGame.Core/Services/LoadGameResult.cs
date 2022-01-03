@@ -7,24 +7,9 @@ namespace FrigidRogue.MonoGame.Core.Services
     {
         public string ErrorMessage { get; set; }
 
-        public static LoadGameResult Success = new LoadGameResult();
+        public byte[] Bytes { get; set; }
 
-        protected bool Equals(LoadGameResult other)
-        {
-            return ErrorMessage == other.ErrorMessage;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((LoadGameResult)obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return ErrorMessage.GetHashCode();
-        }
+        public bool Success => String.IsNullOrEmpty(ErrorMessage);
+        public bool Failure => !Success;
     }
 }

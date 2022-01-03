@@ -116,11 +116,11 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
                     TotalGameTime = TimeSpan.FromSeconds(2)
                 });
 
-            var saveGameStore = Substitute.For<ISaveGameStore>();
-            saveGameStore.GetFromStore<GameTimeServiceSaveData>().Returns(memento);
+            var saveGameService = Substitute.For<ISaveGameService>();
+            saveGameService.GetFromStore<GameTimeServiceSaveData>().Returns(memento);
 
             // Act
-            _gameTimeService.LoadState(saveGameStore);
+            _gameTimeService.LoadState(saveGameService);
 
             // Assert
             Assert.AreEqual(TimeSpan.Zero, _gameTimeService.GameTime.ElapsedGameTime);
@@ -136,14 +136,14 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             _fakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(2);
             _gameTimeService.Update(new GameTime());
 
-            var saveGameStore = Substitute.For<ISaveGameStore>();
+            var saveGameService = Substitute.For<ISaveGameService>();
 
             // Act
-            _gameTimeService.SaveState(saveGameStore);
+            _gameTimeService.SaveState(saveGameService);
 
 
             // Assert
-            saveGameStore
+            saveGameService
                 .Received()
                 .SaveToStore(
                     Arg.Is<IMemento<GameTimeServiceSaveData>>(m => 

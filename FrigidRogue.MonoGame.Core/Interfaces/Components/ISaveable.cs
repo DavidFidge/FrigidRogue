@@ -4,7 +4,7 @@ namespace FrigidRogue.MonoGame.Core.Interfaces.Components
 {
     public interface ISaveable
     {
-        void SaveState(ISaveGameStore saveGameStore);
-        void LoadState(ISaveGameStore saveGameStore);
+        void SaveState(ISaveGameService saveGameService);
+        void LoadState(ISaveGameService saveGameService);
     }
 }

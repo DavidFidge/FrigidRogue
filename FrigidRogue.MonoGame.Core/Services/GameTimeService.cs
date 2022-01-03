@@ -134,7 +134,7 @@ namespace FrigidRogue.MonoGame.Core.Services
                 PauseGame();
         }
 
-        public void SaveState(ISaveGameStore saveGameStore)
+        public void SaveState(ISaveGameService saveGameService)
         {
             var memento = new Memento<GameTimeServiceSaveData>(
                 new GameTimeServiceSaveData
@@ -142,14 +142,14 @@ namespace FrigidRogue.MonoGame.Core.Services
                     TotalGameTime = GameTime.TotalGameTime
                 });
 
-            saveGameStore.SaveToStore(memento);
+            saveGameService.SaveToStore(memento);
         }
 
-        public void LoadState(ISaveGameStore saveGameStore)
+        public void LoadState(ISaveGameService saveGameService)
         {
             Initialise();
 
-            var gameTimeServiceData = saveGameStore.GetFromStore<GameTimeServiceSaveData>();
+            var gameTimeServiceData = saveGameService.GetFromStore<GameTimeServiceSaveData>();
 
             GameTime.TotalGameTime = gameTimeServiceData.State.TotalGameTime;
 

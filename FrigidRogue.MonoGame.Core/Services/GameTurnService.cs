@@ -25,16 +25,16 @@ namespace FrigidRogue.MonoGame.Core.Services
             Reset();
         }
 
-        public void SaveState(ISaveGameStore saveGameStore)
+        public void SaveState(ISaveGameService saveGameService)
         {
             var memento = new Memento<GameTurnService>(this);
 
-            saveGameStore.SaveToStore(memento);
+            saveGameService.SaveToStore(memento);
         }
 
-        public void LoadState(ISaveGameStore saveGameStore)
+        public void LoadState(ISaveGameService saveGameService)
         {
-            var gameTurnServiceData = saveGameStore.GetFromStore<GameTurnService>();
+            var gameTurnServiceData = saveGameService.GetFromStore<GameTurnService>();
 
             TurnNumber = gameTurnServiceData.State.TurnNumber;
             SequenceNumber = gameTurnServiceData.State.SequenceNumber;

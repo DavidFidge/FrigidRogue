@@ -59,15 +59,14 @@ namespace FrigidRogue.MonoGame.Core.Installers
                 Component.For<IGameTurnService>()
                     .ImplementedBy<GameTurnService>(),
 
-                Component.For<ISaveGameStore>()
-                    .ImplementedBy<SaveGameStore>(),
-
                 Component.For<IRandom>()
                     .ImplementedBy<Random>(),
 
                 Component.For<ISaveGameService>()
-                    .ImplementedBy<SaveGameService>()
-                    .LifeStyle.Transient,
+                    .ImplementedBy<SaveGameService>(),
+
+                Component.For<ISaveGameFileWriter>()
+                    .ImplementedBy<SaveGameFileWriter>(),
 
                 Component.For<IGameInputService>()
                     .ImplementedBy<GameInputService>(),

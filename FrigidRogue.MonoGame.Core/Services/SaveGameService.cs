@@ -1,33 +1,130 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
+using AutoMapper;
+
+using FrigidRogue.MonoGame.Core.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
 
 namespace FrigidRogue.MonoGame.Core.Services
 {
-    public class SaveGameService : ISaveGameService
+    public class SaveGameService : BaseComponent, ISaveGameService
     {
-        private List<ISaveable> _saveableComponent = new List<ISaveable>();
+        private readonly ISaveGameStore _saveGameStore;
+        private readonly ISaveGameFileWriter _saveGameFileWriter;
+        public IMapper Mapper { get; set; }
 
-        public void Register(ISaveable saveableComponent)
+        public SaveGameService(ISaveGameFileWriter saveGameFileWriter)
         {
-            _saveableComponent.Add(saveableComponent);
+            _saveGameStore = new SaveGameStore();
+
+            _saveGameFileWriter = saveGameFileWriter;
         }
 
-        public void LoadGame(ISaveGameStore saveGameStore)
+        public IMemento<T> GetFromStore<T>()
         {
-            foreach (var saveableComponent in _saveableComponent)
-            {
-                saveableComponent.LoadState(saveGameStore);
-            }
+            return _saveGameStore.GetFromStore<T>();
         }
 
-        public void SaveGame(ISaveGameStore saveGameStore)
+        public void SaveToStore<T>(IMemento<T> memento)
         {
-            foreach (var saveableComponent in _saveableComponent)
+            _saveGameStore.SaveToStore<T>(memento);
+        }
+
+        public IList<IMemento<TSaveData>> GetListFromStore<TSaveData>()
+        {
+            return _saveGameStore.GetListFromStore<TSaveData>();
+        }
+
+        public void SaveListToStore<TSaveData>(IList<IMemento<TSaveData>> item)
+        {
+            _saveGameStore.SaveListToStore(item);
+        }
+
+        public void Clear()
+        {
+            _saveGameStore.Clear();
+        }
+
+        public SaveGameResult CanSaveStoreToFile(string saveGameName)
+        {
+            return _saveGameFileWriter.CanSaveStoreToFile(saveGameName);
+        }
+
+        public SaveGameResult SaveStoreToFile(string saveGameName, bool overwrite)
+        {
+            var saveGameBytes = _saveGameStore.GetSaveGameBytes();
+
+            return _saveGameFileWriter.SaveBytesToFile(saveGameBytes, saveGameName, overwrite);
+        }
+
+        public LoadGameResult LoadStoreFromFile(string saveGameName)
+        {
+            var loadGameResult = _saveGameFileWriter.LoadBytesFromFile(saveGameName);
+
+            if (loadGameResult.Failure)
+                return loadGameResult;
+
+            _saveGameStore.DeserialiseStoreFromBytes(loadGameResult.Bytes);
+
+            return loadGameResult;
+        }
+
+        public IList<LoadGameDetails> GetLoadGameList()
+        {
+            var saveGameFilenames = _saveGameFileWriter.GetSavedGameFileNames();
+            var loadGameList = new List<LoadGameDetails>();
+
+            foreach (var saveGameName in saveGameFilenames)
             {
-                saveableComponent.SaveState(saveGameStore);
+                var loadGameResult = _saveGameFileWriter.LoadBytesFromFile(saveGameName);
+
+                if (loadGameResult.Failure)
+                {
+                    Logger.Warning($"Error occurred when getting load game details for file {saveGameName} - {loadGameResult.ErrorMessage}");
+                    continue;
+                }
+
+                var saveGameStore = new SaveGameStore();
+
+                try
+                {
+                    saveGameStore.DeserialiseStoreFromBytes(loadGameResult.Bytes);
+                }
+                catch (Exception e)
+                {
+                    Logger.Warning(e, $"Exception occurred when deserialising save game from bytes for save file {saveGameName}");
+
+                    continue;
+                }
+
+                IMemento<ILoadGameDetail> loadGameDetails;
+
+                try
+                {
+                    loadGameDetails = _saveGameStore.GetFromStore<ILoadGameDetail>();
+                }
+                catch (Exception e)
+                {
+                    Logger.Warning(e, $"Exception occurred when getting ILoadGameDetail from save file {saveGameName}");
+                    continue;
+                }
+
+                var fileInfo = _saveGameFileWriter.GetFileInfo(saveGameName);
+
+                loadGameList.Add(
+                    new LoadGameDetails
+                    {
+                        DateTime = fileInfo.LastWriteTime,
+                        Filename = saveGameName,
+                        LoadGameDetail = loadGameDetails.State.LoadGameDetail
+                    }
+                );
             }
+
+            return loadGameList;
         }
     }
 }
