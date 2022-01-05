@@ -16,7 +16,7 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
             return entity;
         }
 
-        public static T WithScale<T>(this T entity, float scale) where T : Entity
+        public static T Scale<T>(this T entity, float scale) where T : Entity
         {
             entity.Scale = scale;
             return entity;
@@ -24,29 +24,29 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
 
         public static T WithSmallButtonScale<T>(this T entity) where T : Entity
         {
-            entity.WithScale(0.7f);
+            entity.Scale(0.7f);
             return entity;
         }
 
-        public static T WithPadding<T>(this T entity, Vector2 padding) where T : Entity
+        public static T Padding<T>(this T entity, Vector2 padding) where T : Entity
         {
             entity.Padding = padding;
             return entity;
         }
 
-        public static T WithAnchor<T>(this T entity, Anchor anchor) where T : Entity
+        public static T Anchor<T>(this T entity, Anchor anchor) where T : Entity
         {
             entity.Anchor = anchor;
             return entity;
         }
 
-        public static T WithSize<T>(this T entity, Vector2 size) where T : Entity
+        public static T Size<T>(this T entity, Vector2 size) where T : Entity
         {
             entity.Size = size;
             return entity;
         }
 
-        public static T WithOffset<T>(this T entity, Vector2 offset) where T : Entity
+        public static T Offset<T>(this T entity, Vector2 offset) where T : Entity
         {
             entity.Offset = offset;
             return entity;
@@ -58,13 +58,25 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
             return entity;
         }
 
-        public static T WithFillColor<T>(this T entity, Color fillColor) where T : Entity
+        public static T FillColor<T>(this T entity, Color fillColor) where T : Entity
         {
             entity.FillColor = fillColor;
             return entity;
         }
 
-        public static T WithSkin<T>(this T panelBase, PanelSkin panelSkin) where T : PanelBase
+        public static T ProgressBarFillColor<T>(this T progressBar, Color fillColor) where T : ProgressBar
+        {
+            progressBar.ProgressFill.FillColor = fillColor;
+            return progressBar;
+        }
+
+        public static T TransparentFillColor<T>(this T entity) where T : Entity
+        {
+            entity.FillColor = new Color(new Color(), 0);
+            return entity;
+        }
+
+        public static T Skin<T>(this T panelBase, PanelSkin panelSkin) where T : PanelBase
         {
             panelBase.Skin = panelSkin;
             return panelBase;
@@ -72,18 +84,36 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
 
         public static T NoSkin<T>(this T panelBase) where T : PanelBase
         {
-            panelBase.WithSkin(PanelSkin.None);
+            panelBase.Skin(PanelSkin.None);
             return panelBase;
         }
         public static T SimpleSkin<T>(this T panelBase) where T : PanelBase
         {
-            panelBase.WithSkin(PanelSkin.Simple);
+            panelBase.Skin(PanelSkin.Simple);
             return panelBase;
         }
 
         public static T DefaultSkin<T>(this T panelBase) where T : PanelBase
         {
-            panelBase.WithSkin(PanelSkin.Default);
+            panelBase.Skin(PanelSkin.Default);
+            return panelBase;
+        }
+
+        public static T AlternativeSkin<T>(this T panelBase) where T : PanelBase
+        {
+            panelBase.Skin(PanelSkin.Alternative);
+            return panelBase;
+        }
+
+        public static T FancySkin<T>(this T panelBase) where T : PanelBase
+        {
+            panelBase.Skin(PanelSkin.Fancy);
+            return panelBase;
+        }
+
+        public static T ListBackgroundSkin<T>(this T panelBase) where T : PanelBase
+        {
+            panelBase.Skin(PanelSkin.ListBackground);
             return panelBase;
         }
 
@@ -152,6 +182,13 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
             return entity;
         }
 
+        public static T Width<T>(this T entity, float width) where T : Entity
+        {
+            entity.Size = new Vector2(width, entity.Size.Y);
+
+            return entity;
+        }
+
         public static T Height<T>(this T entity, float height) where T : Entity
         {
             entity.Size = new Vector2(entity.Size.X, height);
@@ -175,7 +212,7 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
 
         public static T Centred<T>(this T entity) where T : Entity
         {
-            entity.Anchor = Anchor.AutoCenter;
+            entity.Anchor = GeonBit.UI.Entities.Anchor.AutoCenter;
 
             return entity;
         }
@@ -187,30 +224,26 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
             return entity;
         }
 
-        public static T Opacity70Percent<T>(this T entity) where T : Entity
+        public static T OpacityPercent<T>(this T entity, uint percent) where T : Entity
         {
-            entity.Opacity = (int)(256 * 0.7);
+            if (percent > 100)
+                percent = 100;
+
+            entity.Opacity = Convert.ToByte(256 * percent / 100);
 
             return entity;
         }
 
-        public static T Opacity80Percent<T>(this T entity) where T : Entity
-        {
-            entity.Opacity = (int)(256 * 0.8);
-
-            return entity;
-        }
-
-        public static T Opacity90Percent<T>(this T entity) where T : Entity
-        {
-            entity.Opacity = (int)(256 * 0.9);
-
-            return entity;
-        }
-
-        public static T Opacity100Percent<T>(this T entity) where T : Entity
+        public static T SolidOpacity<T>(this T entity) where T : Entity
         {
             entity.Opacity = Byte.MaxValue;
+
+            return entity;
+        }
+
+        public static T Locked<T>(this T entity) where T : Entity
+        {
+            entity.Locked = true;
 
             return entity;
         }
