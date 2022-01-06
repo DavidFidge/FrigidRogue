@@ -14,6 +14,20 @@ namespace FrigidRogue.MonoGame.Core.Components
             return Failure(new List<string> { message });
         }
 
+        public static CommandResult NoMove(string message)
+        {
+            return NoMove(new List<string> { message });
+        }
+
+        public static CommandResult NoMove(List<string> messages)
+        {
+            return new CommandResult
+            {
+                Result = CommandResultEnum.NoMove,
+                Messages = messages
+            };
+        }
+
         public static CommandResult Failure(List<string> messages)
         {
             return new CommandResult

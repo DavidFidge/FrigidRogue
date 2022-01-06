@@ -70,6 +70,12 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
             return progressBar;
         }
 
+        public static T StepsCount<T>(this T progressBar, uint stepsCount) where T : ProgressBar
+        {
+            progressBar.StepsCount = stepsCount;
+            return progressBar;
+        }
+
         public static T TransparentFillColor<T>(this T entity) where T : Entity
         {
             entity.FillColor = new Color(new Color(), 0);
