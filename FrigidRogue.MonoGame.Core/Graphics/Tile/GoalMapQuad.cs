@@ -22,13 +22,6 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         private SpriteBatch _spriteBatch;
         private RenderTarget2D _renderTarget;
 
-        /// <summary>
-        /// Create a tile that has a character and an optional background
-        /// </summary>
-        /// <param name="tileWidth"></param>
-        /// <param name="tileHeight"></param>
-        /// <param name="foregroundCharacter"></param>
-        /// <param name="foregroundColor"></param>
         public GoalMapQuad(
             IGameProvider gameProvider,
             float tileWidth,
