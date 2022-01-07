@@ -9,8 +9,8 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
     {
         private readonly IGameProvider _gameProvider;
 
-        public TexturedQuadTemplate Foreground { get; set; }
-        public MaterialQuadTemplate Background { get; set; }
+        private readonly TexturedQuadTemplate _foreground;
+        private readonly MaterialQuadTemplate _background;
         public bool IsVisible { get; set; }
 
         /// <summary>
@@ -61,10 +61,10 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             texturedQuad.LoadContent(tileWidth, tileHeight, renderTarget, textureMaterialEffect);
             texturedQuad.Colour = foregroundColor;
 
-            Foreground = texturedQuad;
+            _foreground = texturedQuad;
 
             if (backgroundColour != null)
-                Background = CreateBackgroundQuad(tileWidth, tileHeight, backgroundColour.Value);
+                _background = CreateBackgroundQuad(tileWidth, tileHeight, backgroundColour.Value);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         {
             _gameProvider = gameProvider;
 
-            Background = CreateBackgroundQuad(tileWidth, tileHeight, backgroundColour);
+            _background = CreateBackgroundQuad(tileWidth, tileHeight, backgroundColour);
         }
 
         private MaterialQuadTemplate CreateBackgroundQuad(float tileWidth, float tileHeight, Color backgroundColour)
@@ -90,8 +90,8 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 
         public void Draw(Matrix view, Matrix projection, Matrix world)
         {
-            Background?.Draw(view, projection, world);
-            Foreground?.Draw(view, projection, world);
+            _background?.Draw(view, projection, world);
+            _foreground?.Draw(view, projection, world);
         }
     }
 }
