@@ -81,7 +81,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Components
 
             protected override CommandResult ExecuteInternal()
             {
-                return CommandResult.Success();
+                return CommandResult.Success(this);
             }
 
             protected override void UndoInternal()
