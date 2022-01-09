@@ -9,7 +9,7 @@ namespace FrigidRogue.MonoGame.Core.Components
         public CommandResultEnum Result { get; set; }
         public IList<string> Messages { get; set; } = Array.Empty<string>();
         public BaseGameActionCommand Command { get; set; }
-        public IList<BaseGameActionCommand> SubsequentCommands { get; set; } = Array.Empty<BaseGameActionCommand>();
+        public IList<BaseGameActionCommand> SubsequentCommands { get; set; } = new List<BaseGameActionCommand>();
 
         private CommandResult()
         {

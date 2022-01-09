@@ -188,6 +188,20 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
             return entity;
         }
 
+        public static T HeightOfScreen<T>(this T entity) where T : Entity
+        {
+            entity.Size = new Vector2(entity.Size.X, -1);
+
+            return entity;
+        }
+
+        public static T FullSize<T>(this T entity) where T : Entity
+        {
+            entity.Size = new Vector2(-1, -1);
+
+            return entity;
+        }
+
         public static T Width<T>(this T entity, float width) where T : Entity
         {
             entity.Size = new Vector2(width, entity.Size.Y);
