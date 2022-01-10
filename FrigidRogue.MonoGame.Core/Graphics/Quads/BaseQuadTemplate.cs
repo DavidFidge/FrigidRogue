@@ -51,7 +51,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
                 graphicsDevice.BlendState = BlendState.AlphaBlend;
 
                 if (Effect is BasicEffect basicEffect)
-                    basicEffect.Alpha = 1.0f;
+                    basicEffect.Alpha = GetBasicEffectAlphaValue();
                 else
                     Effect.Parameters["AlphaEnabled"].SetValue(true);
 
@@ -71,6 +71,11 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             // Reset render states
             graphicsDevice.BlendState = BlendState.Opaque;
             graphicsDevice.DepthStencilState = DepthStencilState.Default;
+        }
+
+        protected virtual float GetBasicEffectAlphaValue()
+        {
+            return 1f;
         }
 
         protected virtual void SetEffectParameters()

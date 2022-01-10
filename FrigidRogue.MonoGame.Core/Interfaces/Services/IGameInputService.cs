@@ -1,11 +1,13 @@
 ﻿using InputHandlers.Keyboard;
 using InputHandlers.Mouse;
 
+using Microsoft.Xna.Framework;
+
 namespace FrigidRogue.MonoGame.Core.Interfaces.Services
 {
     public interface IGameInputService
     {
-        void Poll();
+        void Poll(Rectangle viewportBounds);
         void Reset();
         void ChangeInput(IMouseHandler mouseHandler, IKeyboardHandler keyboardHandler);
         void AddToCurrentGroup(IMouseHandler mouseHandler, IKeyboardHandler keyboardHandler);

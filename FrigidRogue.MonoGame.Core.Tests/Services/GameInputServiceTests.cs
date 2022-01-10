@@ -7,6 +7,7 @@ using InputHandlers.Keyboard;
 using InputHandlers.Mouse;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 using NSubstitute;
@@ -250,7 +251,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         public void Poll_Should_Poll_Both_Keyboard_And_Mouse_Handlers()
         {
             // Act
-            _gameInputService.Poll();
+            _gameInputService.Poll(new Rectangle(0, 0, 1, 1));
 
             // Assert
             _mouseInput.Received().Poll(Arg.Any<MouseState>());

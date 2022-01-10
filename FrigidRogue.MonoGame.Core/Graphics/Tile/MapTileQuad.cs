@@ -83,6 +83,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         private MaterialQuadTemplate CreateBackgroundQuad(float tileWidth, float tileHeight, Color backgroundColour)
         {
             var background = new MaterialQuadTemplate(_gameProvider);
+            background.AlphaEnabled = true;
             background.LoadContent(tileWidth, tileHeight, backgroundColour);
 
             return background;

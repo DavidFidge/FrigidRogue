@@ -57,5 +57,10 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
                 Effect.Parameters["Colour"].SetValue(Colour.ToVector4());
             }
         }
+
+        protected override float GetBasicEffectAlphaValue()
+        {
+            return Colour.A / 256f;
+        }
     }
 }

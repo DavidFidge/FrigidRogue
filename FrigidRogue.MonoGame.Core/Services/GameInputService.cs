@@ -7,6 +7,7 @@ using FrigidRogue.MonoGame.Core.Interfaces.Services;
 using InputHandlers.Keyboard;
 using InputHandlers.Mouse;
 
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace FrigidRogue.MonoGame.Core.Services
@@ -25,10 +26,14 @@ namespace FrigidRogue.MonoGame.Core.Services
             _keyboardInput.RepeatDelay = 500;
         }
 
-        public void Poll()
+        public void Poll(Rectangle viewportBounds)
         {
             _keyboardInput.Poll(Keyboard.GetState());
-            _mouseInput.Poll(Mouse.GetState());
+
+            var mouseState = Mouse.GetState();
+
+            if (viewportBounds.Contains(mouseState.Position))
+                _mouseInput.Poll(mouseState);
         }
 
         public void Reset()
