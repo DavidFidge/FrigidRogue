@@ -37,6 +37,7 @@ namespace FrigidRogue.MonoGame.Core.View
         public IMouseHandler MouseHandler { get; set; }
         public TData Data => _viewModel.Data;
         public IGameInputService GameInputService { get; set; }
+        protected bool IsVisible => IsInitialised && RootPanel.Visible;
 
         protected bool IsInitialised;
 
