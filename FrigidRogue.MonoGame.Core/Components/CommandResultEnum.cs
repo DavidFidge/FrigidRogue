@@ -3,7 +3,7 @@
     public enum CommandResultEnum
     {
         Success,
-        Failure,
+        Exception, // Used for unexpected situations
         NoMove,
         Confirmation
     }

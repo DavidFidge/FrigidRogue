@@ -15,9 +15,9 @@ namespace FrigidRogue.MonoGame.Core.Components
         {
         }
 
-        public static CommandResult Failure(BaseGameActionCommand command, string message)
+        public static CommandResult Exception(BaseGameActionCommand command, string message)
         {
-            return Failure(command, new List<string> { message });
+            return Exception(command, new List<string> { message });
         }
 
         public static CommandResult NoMove(BaseGameActionCommand command, string message)
@@ -35,12 +35,12 @@ namespace FrigidRogue.MonoGame.Core.Components
             };
         }
 
-        public static CommandResult Failure(BaseGameActionCommand command, List<string> messages)
+        public static CommandResult Exception(BaseGameActionCommand command, List<string> messages)
         {
             return new CommandResult
             {
                 Command = command,
-                Result = CommandResultEnum.Failure,
+                Result = CommandResultEnum.Exception,
                 Messages = messages
             };
         }
