@@ -174,6 +174,29 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
         }
 
         [TestMethod]
+        public void ActionName_Should_Return_Action_Name_Of_Key_Pressed()
+        {
+            // Arrange
+            var keyCombinations = new Dictionary<string, KeyCombination>()
+            {
+                {
+                    "TestMap1", new KeyCombination(Keys.A, KeyboardModifier.Alt)
+                },
+                {
+                    "TestMap2", new KeyCombination(Keys.B)
+                }
+            };
+
+            _actionMapStore.GetKeyMap().Returns(keyCombinations);
+
+            // Act
+            var result = _actionMap.ActionName<TestActionMultiple>(Keys.B, KeyboardModifier.None);
+
+            // Assert
+            Assert.AreEqual("TestMap2", result);
+        }
+
+        [TestMethod]
         public void ActionIs_Should_Return_False_When_Selector_Is_Used_And_Key_Does_Not_Match()
         {
             // Arrange

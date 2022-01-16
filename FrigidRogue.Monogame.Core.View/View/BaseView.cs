@@ -80,7 +80,7 @@ namespace FrigidRogue.MonoGame.Core.View
             }
         }
 
-        public void Hide()
+        public virtual void Hide()
         {
             RootPanel.Visible = false;
 

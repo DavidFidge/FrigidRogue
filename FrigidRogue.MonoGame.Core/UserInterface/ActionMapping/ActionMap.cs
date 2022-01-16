@@ -25,6 +25,22 @@ namespace FrigidRogue.MonoGame.Core.UserInterface
             return ActionIs<T>(new KeyCombination(key, keyboardModifier), selector);
         }
 
+        public string ActionName<T>(Keys key, KeyboardModifier keyboardModifier)
+        {
+            var keyCombination = new KeyCombination(key, keyboardModifier);
+
+            var actionMaps = typeof(T).GetAttributes<ActionMapAttribute>().ToList();
+
+            var actionMap = actionMaps.Single(am => KeyMatchesAction(keyCombination, am));
+
+            if (actionMap == null)
+                throw new Exception(
+                    $"No {typeof(ActionMapAttribute).Name} with key {key} found on class {typeof(T).Name}"
+                );
+
+            return actionMap.Name;
+        }
+
         public bool ActionIs<T>(KeyCombination keyCombination, string selector = null)
         {
             var actionMaps = typeof(T).GetAttributes<ActionMapAttribute>().ToList();
