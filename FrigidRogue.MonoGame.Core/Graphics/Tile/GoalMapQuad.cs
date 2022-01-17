@@ -8,19 +8,16 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 {
-    public class GoalMapQuad : IDrawable
+    public class GoalMapQuad : BaseMapQuad
     {
         private static Dictionary<string, Texture2D> _cachedTextures = new Dictionary<string, Texture2D>();
 
-        private readonly IGameProvider _gameProvider;
         private readonly SpriteFont _spriteFont;
 
         private readonly TexturedQuadTemplate _foreground;
         public string Text { get; set; }
-        public bool IsVisible { get; set; }
 
         private SpriteBatch _spriteBatch;
-        private RenderTarget2D _renderTarget;
 
         public GoalMapQuad(
             IGameProvider gameProvider,
@@ -29,9 +26,8 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             SpriteFont spriteFont,
             Effect textureMaterialEffect,
             Color foregroundColor
-        )
+        ) : base(gameProvider)
         {
-            _gameProvider = gameProvider;
             _spriteFont = spriteFont;
 
             _renderTarget = new RenderTarget2D(
@@ -44,8 +40,6 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
                 0,
                 RenderTargetUsage.PreserveContents
             );
-
-            _spriteBatch = new SpriteBatch(_gameProvider.Game.GraphicsDevice);
 
             var texturedQuad = new TexturedQuadTemplate(_gameProvider);
             texturedQuad.LoadContent(tileWidth, tileHeight, _renderTarget, textureMaterialEffect);
@@ -90,7 +84,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             _foreground.Texture = _cachedTextures[Text];
         }
 
-        public void Draw(Matrix view, Matrix projection, Matrix world)
+        public override void Draw(Matrix view, Matrix projection, Matrix world)
         {
             if (!String.IsNullOrEmpty(Text))
             {

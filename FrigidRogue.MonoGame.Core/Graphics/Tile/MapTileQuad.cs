@@ -5,13 +5,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 {
-    public class MapTileQuad : IDrawable
+    public class MapTileQuad : BaseMapQuad
     {
-        private readonly IGameProvider _gameProvider;
-
         private readonly TexturedQuadTemplate _foreground;
         private readonly MaterialQuadTemplate _background;
-        public bool IsVisible { get; set; }
 
         /// <summary>
         /// Create a tile that has a character and an optional background
@@ -30,35 +27,21 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             char foregroundCharacter,
             Color foregroundColor,
             Color? backgroundColour = null
-        )
+        ) : base(gameProvider)
         {
-            _gameProvider = gameProvider;
 
-            var renderTarget = new RenderTarget2D(
-                _gameProvider.Game.GraphicsDevice,
-                64,
-                116,
-                false,
-                _gameProvider.Game.GraphicsDevice.PresentationParameters.BackBufferFormat,
-                _gameProvider.Game.GraphicsDevice.PresentationParameters.DepthStencilFormat,
-                0,
-                RenderTargetUsage.PreserveContents
-            );
+            _gameProvider.Game.GraphicsDevice.SetRenderTarget(_renderTarget);
 
-            var spriteBatch = new SpriteBatch(_gameProvider.Game.GraphicsDevice);
+            _spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
 
-            _gameProvider.Game.GraphicsDevice.SetRenderTarget(renderTarget);
+            _spriteBatch.DrawString(spriteFont, foregroundCharacter.ToString(), Vector2.Zero, Color.White);
 
-            spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
-
-            spriteBatch.DrawString(spriteFont, foregroundCharacter.ToString(), Vector2.Zero, Color.White);
-
-            spriteBatch.End();
+            _spriteBatch.End();
 
             _gameProvider.Game.GraphicsDevice.SetRenderTarget(null);
 
             var texturedQuad = new TexturedQuadTemplate(_gameProvider);
-            texturedQuad.LoadContent(tileWidth, tileHeight, renderTarget, textureMaterialEffect);
+            texturedQuad.LoadContent(tileWidth, tileHeight, _renderTarget, textureMaterialEffect);
             texturedQuad.Colour = foregroundColor;
 
             _foreground = texturedQuad;
@@ -73,10 +56,8 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         /// <param name="tileWidth"></param>
         /// <param name="tileHeight"></param>
         /// <param name="backgroundColour"></param>
-        public MapTileQuad(IGameProvider gameProvider, float tileWidth, float tileHeight, Color backgroundColour)
+        public MapTileQuad(IGameProvider gameProvider, float tileWidth, float tileHeight, Color backgroundColour) : base(gameProvider)
         {
-            _gameProvider = gameProvider;
-
             _background = CreateBackgroundQuad(tileWidth, tileHeight, backgroundColour);
         }
 
@@ -89,7 +70,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             return background;
         }
 
-        public void Draw(Matrix view, Matrix projection, Matrix world)
+        public override void Draw(Matrix view, Matrix projection, Matrix world)
         {
             _background?.Draw(view, projection, world);
             _foreground?.Draw(view, projection, world);
