@@ -35,7 +35,7 @@ namespace FrigidRogue.MonoGame.Core.Services
             if (success)
                 return new Memento<T>(JsonConvert.DeserializeObject<T>(jsonString, _jsonSerializerSettings));
 
-            var key = _jsonObjectStore.Keys.FirstOrDefault(k => typeof(ILoadGameDetail).IsAssignableFrom(k));
+            var key = _jsonObjectStore.Keys.FirstOrDefault(k => typeof(T).IsAssignableFrom(k));
 
             if (key == null)
                 throw new Exception($"An object was not found in the store which is or can be assigned as a type {typeof(T)}");
