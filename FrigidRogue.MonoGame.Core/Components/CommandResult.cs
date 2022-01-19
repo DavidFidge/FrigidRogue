@@ -79,6 +79,17 @@ namespace FrigidRogue.MonoGame.Core.Components
             return Success(command, new List<string> { message });
         }
 
+        public static CommandResult Success(BaseGameActionCommand command, string message, BaseGameActionCommand subsequentCommand)
+        {
+            return new CommandResult
+            {
+                Command = command,
+                Result = CommandResultEnum.Success,
+                SubsequentCommands = new List<BaseGameActionCommand> { subsequentCommand },
+                Messages = new List<string> { message }
+            };
+        }
+
         public static CommandResult Success(BaseGameActionCommand command, List<string> messages)
         {
             return new CommandResult
