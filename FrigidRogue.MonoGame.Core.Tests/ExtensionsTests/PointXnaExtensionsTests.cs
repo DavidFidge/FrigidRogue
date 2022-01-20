@@ -1,91 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 using FrigidRogue.MonoGame.Core.Extensions;
 using FrigidRogue.TestInfrastructure;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Xna.Framework;
 
-using SadRogue.Primitives;
-
-namespace FrigidRogue.MonoGame.Core.Tests.Extensions
+namespace FrigidRogue.MonoGame.Core.Tests.Services
 {
     [TestClass]
-    public class PointExtensionsTests : BaseTest
+    public class PointXnaExtensionsTests : BaseTest
     {
-        [TestMethod]
-        public void Should_Split_Points_50Percent()
+
+        [TestInitialize]
+        public override void Setup()
         {
-            // Arrange
-            var points = new List<Point>();
-
-            for (var x = 0; x < 3; x++)
-            for (var y = 0; y < 3; y++)
-                points.Add(new Point(x, y));
-
-            var targetPoint = new List<Point> { new Point(0, 0) };
-
-            // Act
-            var result = points.SplitIntoPointsBySumMagnitudeAgainstTargetPoints(targetPoint);
-
-            // Assert
-            Assert.AreEqual(4, result.Item1.Count);
-            Assert.IsTrue(result.Item1.Contains(new Point(0, 0)));
-            Assert.IsTrue(result.Item1.Contains(new Point(0, 1)));
-            Assert.IsTrue(result.Item1.Contains(new Point(1, 0)));
-            Assert.IsTrue(result.Item1.Contains(new Point(1, 1)));
-
-            Assert.AreEqual(5, result.Item2.Count);
-            Assert.IsTrue(result.Item2.Contains(new Point(2, 0)));
-            Assert.IsTrue(result.Item2.Contains(new Point(2, 1)));
-            Assert.IsTrue(result.Item2.Contains(new Point(2, 2)));
-            Assert.IsTrue(result.Item2.Contains(new Point(0, 2)));
-            Assert.IsTrue(result.Item2.Contains(new Point(1, 2)));
-        }
-
-        [TestMethod]
-        public void Should_Split_Points_ZeroPercent()
-        {
-            // Arrange
-            var points = new List<Point>();
-
-            for (var x = 0; x < 3; x++)
-            for (var y = 0; y < 3; y++)
-                points.Add(new Point(x, y));
-
-            var targetPoint = new List<Point> { new Point(0, 0) };
-
-            // Act
-            var result = points.SplitIntoPointsBySumMagnitudeAgainstTargetPoints(targetPoint, 0);
-
-            // Assert
-            Assert.AreEqual(0, result.Item1.Count);
-
-            Assert.AreEqual(9, result.Item2.Count);
-            CollectionAssert.AreEquivalent(points, result.Item2.ToList());
-        }
-
-        [TestMethod]
-        public void Should_Split_Points_100Percent()
-        {
-            // Arrange
-            var points = new List<Point>();
-
-            for (var x = 0; x < 3; x++)
-            for (var y = 0; y < 3; y++)
-                points.Add(new Point(x, y));
-
-            var targetPoint = new List<Point> { new Point(0, 0) };
-
-            // Act
-            var result = points.SplitIntoPointsBySumMagnitudeAgainstTargetPoints(targetPoint, 1);
-
-            // Assert
-            Assert.AreEqual(9, result.Item1.Count);
-            CollectionAssert.AreEquivalent(points, result.Item1.ToList());
-
-            Assert.AreEqual(0, result.Item2.Count);
+            base.Setup();
         }
 
         [TestMethod]

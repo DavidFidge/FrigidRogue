@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace FrigidRogue.MonoGame.Core.Extensions
 {
@@ -14,6 +15,16 @@ namespace FrigidRogue.MonoGame.Core.Extensions
                 .GetProperties()
                 .Select(p => $"{p.Name}: {p.GetValue(data)}")
                 .ToCsv();
+        }
+
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> list)
+        {
+            return list == null || list.IsEmpty();
+        }
+
+        public static bool IsEmpty<T>(this IEnumerable<T> list)
+        {
+            return !list.Any();
         }
     }
 }

@@ -17,8 +17,6 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         private readonly TexturedQuadTemplate _foreground;
         public string Text { get; set; }
 
-        private SpriteBatch _spriteBatch;
-
         public GoalMapQuad(
             IGameProvider gameProvider,
             float tileWidth,

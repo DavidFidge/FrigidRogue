@@ -1121,7 +1121,6 @@ namespace FrigidRogue.MonoGame.Core.Extensions
         /// <see cref="TransformPosition"/>
         public static Vector3 TransformNormal(this Matrix matrix, Vector3 normal)
         {
-            // TODO: Optimization - Inline the matrix inversion.
             // When inverting a matrix using Cramer's rule we need to divide by the determinant.
             // We can leave out this division. The resulting normal vector will have a different length,
             // but the normal vector will need to be normalized anyways.

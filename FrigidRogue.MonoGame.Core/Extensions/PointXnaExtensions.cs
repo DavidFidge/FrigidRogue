@@ -4,11 +4,9 @@ using System.Linq;
 
 using Microsoft.Xna.Framework;
 
-using Point = SadRogue.Primitives.Point;
-
 namespace FrigidRogue.MonoGame.Core.Extensions
 {
-    public static class PointExtensions
+    public static class PointXnaExtensions
     {
         public static List<Point> SurroundingPoints(this Point centrePoint, int? xMin = null, int? xMax = null, int? yMin = null, int? yMax = null)
         {
@@ -49,34 +47,6 @@ namespace FrigidRogue.MonoGame.Core.Extensions
                 pointList.Add(new Point(centrePoint.X, centrePoint.Y + distance));
 
             return pointList;
-        }
-
-        public static Tuple<IList<Point>, IList<Point>> SplitIntoPointsBySumMagnitudeAgainstTargetPoints(
-            this IList<Point> pointsToSplit,
-            IList<Point> targetPoints,
-            float splittingPoint = 0.5f
-        )
-        {
-            var pointsToSplitWithMagnitude = pointsToSplit
-                .Select(p => (Point: p, Magnitude: targetPoints.Select(t => Point.EuclideanDistanceMagnitude(p, t)).Sum()))
-                .OrderBy(p => p.Magnitude)
-                .ToList();
-
-            var splitIndex = pointsToSplitWithMagnitude.Count;
-
-            if (splittingPoint > 1)
-                splittingPoint = 1;
-
-            if (splittingPoint < 0)
-                splittingPoint = 0;
-
-            if (splitIndex > 1)
-                splitIndex = (int)(splitIndex * splittingPoint);
-
-            return new Tuple<IList<Point>, IList<Point>>(
-                pointsToSplitWithMagnitude.Take(splitIndex).Select(w => w.Point).ToList(),
-                pointsToSplitWithMagnitude.Skip(splitIndex).Select(w => w.Point).ToList()
-            );
         }
 
         public static Vector2 ToVector(this Point point)
