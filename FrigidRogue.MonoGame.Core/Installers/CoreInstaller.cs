@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 
 using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel.Registration;
@@ -17,14 +16,11 @@ using FrigidRogue.MonoGame.Core.Interfaces.ConsoleCommands;
 using FrigidRogue.MonoGame.Core.Interfaces.Graphics;
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
 using FrigidRogue.MonoGame.Core.Interfaces.UserInterface;
-using FrigidRogue.MonoGame.Core.Messages;
 using FrigidRogue.MonoGame.Core.Services;
 using FrigidRogue.MonoGame.Core.UserInterface;
 
 using InputHandlers.Keyboard;
 using InputHandlers.Mouse;
-
-using MediatR;
 
 using Serilog;
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-using FrigidRogue.MonoGame.Core.Graphics;
+﻿using FrigidRogue.MonoGame.Core.Graphics;
 using FrigidRogue.MonoGame.Core.Tests.Services;
 using FrigidRogue.TestInfrastructure;
 

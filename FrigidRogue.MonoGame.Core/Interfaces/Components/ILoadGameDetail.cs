@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FrigidRogue.MonoGame.Core.Interfaces.Components
+﻿namespace FrigidRogue.MonoGame.Core.Interfaces.Components
 {
     public interface ILoadGameDetail
     {

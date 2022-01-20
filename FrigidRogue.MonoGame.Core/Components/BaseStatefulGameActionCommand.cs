@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 
 namespace FrigidRogue.MonoGame.Core.Components

@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-
-namespace FrigidRogue.MonoGame.Core.Graphics
+﻿namespace FrigidRogue.MonoGame.Core.Graphics
 {
     public interface ISelectable : IBaseSelectable
     {

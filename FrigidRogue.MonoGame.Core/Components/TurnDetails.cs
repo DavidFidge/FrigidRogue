@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FrigidRogue.MonoGame.Core.Interfaces.Components;
+﻿using FrigidRogue.MonoGame.Core.Interfaces.Components;
 
 namespace FrigidRogue.MonoGame.Core.Components
 {

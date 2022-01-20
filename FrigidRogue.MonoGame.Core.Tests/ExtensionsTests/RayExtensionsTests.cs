@@ -3,7 +3,6 @@ using FrigidRogue.TestInfrastructure;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace FrigidRogue.MonoGame.Core.Tests.Services
 {

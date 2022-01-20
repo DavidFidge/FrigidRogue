@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-using FrigidRogue.MonoGame.Core.Components;
+﻿using FrigidRogue.MonoGame.Core.Components;
 using FrigidRogue.MonoGame.Core.Extensions;
 using FrigidRogue.MonoGame.Core.Graphics;
 using FrigidRogue.MonoGame.Core.Tests.Services;
