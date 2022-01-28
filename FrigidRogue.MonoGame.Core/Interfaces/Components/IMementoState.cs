@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-
-namespace FrigidRogue.MonoGame.Core.Interfaces.Components
+﻿namespace FrigidRogue.MonoGame.Core.Interfaces.Components
 {
     /// <summary>
     /// For single entities, use ISaveable. For multiple entities in a list, use this to get the state of each entity
