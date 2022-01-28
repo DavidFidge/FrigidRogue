@@ -53,23 +53,6 @@ namespace FrigidRogue.MonoGame.Core.Tests.Components
             _testGameActionCommand.GameTurnService.DidNotReceive().Populate(Arg.Any<ITurnNumber>());
         }
 
-        /// <summary>
-        /// SetState is used for loading games, which means this command has already run
-        /// </summary>
-        [TestMethod]
-        public void SetState_Then_Execute_Calls_Should_Not_Call_GameTurnService()
-        {
-            // Arrange
-            _testGameActionCommand.SetLoadState(new Memento<TestData>(new TestData()));
-
-            // Act
-            _testGameActionCommand.Execute();
-
-            // Assert
-            _testGameActionCommand.GameTurnService.DidNotReceive().NextSequenceNumber();
-            _testGameActionCommand.GameTurnService.DidNotReceive().Populate(Arg.Any<ITurnNumber>());
-        }
-
         private class TestGameActionCommand : BaseStatefulGameActionCommand<TestData>
         {
             public override void SetLoadState(IMemento<TestData> memento)
