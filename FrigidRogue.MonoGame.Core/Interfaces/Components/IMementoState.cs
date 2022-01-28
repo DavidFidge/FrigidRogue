@@ -9,7 +9,7 @@ namespace FrigidRogue.MonoGame.Core.Interfaces.Components
     /// <typeparam name="T"></typeparam>
     public interface IMementoState<T>
     {
-        IMemento<T> GetSaveState(IMapper mapper);
-        void SetLoadState(IMemento<T> memento, IMapper mapper);
+        IMemento<T> GetSaveState();
+        void SetLoadState(IMemento<T> memento);
     }
 }

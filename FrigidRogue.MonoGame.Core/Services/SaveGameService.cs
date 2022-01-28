@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using AutoMapper;
-
 using FrigidRogue.MonoGame.Core.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
@@ -13,7 +11,6 @@ namespace FrigidRogue.MonoGame.Core.Services
     {
         private readonly ISaveGameStore _saveGameStore;
         private readonly ISaveGameFileWriter _saveGameFileWriter;
-        public IMapper Mapper { get; set; }
 
         public SaveGameService(ISaveGameFileWriter saveGameFileWriter)
         {

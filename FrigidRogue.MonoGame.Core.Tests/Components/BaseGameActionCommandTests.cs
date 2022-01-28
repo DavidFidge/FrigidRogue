@@ -61,7 +61,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Components
         public void SetState_Then_Execute_Calls_Should_Not_Call_GameTurnService()
         {
             // Arrange
-            _testGameActionCommand.SetLoadState(new Memento<TestData>(new TestData()), Mapper);
+            _testGameActionCommand.SetLoadState(new Memento<TestData>(new TestData()));
 
             // Act
             _testGameActionCommand.Execute();
@@ -73,7 +73,11 @@ namespace FrigidRogue.MonoGame.Core.Tests.Components
 
         private class TestGameActionCommand : BaseStatefulGameActionCommand<TestData>
         {
-            public override IMemento<TestData> GetSaveState(IMapper mapper)
+            public override void SetLoadState(IMemento<TestData> memento)
+            {
+            }
+
+            public override IMemento<TestData> GetSaveState()
             {
                 return new Memento<TestData>();
             }

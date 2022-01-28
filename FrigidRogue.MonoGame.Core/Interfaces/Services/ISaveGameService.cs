@@ -67,12 +67,5 @@ namespace FrigidRogue.MonoGame.Core.Interfaces.Services
         /// </summary>
         /// <returns>Details of games that can be loaded</returns>
         IList<LoadGameDetails> GetLoadGameList();
-
-        /// <summary>
-        /// The adapter which will convert an object used in the game to a data-only object which can be serialised.
-        /// It must be able to convert both ways.
-        /// Currently we use AutoMapper.
-        /// </summary>
-        IMapper Mapper { get; }
     }
 }

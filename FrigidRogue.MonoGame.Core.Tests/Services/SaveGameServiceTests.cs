@@ -50,7 +50,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             testCommand.TestProperty2 = "hello";
 
             // Act
-            _saveGameService.SaveToStore(testCommand.GetSaveState(Mapper));
+            _saveGameService.SaveToStore(testCommand.GetSaveState());
             var result = _saveGameService.SaveStoreToFile(_saveGameName, false);
             _saveGameService.LoadStoreFromFile(_saveGameName);
 
@@ -71,7 +71,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             var testCommand = new TestCommand();
             testCommand.TestProperty = 1;
             testCommand.TestProperty2 = "hello";
-            _saveGameService.SaveToStore(testCommand.GetSaveState(Mapper));
+            _saveGameService.SaveToStore(testCommand.GetSaveState());
             _saveGameService.SaveStoreToFile(_saveGameName, false);
 
             // Act
@@ -89,7 +89,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             var testCommand = new TestCommand();
             testCommand.TestProperty = 1;
             testCommand.TestProperty2 = "hello";
-            _saveGameService.SaveToStore(testCommand.GetSaveState(Mapper));
+            _saveGameService.SaveToStore(testCommand.GetSaveState());
             _saveGameService.SaveStoreToFile(_saveGameName, true);
 
             // Act
@@ -118,7 +118,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             var testCommand = new TestCommand();
             testCommand.TestProperty = 1;
             testCommand.TestProperty2 = "hello";
-            _saveGameService.SaveToStore(testCommand.GetSaveState(Mapper));
+            _saveGameService.SaveToStore(testCommand.GetSaveState());
             _saveGameService.SaveStoreToFile(_saveGameName, false);
 
             // Act
@@ -191,7 +191,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             public int TestProperty { get; set; }
             public string TestProperty2 { get; set; }
 
-            public override IMemento<TestData> GetSaveState(IMapper mapper)
+            public override IMemento<TestData> GetSaveState()
             {
                 return new Memento<TestData>(new TestData { TestProperty = TestProperty, TestProperty2 = TestProperty2 });
             }
@@ -206,9 +206,8 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
                 throw new NotImplementedException();
             }
 
-            public override void SetLoadState(IMemento<TestData> memento, IMapper mapper)
+            public override void SetLoadState(IMemento<TestData> memento)
             {
-                base.SetLoadState(memento, mapper);
                 TestProperty = memento.State.TestProperty;
                 TestProperty2 = memento.State.TestProperty2;
             }
