@@ -61,7 +61,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Components
 
             public override IMemento<TestData> GetSaveState()
             {
-                return new Memento<TestData>();
+                return new Memento<TestData>(new TestData());
             }
 
             protected override CommandResult ExecuteInternal()
