@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using GoRogue.GameFramework;
+using GoRogue.Random;
+
 using SadRogue.Primitives;
 using SadRogue.Primitives.GridViews;
+
+using ShaiRandom.Generators;
 
 namespace FrigidRogue.MonoGame.Core.Extensions
 {
@@ -10,7 +14,7 @@ namespace FrigidRogue.MonoGame.Core.Extensions
     {
         public static Point RandomPositionAwayFrom(this Map map, Point pointAwayFrom, uint minDistance, Func<Point, IEnumerable<IGameObject>, bool> selector)
         {
-            return map.RandomPosition(
+            return GlobalRandom.DefaultRNG.RandomPosition(map, 
                 (p, gameObjects) =>
                     MinSeparationFrom(pointAwayFrom, p, minDistance) &&
                     selector(p, gameObjects)
