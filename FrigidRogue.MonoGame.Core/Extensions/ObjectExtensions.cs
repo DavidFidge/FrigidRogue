@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using GoRogue.Random;
+
 namespace FrigidRogue.MonoGame.Core.Extensions
 {
     public static class ObjectExtensions
@@ -25,6 +27,11 @@ namespace FrigidRogue.MonoGame.Core.Extensions
         public static bool IsEmpty<T>(this IEnumerable<T> list)
         {
             return !list.Any();
+        }
+
+        public static T RandomItem<T>(this IList<T> list)
+        {
+            return list[GlobalRandom.DefaultRNG.NextInt(0, list.Count)];
         }
     }
 }

@@ -213,5 +213,110 @@ namespace FrigidRogue.MonoGame.Core.Tests.Extensions
             // Assert
             Assert.IsTrue(result.IsEmpty());
         }
+
+        [TestMethod]
+        [DataRow(2, 2, false)]
+        [DataRow(0, 0, false)]
+        [DataRow(0, 1, false)]
+        [DataRow(0, 2, false)]
+        [DataRow(0, 3, false)]
+        [DataRow(0, 4, false)]
+        [DataRow(4, 0, false)]
+        [DataRow(4, 1, false)]
+        [DataRow(4, 2, false)]
+        [DataRow(4, 3, false)]
+        [DataRow(4, 4, false)]
+        [DataRow(2, 0, false)]
+        [DataRow(2, 4, false)]
+        [DataRow(1, 1, true)]
+        [DataRow(1, 2, true)]
+        [DataRow(1, 3, true)]
+        [DataRow(2, 1, true)]
+        [DataRow(2, 3, true)]
+        [DataRow(3, 1, true)]
+        [DataRow(3, 2, true)]
+        [DataRow(3, 3, true)]
+        public void IsNextTo_For_8Way(int x, int y, bool expectedResult)
+        {
+            // Arrange
+            var point1 = new Point(2, 2);
+            var point2 = new Point(x, y);
+
+            // Act
+            var result = point1.IsNextTo(point2, AdjacencyRule.EightWay);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [TestMethod]
+        [DataRow(2, 2, false)]
+        [DataRow(0, 0, false)]
+        [DataRow(0, 1, false)]
+        [DataRow(0, 2, false)]
+        [DataRow(0, 3, false)]
+        [DataRow(0, 4, false)]
+        [DataRow(4, 0, false)]
+        [DataRow(4, 1, false)]
+        [DataRow(4, 2, false)]
+        [DataRow(4, 3, false)]
+        [DataRow(4, 4, false)]
+        [DataRow(2, 0, false)]
+        [DataRow(2, 4, false)]
+        [DataRow(1, 1, false)]
+        [DataRow(1, 2, true)]
+        [DataRow(1, 3, false)]
+        [DataRow(2, 1, true)]
+        [DataRow(2, 3, true)]
+        [DataRow(3, 1, false)]
+        [DataRow(3, 2, true)]
+        [DataRow(3, 3, false)]
+        public void IsNextTo_For_Cardinal(int x, int y, bool expectedResult)
+        {
+            // Arrange
+            var point1 = new Point(2, 2);
+            var point2 = new Point(x, y);
+
+            // Act
+            var result = point1.IsNextTo(point2, AdjacencyRule.Cardinals);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [TestMethod]
+        [DataRow(2, 2, false)]
+        [DataRow(0, 0, false)]
+        [DataRow(0, 1, false)]
+        [DataRow(0, 2, false)]
+        [DataRow(0, 3, false)]
+        [DataRow(0, 4, false)]
+        [DataRow(4, 0, false)]
+        [DataRow(4, 1, false)]
+        [DataRow(4, 2, false)]
+        [DataRow(4, 3, false)]
+        [DataRow(4, 4, false)]
+        [DataRow(2, 0, false)]
+        [DataRow(2, 4, false)]
+        [DataRow(1, 1, true)]
+        [DataRow(1, 2, false)]
+        [DataRow(1, 3, true)]
+        [DataRow(2, 1, false)]
+        [DataRow(2, 3, false)]
+        [DataRow(3, 1, true)]
+        [DataRow(3, 2, false)]
+        [DataRow(3, 3, true)]
+        public void IsNextTo_For_Diagonal(int x, int y, bool expectedResult)
+        {
+            // Arrange
+            var point1 = new Point(2, 2);
+            var point2 = new Point(x, y);
+
+            // Act
+            var result = point1.IsNextTo(point2, AdjacencyRule.Diagonals);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
     }
 }

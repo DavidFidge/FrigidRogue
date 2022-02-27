@@ -4,6 +4,8 @@ using System.Linq;
 
 using Microsoft.Xna.Framework;
 
+using SadRogue.Primitives;
+
 using Point = SadRogue.Primitives.Point;
 
 namespace FrigidRogue.MonoGame.Core.Extensions
@@ -87,6 +89,38 @@ namespace FrigidRogue.MonoGame.Core.Extensions
         public static Point GetMidpoint(this IEnumerable<Point> points)
         {
             return new Point((int)points.Average(p => p.X), (int)points.Average(p => p.Y));
+        }
+
+        public static bool IsNextTo(this Point point1, Point point2, AdjacencyRule adjacencyRule)
+        {
+            if (point1.Matches(point2))
+                return false;
+
+            if (adjacencyRule == AdjacencyRule.EightWay)
+            {
+                if (Math.Abs(point1.X - point2.X) <= 1 && Math.Abs(point1.Y - point2.Y) <= 1)
+                    return true;
+            }
+
+            else if (adjacencyRule == AdjacencyRule.Cardinals)
+            {
+                var x = Math.Abs(point1.X - point2.X);
+                var y = Math.Abs(point1.Y - point2.Y);
+
+                if ((x == 1 && y == 0) || (x == 0 && y == 1))
+                    return true;
+            }
+
+            else if (adjacencyRule == AdjacencyRule.Diagonals)
+            {
+                var x = Math.Abs(point1.X - point2.X);
+                var y = Math.Abs(point1.Y - point2.Y);
+
+                if (x == 1 && y == 1)
+                    return true;
+            }
+
+            return false;
         }
     }
 }
