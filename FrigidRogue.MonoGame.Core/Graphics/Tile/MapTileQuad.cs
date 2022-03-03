@@ -1,4 +1,6 @@
-﻿using FrigidRogue.MonoGame.Core.Interfaces.Components;
+﻿using System;
+
+using FrigidRogue.MonoGame.Core.Interfaces.Components;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -73,6 +75,16 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         public override void Draw(Matrix view, Matrix projection, Matrix world)
         {
             _background?.Draw(view, projection, world);
+            _foreground?.Draw(view, projection, world);
+        }
+
+        public void Draw(Matrix view, Matrix projection, Matrix world, float backgroundOpacity)
+        {
+            var oldColour = _background.Colour;
+            _background.SetColourOpacity(backgroundOpacity);
+            _background?.Draw(view, projection, world);
+            _background.Colour = oldColour;
+
             _foreground?.Draw(view, projection, world);
         }
     }

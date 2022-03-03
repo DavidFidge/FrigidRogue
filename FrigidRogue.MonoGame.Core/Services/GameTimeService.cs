@@ -55,6 +55,7 @@ namespace FrigidRogue.MonoGame.Core.Services
 
         public void Reset()
         {
+            Stop();
             Initialise();
 
             _realTimeStopwatch.Restart();
@@ -63,7 +64,6 @@ namespace FrigidRogue.MonoGame.Core.Services
         public void Start()
         {
             _isRunning = true;
-            Reset();
         }
 
         public void Stop()

@@ -60,7 +60,20 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 
         protected override float GetBasicEffectAlphaValue()
         {
-            return Colour.A / 256f;
+            return (float)Colour.A / System.Byte.MaxValue;
+        }
+
+        public void SetColourOpacity(float opacity = 1f)
+        {
+            var newOpacity = byte.MaxValue;
+
+            if (opacity <= 0f)
+                newOpacity = 0;
+
+            else if (opacity < 1f)
+                newOpacity = (byte)(opacity * System.Byte.MaxValue);
+
+            Colour = new Color(Colour, newOpacity);
         }
     }
 }

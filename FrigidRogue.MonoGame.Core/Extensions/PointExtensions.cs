@@ -86,6 +86,11 @@ namespace FrigidRogue.MonoGame.Core.Extensions
             return new Vector2(point.X, point.Y);
         }
 
+        public static Point FromVectorRounded(this Vector2 vector2)
+        {
+            return new Point((int)Math.Round(vector2.X, 0), (int)Math.Round(vector2.Y, 0));
+        }
+
         public static Point GetMidpoint(this IEnumerable<Point> points)
         {
             return new Point((int)points.Average(p => p.X), (int)points.Average(p => p.Y));
