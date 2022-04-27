@@ -63,6 +63,11 @@ namespace FrigidRogue.MonoGame.Core.Services
             inputHandlerGroup.SubscribeGroup(_mouseInput, _keyboardInput);
         }
 
+        public void AddGlobalKeyboardHandler(IKeyboardHandler keyboardHandler)
+        {
+            _keyboardInput.Subscribe(keyboardHandler);
+        }
+
         public void AddToCurrentGroup(IMouseHandler mouseHandler, IKeyboardHandler keyboardHandler)
         {
             if (keyboardHandler == null)

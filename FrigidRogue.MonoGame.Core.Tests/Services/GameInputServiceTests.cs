@@ -31,6 +31,19 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
 
             _gameInputService = new GameInputService(_mouseInput, _keyboardInput);
         }
+        
+        [TestMethod]
+        public void AddGlobalKeyboardHandler_Should_Subscribe_Keyboard_Handler()
+        {
+            // Arrange
+            var keyboardHandler = Substitute.For<IKeyboardHandler>();
+
+            // Act
+            _gameInputService.AddGlobalKeyboardHandler(keyboardHandler);
+            
+            // Assert
+            _keyboardInput.Received().Subscribe(Arg.Is(keyboardHandler));
+        }
 
         [TestMethod]
         public void ChangeInput_Should_Subscribe_Mouse_And_Keyboard_Handlers()

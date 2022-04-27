@@ -13,5 +13,6 @@ namespace FrigidRogue.MonoGame.Core.Interfaces.Services
         void AddToCurrentGroup(IMouseHandler mouseHandler, IKeyboardHandler keyboardHandler);
         void RevertInputUpToAndIncluding(IMouseHandler mouseHandler, IKeyboardHandler keyboardHandler);
         void RemoveFromCurrentGroup(IMouseHandler mouseHandler, IKeyboardHandler keyboardHandler);
+        void AddGlobalKeyboardHandler(IKeyboardHandler keyboardHandler);
     }
 }

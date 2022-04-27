@@ -14,6 +14,7 @@ namespace FrigidRogue.MonoGame.Core.Interfaces.Components
 {
     public interface IGame :
         IRequestHandler<QuitToDesktopRequest>,
+        IRequestHandler<ToggleFullScreenRequest>,
         IDisposable
     {
         GameComponentCollection Components { get; }
