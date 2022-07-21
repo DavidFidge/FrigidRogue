@@ -58,6 +58,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             // Arrange
             _gameTimeService.IncreaseGameSpeed();
             _gameTimeService.Reset();
+            _gameTimeService.Start();
             _fakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
 
             // Act
@@ -85,7 +86,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         }
 
         [TestMethod]
-        public void Start_Should_Reset_GameTime()
+        public void Start_Should_Throw_Exception_If_Already_Running()
         {
             // Arrange
             _fakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
@@ -95,15 +96,10 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             _gameTimeService.Update(new GameTime());
 
             // Act
-            _gameTimeService.Start();
+            var exception = Assert.ThrowsException<Exception>(() => _gameTimeService.Start());
 
             // Assert
-            Assert.AreEqual(TimeSpan.Zero, _fakeStopwatchProvider.Elapsed);
-            Assert.AreEqual(TimeSpan.Zero, _gameTimeService.GameTime.ElapsedGameTime);
-            Assert.AreEqual(TimeSpan.Zero, _gameTimeService.GameTime.TotalGameTime);
-            Assert.AreEqual(TimeSpan.Zero, _gameTimeService.GameTime.ElapsedRealTime);
-            Assert.AreEqual(TimeSpan.Zero, _gameTimeService.GameTime.TotalRealTime);
-            Assert.IsFalse(_gameTimeService.IsPaused);
+            Assert.AreEqual("Game timer has already been started.", exception.Message);
         }
 
         [TestMethod]

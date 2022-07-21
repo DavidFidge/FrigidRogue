@@ -63,6 +63,9 @@ namespace FrigidRogue.MonoGame.Core.Services
 
         public void Start()
         {
+            if (_isRunning)
+                throw new Exception("Game timer has already been started.");
+
             _isRunning = true;
         }
 
