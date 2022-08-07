@@ -154,7 +154,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             var gameToLoad = loadGameList.Single(l => l.Filename == _saveGameName);
 
             Assert.AreEqual(_saveGameName, gameToLoad.Filename);
-            Assert.IsTrue(dateTimeNow <= gameToLoad.DateTime, $"{dateTimeNow} is not less than or equal to {gameToLoad.DateTime}");
+            Assert.IsTrue(dateTimeNow.Ticks <= gameToLoad.DateTime.Ticks, $"{dateTimeNow} {dateTimeNow.Ticks} is not less than or equal to {gameToLoad.DateTime} {dateTimeNow.Ticks}");
         }
 
         private class TestData

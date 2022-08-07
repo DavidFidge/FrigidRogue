@@ -80,10 +80,13 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 
         public void Draw(Matrix view, Matrix projection, Matrix world, float backgroundOpacity)
         {
-            var oldColour = _background.Colour;
-            _background.SetColourOpacity(backgroundOpacity);
-            _background?.Draw(view, projection, world);
-            _background.Colour = oldColour;
+            if (_background != null)
+            {
+                var oldColour = _background.Colour;
+                _background.SetColourOpacity(backgroundOpacity);
+                _background.Draw(view, projection, world);
+                _background.Colour = oldColour;
+            }
 
             _foreground?.Draw(view, projection, world);
         }
