@@ -60,7 +60,8 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
             return button;
         }
 
-        public static Button SendOnClick(this Button button, IMediator mediator, IRequest request)
+        public static Button SendOnClick<T>(this Button button, IMediator mediator, T request)
+            where T : IRequest, new()
         {
             button.OnClick = entity => mediator.Send(request);
             return button;
