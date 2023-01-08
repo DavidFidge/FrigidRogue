@@ -18,7 +18,6 @@ using InputHandlers.Keyboard;
 using InputHandlers.Mouse;
 
 using MediatR;
-
 using Entity = GeonBit.UI.Entities.Entity;
 
 namespace FrigidRogue.MonoGame.Core.View

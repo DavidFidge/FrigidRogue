@@ -27,16 +27,10 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         
         public void LoadContent(float width, float height, Texture2D texture, Effect effect)
         {
-            Texture = texture;
-
             LoadContent(width, height);
 
             Effect = effect;
-
-            if (Effect is BasicEffect basicEffect)
-                basicEffect.Texture = texture;
-            else
-                Effect.Parameters["Texture"].SetValue(texture);
+            Texture = texture;
         }
 
         public void LoadContent(Vector2 size, Texture2D texture)
