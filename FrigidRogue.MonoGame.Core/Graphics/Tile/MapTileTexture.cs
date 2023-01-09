@@ -26,36 +26,23 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             Color? backgroundColour = null
         ) : base(gameProvider, tileWidth, tileHeight)
         {
+            var previousRenderTargets = _gameProvider.Game.GraphicsDevice.GetRenderTargets();
+            
             _gameProvider.Game.GraphicsDevice.SetRenderTarget(_renderTarget);
 
             _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
             if (backgroundColour != null)
-            {
-                var textureColour = new Color[_renderTarget.Width * _renderTarget.Height];
-
-                for (var i = 0; i < textureColour.Length; i++)
-                {
-                    textureColour[i] = backgroundColour.Value;
-                }
-                
-                var texture = new Texture2D(
-                    _gameProvider.Game.GraphicsDevice,
-                    _renderTarget.Width,
-                    _renderTarget.Height
-                );
-                
-                texture.SetData(textureColour);
-                
-                _spriteBatch.Draw(texture, Vector2.Zero, Color.White);
-            }
+                _gameProvider.Game.GraphicsDevice.Clear(backgroundColour.Value);
 
             _spriteBatch.DrawString(spriteFont, foregroundCharacter.ToString(), Vector2.Zero, foregroundColor);
 
             _spriteBatch.End();
 
-            _gameProvider.Game.GraphicsDevice.SetRenderTarget(null);
+            _gameProvider.Game.GraphicsDevice.SetRenderTargets(previousRenderTargets);
 
+            _tileTexture = _renderTarget;
+            
             _spriteBatchDrawDepth = spriteBatchDrawDepth;
         }
 
@@ -64,30 +51,15 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         /// </summary>
         public MapTileTexture(IGameProvider gameProvider, int tileWidth, int tileHeight, Color backgroundColour, float spriteBatchDrawDepth) : base(gameProvider, tileWidth, tileHeight)
         {
+            var previousRenderTargets = _gameProvider.Game.GraphicsDevice.GetRenderTargets();
+            
             _gameProvider.Game.GraphicsDevice.SetRenderTarget(_renderTarget);
 
-            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+            _gameProvider.Game.GraphicsDevice.Clear(backgroundColour);
 
-            var textureColour = new Color[_renderTarget.Width * _renderTarget.Height];
+            _gameProvider.Game.GraphicsDevice.SetRenderTargets(previousRenderTargets);
 
-            for (var i = 0; i < textureColour.Length; i++)
-            {
-                textureColour[i] = backgroundColour;
-            }
-            
-            var texture = new Texture2D(
-                _gameProvider.Game.GraphicsDevice,
-                _renderTarget.Width,
-                _renderTarget.Height
-            );
-            
-            texture.SetData(textureColour);
-            
-            _spriteBatch.Draw(texture, Vector2.Zero, Color.White);
-
-            _spriteBatch.End();
-
-            _gameProvider.Game.GraphicsDevice.SetRenderTarget(null);
+            _tileTexture = _renderTarget;
 
             _spriteBatchDrawDepth = spriteBatchDrawDepth;
         }

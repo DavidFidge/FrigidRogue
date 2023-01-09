@@ -20,8 +20,6 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         // then 
         protected float _spriteBatchDrawDepth;
 
-        public bool IsVisible { get; set; }
-        
         public BaseMapTileTexture(IGameProvider gameProvider, int tileWidth, int tileHeight)
         {
             _gameProvider = gameProvider;
