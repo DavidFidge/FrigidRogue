@@ -60,7 +60,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             else
             {
                 if (Effect is BasicEffect basicEffect)
-                    basicEffect.Alpha = 0f;
+                    basicEffect.Alpha = 1f;
                 else
                     Effect.Parameters["AlphaEnabled"].SetValue(false);
 

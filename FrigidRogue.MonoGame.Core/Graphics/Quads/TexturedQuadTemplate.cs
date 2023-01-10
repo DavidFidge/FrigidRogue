@@ -8,7 +8,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
     public class TexturedQuadTemplate : BaseQuadTemplate
     {
         public Texture2D Texture { get; set; }
-        public Color Colour { get; set; }
+        public Color Colour { get; set; } = Color.White;
 
         public TexturedQuadTemplate(IGameProvider gameProvider)
            : base(gameProvider)
