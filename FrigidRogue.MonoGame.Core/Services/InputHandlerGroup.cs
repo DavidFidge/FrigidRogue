@@ -1,5 +1,3 @@
-﻿using System.Collections.Generic;
-
 using InputHandlers.Keyboard;
 using InputHandlers.Mouse;
 

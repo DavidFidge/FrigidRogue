@@ -1,5 +1,3 @@
-﻿using System.Linq;
-
 using FrigidRogue.MonoGame.Core.Graphics.Terrain;
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.TestInfrastructure;

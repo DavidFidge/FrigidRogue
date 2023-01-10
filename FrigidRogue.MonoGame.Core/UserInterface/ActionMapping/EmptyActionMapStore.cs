@@ -1,5 +1,3 @@
-﻿using System.Collections.Generic;
-
 using FrigidRogue.MonoGame.Core.Interfaces.UserInterface;
 
 namespace FrigidRogue.MonoGame.Core.UserInterface

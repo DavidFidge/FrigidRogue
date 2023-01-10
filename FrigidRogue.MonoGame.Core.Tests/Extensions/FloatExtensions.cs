@@ -1,5 +1,3 @@
-﻿using System;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FrigidRogue.MonoGame.Core.Tests.Services

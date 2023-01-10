@@ -1,6 +1,3 @@
-﻿using System;
-using System.Linq;
-
 using Castle.Core.Internal;
 
 using FrigidRogue.MonoGame.Core.Interfaces.UserInterface;

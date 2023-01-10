@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using FrigidRogue.MonoGame.Core.Interfaces.Components;
+﻿using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Services;
 using FrigidRogue.MonoGame.Core.View.Interfaces;
 
@@ -7,7 +6,6 @@ using GeonBit.UI;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace FrigidRogue.MonoGame.Core.View
 {
@@ -79,7 +77,7 @@ namespace FrigidRogue.MonoGame.Core.View
             _activeScreen?.Update();
         }
 
-        public void DrawActiveScreen(SpriteBatch spriteBatch)
+        public void DrawActiveScreen()
         {
             _activeScreen?.Draw();
         }

@@ -1,5 +1,3 @@
-﻿using System;
-
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 
 namespace FrigidRogue.MonoGame.Core.Components

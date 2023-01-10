@@ -55,7 +55,7 @@ namespace FrigidRogue.MonoGame.Core.Installers
                     .ImplementedBy<GameTurnService>(),
 
                 Component.For<IRandom>()
-                    .ImplementedBy<Random>(),
+                    .ImplementedBy<Components.Random>(),
 
                 Component.For<ISaveGameService>()
                     .ImplementedBy<SaveGameService>(),

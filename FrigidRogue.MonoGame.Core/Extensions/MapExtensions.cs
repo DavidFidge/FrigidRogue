@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using GoRogue.GameFramework;
+﻿using GoRogue.GameFramework;
 using GoRogue.Random;
 
 using SadRogue.Primitives;
-using SadRogue.Primitives.GridViews;
-
 using ShaiRandom.Generators;
 
 namespace FrigidRogue.MonoGame.Core.Extensions

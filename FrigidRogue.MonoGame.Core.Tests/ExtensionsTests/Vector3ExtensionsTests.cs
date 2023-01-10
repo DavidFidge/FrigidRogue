@@ -1,5 +1,3 @@
-﻿using System;
-
 using FrigidRogue.MonoGame.Core.Extensions;
 using FrigidRogue.TestInfrastructure;
 

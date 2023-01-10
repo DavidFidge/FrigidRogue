@@ -1,6 +1,3 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
 using GoRogue.Random;
 
 namespace FrigidRogue.MonoGame.Core.Extensions

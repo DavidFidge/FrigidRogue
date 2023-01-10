@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -18,7 +16,6 @@ using InputHandlers.Keyboard;
 using InputHandlers.Mouse;
 
 using MediatR;
-
 using Entity = GeonBit.UI.Entities.Entity;
 
 namespace FrigidRogue.MonoGame.Core.View
