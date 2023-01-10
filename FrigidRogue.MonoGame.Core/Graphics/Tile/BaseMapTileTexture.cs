@@ -1,4 +1,4 @@
-using FrigidRogue.MonoGame.Core.Interfaces.Components;
+﻿using FrigidRogue.MonoGame.Core.Interfaces.Components;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,6 +13,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         protected RenderTarget2D _renderTarget;
         protected SpriteBatch _spriteBatch;
         protected Texture2D _tileTexture;
+        protected float _opacity = 1f;
 
         // Further away = 1.0, closest = 0.0. Since map quads are largely a single unchanged texture
         // then 
@@ -36,12 +37,14 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             _spriteBatch = new SpriteBatch(_gameProvider.Game.GraphicsDevice);
         }
 
-        public virtual void SpriteBatchDraw(SpriteBatch spriteBatch, Rectangle destinationRectangle, float? opacity = null)
+        public virtual void SpriteBatchDraw(SpriteBatch spriteBatch, Rectangle destinationRectangle, float? opacityOverride = null)
         {
             var drawColour = Color.White;
 
-            if (opacity is < 1f)
-                drawColour.A = (byte)(opacity * 255);
+            if (opacityOverride is < 1f)
+                drawColour.A = (byte)(opacityOverride * byte.MaxValue);
+            else
+                drawColour.A = (byte)(_opacity * byte.MaxValue);
             
             spriteBatch.Draw(_tileTexture, destinationRectangle, null, drawColour, 0f, Vector2.Zero, SpriteEffects.None, _spriteBatchDrawDepth);
         }

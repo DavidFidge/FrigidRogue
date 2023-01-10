@@ -64,7 +64,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             _tileTexture = _cachedTextures[Text];
         }
 
-        public override void SpriteBatchDraw(SpriteBatch spriteBatch, Rectangle destinationRectangle, float? opacity = null)
+        public override void SpriteBatchDraw(SpriteBatch spriteBatch, Rectangle destinationRectangle, float? opacityOverride = null)
         {
             if (_tileTexture == null)
                 throw new Exception("SetTextTexture must be called before drawing");
@@ -72,7 +72,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             if (!String.IsNullOrEmpty(Text))
             {
                 SetTextTexture();
-                base.SpriteBatchDraw(spriteBatch, destinationRectangle, opacity);
+                base.SpriteBatchDraw(spriteBatch, destinationRectangle, opacityOverride);
             }
         }
     }

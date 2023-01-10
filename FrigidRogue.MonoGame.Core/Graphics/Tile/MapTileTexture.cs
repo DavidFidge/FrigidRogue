@@ -62,6 +62,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             _tileTexture = _renderTarget;
 
             _spriteBatchDrawDepth = spriteBatchDrawDepth;
+            _opacity = (float)backgroundColour.A / byte.MaxValue;
         }
     }
 }
