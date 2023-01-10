@@ -1,6 +1,3 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
 using GeonBit.UI.Entities;
 
 using Microsoft.Xna.Framework;

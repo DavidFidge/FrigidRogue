@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FrigidRogue.MonoGame.Core.Components
+﻿namespace FrigidRogue.MonoGame.Core.Components
 {
     public static class MathHelper
     {

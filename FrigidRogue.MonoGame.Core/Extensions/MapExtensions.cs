@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using GoRogue.GameFramework;
+﻿using GoRogue.GameFramework;
 using GoRogue.Random;
 
 using SadRogue.Primitives;

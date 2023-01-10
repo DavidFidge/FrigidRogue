@@ -1,6 +1,4 @@
-﻿using System;
-
-using FrigidRogue.MonoGame.Core.Components;
+﻿using FrigidRogue.MonoGame.Core.Components;
 
 using Microsoft.Xna.Framework;
 

@@ -1,5 +1,3 @@
-﻿using System;
-
 using FrigidRogue.MonoGame.Core.Graphics;
 using FrigidRogue.MonoGame.Core.Messages;
 using FrigidRogue.MonoGame.Core.Services;

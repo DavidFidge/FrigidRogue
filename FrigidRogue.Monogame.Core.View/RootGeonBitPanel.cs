@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using FrigidRogue.MonoGame.Core.View.Extensions;
+﻿using FrigidRogue.MonoGame.Core.View.Extensions;
 using FrigidRogue.MonoGame.Core.View.Interfaces;
 using GeonBit.UI.Entities;
 using Microsoft.Xna.Framework;

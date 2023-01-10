@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-
 using FrigidRogue.MonoGame.Core.Components;
 using FrigidRogue.MonoGame.Core.Messages;
 using Microsoft.Xna.Framework;

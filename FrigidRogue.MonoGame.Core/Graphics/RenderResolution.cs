@@ -1,6 +1,3 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
 namespace FrigidRogue.MonoGame.Core.Services
 {
     public class RenderResolution

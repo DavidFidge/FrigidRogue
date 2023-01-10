@@ -1,5 +1,3 @@
-using System;
-
 namespace FrigidRogue.MonoGame.Core.Interfaces.Components
 {
     public interface IStopwatchProvider

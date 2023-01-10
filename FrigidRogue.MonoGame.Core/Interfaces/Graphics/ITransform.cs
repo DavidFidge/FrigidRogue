@@ -1,5 +1,3 @@
-﻿using System;
-
 using Microsoft.Xna.Framework;
 
 namespace FrigidRogue.MonoGame.Core.Interfaces.Graphics

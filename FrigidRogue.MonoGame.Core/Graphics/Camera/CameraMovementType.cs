@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace FrigidRogue.MonoGame.Core.Graphics.Camera
 {
     [Flags]
