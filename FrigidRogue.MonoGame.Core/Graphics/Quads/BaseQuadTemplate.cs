@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 {
-    public abstract class BaseQuadTemplate : IDrawable
+    public abstract class BaseQuadTemplate : IDrawable, IDisposable
     {
         private int[] _quadIndices;
         private VertexPositionTexture[] _quadVertices;
@@ -166,6 +166,9 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             _quadVertices[2] = new VertexPositionTexture(bottomLeft, textureBottomLeft);
             _quadVertices[3] = new VertexPositionTexture(bottomRight, textureBottomRight);
 
+            VertexBuffer?.Dispose();
+            IndexBuffer?.Dispose();
+
             VertexBuffer = new VertexBuffer(
                 _gameProvider.Game.GraphicsDevice,
                 VertexPositionTexture.VertexDeclaration,
@@ -185,6 +188,14 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
                 );
 
             IndexBuffer.SetData(_quadIndices);
+        }
+
+        public virtual void Dispose()
+        {
+            Effect?.Dispose();
+            VertexBuffer?.Dispose();
+            IndexBuffer?.Dispose();
+            OpaquePixelDepthStencilState?.Dispose();
         }
     }
 }

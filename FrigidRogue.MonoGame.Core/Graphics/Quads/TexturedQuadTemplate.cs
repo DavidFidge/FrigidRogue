@@ -56,5 +56,11 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         {
             return Colour.A / 256f;
         }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            Texture?.Dispose();
+        }
     }
 }
