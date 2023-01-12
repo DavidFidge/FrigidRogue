@@ -8,9 +8,9 @@ namespace FrigidRogue.MonoGame.Core.Interfaces.Graphics
         void Reset();
         Matrix View { get; }
         Matrix Projection { get; }
-        float MoveSensitivity { get; set; }
+        float ContinuousMoveSensitivity { get; set; }
         float ZoomSensitivity { get; set; }
-        float RotateSensitivity { get; set; }
+        float ContinuousRotateSensitivity { get; set; }
         RenderResolution RenderResolution { get; set; }
         void Update();
         void Initialise();

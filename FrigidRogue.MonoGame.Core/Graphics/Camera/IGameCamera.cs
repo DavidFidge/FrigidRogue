@@ -7,6 +7,6 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
         CameraMovementType ContinuousCameraMovementType { get; set; }
         void Move(CameraMovementType cameraMovementType, float moveMagnitude);
         void Rotate(CameraMovementType cameraMovementType, float rotateMagnitude);
-        void Zoom(int magnitude);
+        void Zoom(float magnitude);
     }
 }

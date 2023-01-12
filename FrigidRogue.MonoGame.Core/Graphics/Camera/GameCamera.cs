@@ -3,43 +3,75 @@ using System.Threading.Tasks;
 
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Messages;
-
+using FrigidRogue.MonoGame.Core.Services;
 using MediatR;
 
 using Microsoft.Xna.Framework;
 
 namespace FrigidRogue.MonoGame.Core.Graphics.Camera
 {
-    public class GameCamera : BaseCamera,
+    public class GameCamera :
         IGameCamera,
-        IRequestHandler<MoveViewRequest>,
+        IRequestHandler<MoveViewContinousRequest>,
         IRequestHandler<RotateViewRequest>,
-        IRequestHandler<ZoomViewRequest>
+        IRequestHandler<ZoomViewRequest>,
+        IRequestHandler<MoveViewRequest>
     {
         private Quaternion _cameraRotation;
+        private readonly IGameProvider _gameProvider;
+        private const int ProjectionAngle = 90;
+        private readonly float _nearClippingPlane = 0.5f;
+        private readonly float _farClippingPlane = 10000f;
+        private RenderResolution _renderResolution;
 
+        private Vector3 _cameraPosition;
+
+        public float ContinuousMoveSensitivity { get; set; } = 1f;
+        public float ContinuousRotateSensitivity { get; set; } = 1f;
+        public float ZoomSensitivity { get; set; } = 1f;
+        public float MoveSensitivity { get; set;  } = 1f;
+
+        public Matrix View { get; protected set; }
+        public Matrix Projection { get; private set; }
         public CameraMovementType ContinuousCameraMovementType { get; set; }
 
-        public GameCamera(IGameProvider gameProvider) : base(gameProvider)
+        public RenderResolution RenderResolution
         {
+            get => _renderResolution;
+            set
+            {
+                _renderResolution = value;
+                RecalculateProjectionMatrix();
+            }
+        }
+
+        public GameCamera(IGameProvider gameProvider)
+        {
+            _gameProvider = gameProvider;
             Reset();
         }
 
-        public override void Reset()
+        public void Initialise()
+        {
+            Reset();
+            RecalculateProjectionMatrix();
+        }
+
+        public void Reset()
         {
             _cameraPosition = Vector3.Zero;
             _cameraRotation = Quaternion.Identity;
             SetViewMatrix();
         }
 
-        public override void Update()
+        public void Update()
         {
-            if (MoveSensitivity > 0)
-                Move(ContinuousCameraMovementType, MoveSensitivity);
+            if (ContinuousMoveSensitivity > 0)
+                Move(ContinuousCameraMovementType, ContinuousMoveSensitivity);
 
-            if (RotateSensitivity > 0)
-                Rotate(ContinuousCameraMovementType, RotateSensitivity);
-
+            if (ContinuousRotateSensitivity > 0)
+                Rotate(ContinuousCameraMovementType, ContinuousRotateSensitivity);
+            
             SetViewMatrix();
         }
 
@@ -65,9 +97,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
             if (cameraMovementType.HasFlag(CameraMovementType.Backward))
                 movementVector.Z += moveMagnitude;
 
-            var rotatedVector = Vector3.Transform(movementVector, _cameraRotation);
-
-            ChangeTranslationRelative(rotatedVector);
+            ChangeTranslationRelative(Vector3.Transform(movementVector, _cameraRotation));
         }
 
         public void Rotate(CameraMovementType cameraMovementType, float rotateMagnitude)
@@ -89,10 +119,10 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
 
             var additionalRotation = Quaternion.CreateFromAxisAngle(Vector3.Up, upDownRotation) * Quaternion.CreateFromAxisAngle(Vector3.Right, leftRightRotation);
 
-            _cameraRotation = _cameraRotation * additionalRotation;
+            _cameraRotation *= additionalRotation;
         }
 
-        protected void SetViewMatrix()
+        private void SetViewMatrix()
         {
             var cameraRotatedTarget = Vector3.Transform(Vector3.Forward, _cameraRotation);
             var cameraFinalTarget = _cameraPosition + cameraRotatedTarget;
@@ -105,7 +135,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
             );
         }
 
-        public void Zoom(int magnitude)
+        public void Zoom(float magnitude)
         {
             if (magnitude == 0 && ZoomSensitivity > 0)
                 return;
@@ -122,13 +152,6 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
             return Unit.Task;
         }
 
-        public Task<Unit> Handle(MoveViewRequest request, CancellationToken cancellationToken)
-        {
-            ContinuousCameraMovementType = request.CameraMovementTypeFlags;
-
-            return Unit.Task;
-        }
-
         public Task<Unit> Handle(RotateViewRequest request, CancellationToken cancellationToken)
         {
             if (request.XRotation > float.Epsilon)
@@ -142,6 +165,66 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
                 Rotate(CameraMovementType.RotateRight, -request.ZRotation);
 
             return Unit.Task;
+        }
+
+        public Task<Unit> Handle(MoveViewContinousRequest request, CancellationToken cancellationToken)
+        {
+            ContinuousCameraMovementType = request.CameraMovementTypeFlags;
+
+            return Unit.Task;
+        }
+
+        public Task<Unit> Handle(MoveViewRequest request, CancellationToken cancellationToken)
+        {
+            if (request.MoveX > 0)
+                Move(CameraMovementType.PanLeft, request.MoveX * MoveSensitivity);
+            else if (request.MoveX < 0)
+                Move(CameraMovementType.PanRight, -request.MoveX * MoveSensitivity);
+
+            if (request.MoveY > 0)
+                Move(CameraMovementType.PanUp, request.MoveY * MoveSensitivity);
+            else if (request.MoveY < 0)
+                Move(CameraMovementType.PanDown, -request.MoveY * MoveSensitivity);
+
+            if (request.MoveZ != 0)
+                Zoom((int)(request.MoveZ * ZoomSensitivity));
+
+            return Unit.Task;
+        }
+
+        public void RecalculateProjectionMatrix()
+        {
+            var aspectRatio = _renderResolution == null
+                ? _gameProvider.Game.GraphicsDevice.Viewport.AspectRatio
+                : (float)_renderResolution.Width / _renderResolution.Height;
+
+            Projection = Matrix.CreatePerspectiveFieldOfView(
+                MathHelper.ToRadians(ProjectionAngle),
+                aspectRatio,
+                _nearClippingPlane,
+                _farClippingPlane
+            );
+        }
+
+        public Ray GetPointerRay(int x, int y, bool normalised = true)
+        {
+            var nearScreenPoint = new Vector3(x, y, 0);
+            var farScreenPoint = new Vector3(x, y, 1);
+
+            var near3DPoint = _gameProvider.Game.GraphicsDevice.Viewport.Unproject(nearScreenPoint, Projection, View, Matrix.Identity);
+            var far3DPoint = _gameProvider.Game.GraphicsDevice.Viewport.Unproject(farScreenPoint, Projection, View, Matrix.Identity);
+
+            var pointerRayDirection = far3DPoint - near3DPoint;
+
+            if (normalised)
+                pointerRayDirection.Normalize();
+
+            return new Ray(near3DPoint, pointerRayDirection);
+        }
+
+        public void ChangeTranslationRelative(Vector3 translationDelta)
+        {
+            _cameraPosition += translationDelta;
         }
     }
 }

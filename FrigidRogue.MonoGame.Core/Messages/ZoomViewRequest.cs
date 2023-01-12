@@ -4,9 +4,9 @@ namespace FrigidRogue.MonoGame.Core.Messages
 {
     public class ZoomViewRequest : IRequest
     {
-        public int Difference { get; }
+        public float Difference { get; }
 
-        public ZoomViewRequest(int difference)
+        public ZoomViewRequest(float difference)
         {
             Difference = difference;
         }
