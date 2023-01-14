@@ -1,14 +1,20 @@
+using GoRogue.GameFramework;
 using Microsoft.Xna.Framework;
 
 using SadRogue.Primitives;
-
+using SadRogue.Primitives.GridViews;
 using Point = SadRogue.Primitives.Point;
 
 namespace FrigidRogue.MonoGame.Core.Extensions
 {
     public static class PointExtensions
     {
-        public static List<Point> SurroundingPoints(this Point centrePoint, int? xMin = null, int? xMax = null, int? yMin = null, int? yMax = null)
+        public static List<Point> Neighbours<T>(this Point point, IGridView<T> settableGridView)
+        {
+            return point.Neighbours(0, settableGridView.Width, 0, settableGridView.Height);
+        }
+
+        public static List<Point> Neighbours(this Point centrePoint, int? xMin = null, int? xMax = null, int? yMin = null, int? yMax = null)
         {
             var pointList = new List<Point>();
 
