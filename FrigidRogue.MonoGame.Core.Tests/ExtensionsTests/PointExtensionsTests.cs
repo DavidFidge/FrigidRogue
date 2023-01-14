@@ -4,6 +4,7 @@ using FrigidRogue.TestInfrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using SadRogue.Primitives;
+using SadRogue.Primitives.GridViews;
 
 namespace FrigidRogue.MonoGame.Core.Tests.Extensions
 {
@@ -85,13 +86,13 @@ namespace FrigidRogue.MonoGame.Core.Tests.Extensions
         }
 
         [TestMethod]
-        public void SurroundingPoints_Should_Return_All_Surrounding_Points()
+        public void Neighbours_Should_Return_All_Surrounding_Points()
         {
             // Arrange
             var point = new Point();
 
             // Act
-            var result = point.SurroundingPoints();
+            var result = point.Neighbours();
 
             // Assert
             var expectedPoints = new List<Point>
@@ -110,13 +111,13 @@ namespace FrigidRogue.MonoGame.Core.Tests.Extensions
         }
 
         [TestMethod]
-        public void SurroundingPoints_Should_Return_All_Surrounding_Points_Limited_By_X_Min()
+        public void Neighbours_Should_Return_All_Surrounding_Points_Limited_By_X_Min()
         {
             // Arrange
             var point = new Point();
 
             // Act
-            var result = point.SurroundingPoints(0);
+            var result = point.Neighbours(0);
 
             // Assert
             var expectedPoints = new List<Point>
@@ -133,13 +134,13 @@ namespace FrigidRogue.MonoGame.Core.Tests.Extensions
 
 
         [TestMethod]
-        public void SurroundingPoints_Should_Return_All_Surrounding_Points_Limited_By_X_Max()
+        public void Neighbours_Should_Return_All_Surrounding_Points_Limited_By_X_Max()
         {
             // Arrange
             var point = new Point();
 
             // Act
-            var result = point.SurroundingPoints(xMax: 0);
+            var result = point.Neighbours(xMax: 0);
 
             // Assert
             var expectedPoints = new List<Point>
@@ -155,13 +156,13 @@ namespace FrigidRogue.MonoGame.Core.Tests.Extensions
         }
 
         [TestMethod]
-        public void SurroundingPoints_Should_Return_All_Surrounding_Points_Limited_By_Y_Min()
+        public void Neighbours_Should_Return_All_Surrounding_Points_Limited_By_Y_Min()
         {
             // Arrange
             var point = new Point();
 
             // Act
-            var result = point.SurroundingPoints(yMin: 0);
+            var result = point.Neighbours(yMin: 0);
 
             // Assert
             var expectedPoints = new List<Point>
@@ -177,13 +178,13 @@ namespace FrigidRogue.MonoGame.Core.Tests.Extensions
         }
 
         [TestMethod]
-        public void SurroundingPoints_Should_Return_All_Surrounding_Points_Limited_By_Y_Max()
+        public void Neighbours_Should_Return_All_Surrounding_Points_Limited_By_Y_Max()
         {
             // Arrange
             var point = new Point();
 
             // Act
-            var result = point.SurroundingPoints(yMax: 0);
+            var result = point.Neighbours(yMax: 0);
 
             // Assert
             var expectedPoints = new List<Point>
@@ -199,16 +200,58 @@ namespace FrigidRogue.MonoGame.Core.Tests.Extensions
         }
 
         [TestMethod]
-        public void SurroundingPoints_Should_Return_No_Points_If_Limit_Excludes_All()
+        public void Neighbours_Should_Return_No_Points_If_Limit_Excludes_All()
         {
             // Arrange
             var point = new Point();
 
             // Act
-            var result = point.SurroundingPoints(2);
+            var result = point.Neighbours(2);
 
             // Assert
             Assert.IsTrue(result.IsEmpty());
+        }
+        
+        [TestMethod]
+        public void Neighbours_With_SettableGridView_Should_Return_Surrounding_Points_Within_Width_And_Height_Min()
+        {
+            // Arrange
+            var point = new Point();
+            var settableGridView = new ArrayView<bool>(2, 2);
+
+            // Act
+            var result = point.Neighbours(settableGridView);
+
+            // Assert
+            var expectedPoints = new List<Point>
+            {
+                new Point(0, 1),
+                new Point(1, 0),
+                new Point(1, 1)
+            };
+
+            CollectionAssert.AreEquivalent(expectedPoints, result);
+        }
+
+        [TestMethod]
+        public void Neighbours_With_SettableGridView_Should_Return_Surrounding_Points_Within_Width_And_Height_Max()
+        {
+            // Arrange
+            var point = new Point(2, 2);
+            var settableGridView = new ArrayView<bool>(2, 2);
+
+            // Act
+            var result = point.Neighbours(settableGridView);
+
+            // Assert
+            var expectedPoints = new List<Point>
+            {
+                new Point(1, 1),
+                new Point(1, 2),
+                new Point(2, 1)
+            };
+
+            CollectionAssert.AreEquivalent(expectedPoints, result);
         }
 
         [TestMethod]
