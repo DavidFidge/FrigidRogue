@@ -27,6 +27,10 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         ) : base(gameProvider, tileWidth, tileHeight)
         {
             var previousRenderTargets = _gameProvider.Game.GraphicsDevice.GetRenderTargets();
+
+            var glyph = spriteFont.GetGlyphs()[foregroundCharacter];
+
+            var offset = new Vector2((tileWidth - glyph.BoundsInTexture.Width) / 2, 0);
             
             _gameProvider.Game.GraphicsDevice.SetRenderTarget(_renderTarget);
 
@@ -35,7 +39,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             if (backgroundColour != null)
                 _gameProvider.Game.GraphicsDevice.Clear(backgroundColour.Value);
 
-            _spriteBatch.DrawString(spriteFont, foregroundCharacter.ToString(), Vector2.Zero, foregroundColor);
+            _spriteBatch.DrawString(spriteFont, foregroundCharacter.ToString(), offset, foregroundColor);
 
             _spriteBatch.End();
 
