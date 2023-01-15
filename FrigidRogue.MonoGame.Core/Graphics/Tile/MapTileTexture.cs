@@ -30,7 +30,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 
             var glyph = spriteFont.GetGlyphs()[foregroundCharacter];
 
-            var offset = new Vector2((tileWidth - glyph.BoundsInTexture.Width) / 2, 0);
+            var offset = new Vector2((tileWidth - glyph.BoundsInTexture.Width) / 2, (tileHeight - glyph.Cropping.Height) / 2);
             
             _gameProvider.Game.GraphicsDevice.SetRenderTarget(_renderTarget);
 
