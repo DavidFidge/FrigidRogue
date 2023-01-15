@@ -1,8 +1,7 @@
 ﻿namespace FrigidRogue.MonoGame.Core.Interfaces.Components
 {
     /// <summary>
-    /// For single entities, use ISaveable. For multiple entities in a list, use this to get the state of each entity
-    /// then save the results as a list to the save store.
+    /// Helper interface that can be used on abstract types to retrieve a memento for the concrete type.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface IMementoState<T>

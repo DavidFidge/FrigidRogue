@@ -25,7 +25,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Components
         }
 
         [TestMethod]
-        public void Execute_Should_Call_GameTurnService_When_Not_Created_Via_Memento()
+        public void Execute_Should_Call_GameTurnService()
         {
             // Act
             _testGameActionCommand.Execute();
@@ -53,17 +53,8 @@ namespace FrigidRogue.MonoGame.Core.Tests.Components
             _testGameActionCommand.GameTurnService.DidNotReceive().Populate(Arg.Any<ITurnNumber>());
         }
 
-        private class TestGameActionCommand : BaseStatefulGameActionCommand<TestData>
+        private class TestGameActionCommand : BaseGameActionCommand
         {
-            public override void SetLoadState(IMemento<TestData> memento)
-            {
-            }
-
-            public override IMemento<TestData> GetSaveState()
-            {
-                return new Memento<TestData>(new TestData());
-            }
-
             protected override CommandResult ExecuteInternal()
             {
                 return CommandResult.Success(this);
@@ -72,10 +63,6 @@ namespace FrigidRogue.MonoGame.Core.Tests.Components
             protected override void UndoInternal()
             {
             }
-        }
-
-        private class TestData
-        {
         }
     }
 }

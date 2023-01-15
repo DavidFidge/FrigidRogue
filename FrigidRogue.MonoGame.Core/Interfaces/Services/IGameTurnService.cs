@@ -4,7 +4,7 @@ using MonoGame.Extended;
 
 namespace FrigidRogue.MonoGame.Core.Interfaces.Services
 {
-    public interface IGameTurnService : ISaveable
+    public interface IGameTurnService
     {
         /// <summary>
         /// Resets all counters

@@ -41,20 +41,20 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         public void Should_Save_To_And_Load_From_Store()
         {
             // Arrange
-            var testCommand = new TestCommand();
-            testCommand.TestProperty = 1;
-            testCommand.TestProperty2 = "hello";
+            var testClass = new TestClass2();
+            testClass.TestProperty = 1;
+            testClass.TestProperty2 = "hello";
 
             // Act
-            _saveGameService.SaveToStore(testCommand.GetSaveState());
+            _saveGameService.SaveToStore(testClass.GetSaveState());
             var result = _saveGameService.SaveStoreToFile(_saveGameName, false);
             _saveGameService.LoadStoreFromFile(_saveGameName);
 
             var loadedTestData = _saveGameService.GetFromStore<TestData>();
 
             // Assert
-            Assert.AreEqual(testCommand.TestProperty, loadedTestData.State.TestProperty);
-            Assert.AreEqual(testCommand.TestProperty2, loadedTestData.State.TestProperty2);
+            Assert.AreEqual(testClass.TestProperty, loadedTestData.State.TestProperty);
+            Assert.AreEqual(testClass.TestProperty2, loadedTestData.State.TestProperty2);
             Assert.IsFalse(result.RequiresOverwrite);
             Assert.IsNull(result.ErrorMessage);
             Assert.AreEqual(SaveGameResult.Success, result);
@@ -64,10 +64,10 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         public void SaveStoreToFile_Should_Return_Overwrite_Result_If_File_Exists()
         {
             // Arrange
-            var testCommand = new TestCommand();
-            testCommand.TestProperty = 1;
-            testCommand.TestProperty2 = "hello";
-            _saveGameService.SaveToStore(testCommand.GetSaveState());
+            var testClass = new TestClass2();
+            testClass.TestProperty = 1;
+            testClass.TestProperty2 = "hello";
+            _saveGameService.SaveToStore(testClass.GetSaveState());
             _saveGameService.SaveStoreToFile(_saveGameName, false);
 
             // Act
@@ -82,10 +82,10 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         public void CanSaveStoreToFile_Should_Return_Overwrite_Result_If_File_Exists()
         {
             // Arrange
-            var testCommand = new TestCommand();
-            testCommand.TestProperty = 1;
-            testCommand.TestProperty2 = "hello";
-            _saveGameService.SaveToStore(testCommand.GetSaveState());
+            var testClass = new TestClass2();
+            testClass.TestProperty = 1;
+            testClass.TestProperty2 = "hello";
+            _saveGameService.SaveToStore(testClass.GetSaveState());
             _saveGameService.SaveStoreToFile(_saveGameName, true);
 
             // Act
@@ -111,10 +111,10 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         public void SaveStoreToFile_Should_Save_If_Overwrite_Is_True()
         {
             // Arrange
-            var testCommand = new TestCommand();
-            testCommand.TestProperty = 1;
-            testCommand.TestProperty2 = "hello";
-            _saveGameService.SaveToStore(testCommand.GetSaveState());
+            var testClass = new TestClass2();
+            testClass.TestProperty = 1;
+            testClass.TestProperty2 = "hello";
+            _saveGameService.SaveToStore(testClass.GetSaveState());
             _saveGameService.SaveStoreToFile(_saveGameName, false);
 
             // Act
@@ -172,40 +172,23 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             public string LoadGameDetail { get; set; }
         }
 
-        private class TestClass : ILoadGameDetail, ISaveable
+        private class TestClass : ILoadGameDetail
         {
             public int TestProperty { get; set; }
             public string LoadGameDetail { get; set; }
-
-            public void SaveState(ISaveGameService saveGameService)
-            {
-            }
-
-            public void LoadState(ISaveGameService saveGameService)
-            {
-            }
         }
 
-        private class TestCommand : BaseStatefulGameActionCommand<TestData>
+        private class TestClass2 : IMementoState<TestData>
         {
             public int TestProperty { get; set; }
             public string TestProperty2 { get; set; }
 
-            public override IMemento<TestData> GetSaveState()
+            public IMemento<TestData> GetSaveState()
             {
                 return new Memento<TestData>(new TestData { TestProperty = TestProperty, TestProperty2 = TestProperty2 });
             }
 
-            protected override CommandResult ExecuteInternal()
-            {
-                return CommandResult.Success(this);
-            }
-
-            protected override void UndoInternal()
-            {
-            }
-
-            public override void SetLoadState(IMemento<TestData> memento)
+            public void SetLoadState(IMemento<TestData> memento)
             {
                 TestProperty = memento.State.TestProperty;
                 TestProperty2 = memento.State.TestProperty2;
