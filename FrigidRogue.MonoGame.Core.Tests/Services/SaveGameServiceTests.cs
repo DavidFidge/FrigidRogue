@@ -179,12 +179,10 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
 
             public void SaveState(ISaveGameService saveGameService)
             {
-                throw new NotImplementedException();
             }
 
             public void LoadState(ISaveGameService saveGameService)
             {
-                throw new NotImplementedException();
             }
         }
 
@@ -200,12 +198,11 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
 
             protected override CommandResult ExecuteInternal()
             {
-                throw new NotImplementedException();
+                return CommandResult.Success(this);
             }
 
             protected override void UndoInternal()
             {
-                throw new NotImplementedException();
             }
 
             public override void SetLoadState(IMemento<TestData> memento)

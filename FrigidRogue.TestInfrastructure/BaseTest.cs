@@ -13,6 +13,12 @@ namespace FrigidRogue.TestInfrastructure
     [TestClass]
     public abstract class BaseTest
     {
+        protected FakeLogger FakeLogger;
+
+        public BaseTest()
+        {
+            FakeLogger = new FakeLogger();
+        }
 
         [TestInitialize]
         public virtual void Setup()
@@ -28,7 +34,7 @@ namespace FrigidRogue.TestInfrastructure
             where T : BaseComponent
         {
             baseComponent.Mediator = Substitute.For<IMediator>();
-            baseComponent.Logger = Substitute.For<ILogger>();
+            baseComponent.Logger = FakeLogger;
 
             return baseComponent;
         }

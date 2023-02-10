@@ -21,8 +21,9 @@ using FrigidRogue.MonoGame.Core.UserInterface;
 
 using InputHandlers.Keyboard;
 using InputHandlers.Mouse;
-
+using Microsoft.Extensions.Configuration;
 using Serilog;
+using Serilog.Core;
 
 namespace FrigidRogue.MonoGame.Core.Installers
 {
@@ -30,12 +31,23 @@ namespace FrigidRogue.MonoGame.Core.Installers
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            var config = new LoggerConfiguration()
-                .WriteTo.Seq("http://localhost:5341/")
-                .WriteTo.Console()
-                .WriteTo.File($"{Assembly.GetEntryAssembly()?.GetName().Name ?? "Game"}.log")
-                .MinimumLevel.Debug()
-                .CreateLogger();
+            Logger loggerConfig;
+            
+            if (container.Kernel.HasComponent(typeof(IConfiguration)))
+            {
+                var configuration = container.Resolve<IConfiguration>();
+
+                loggerConfig = new LoggerConfiguration()
+                    .ReadFrom.Configuration(configuration)
+                    .CreateLogger();
+            }
+            else
+            {
+                loggerConfig = new LoggerConfiguration()
+                    .WriteTo.File($"{Assembly.GetEntryAssembly()?.GetName().Name ?? "Game"}.log")
+                    .MinimumLevel.Debug()
+                    .CreateLogger();
+            }
 
             container.AddFacility<TypedFactoryFacility>();
 
@@ -47,6 +59,9 @@ namespace FrigidRogue.MonoGame.Core.Installers
             container.Install(new MediatorInstaller());
 
             container.Register(
+                
+                Component.For<ILogger>()
+                    .Instance(loggerConfig),
 
                 Component.For<IGameTimeService>()
                     .ImplementedBy<GameTimeService>(),
@@ -75,10 +90,10 @@ namespace FrigidRogue.MonoGame.Core.Installers
 
                 Component.For<IMouseInput>()
                     .ImplementedBy<MouseInput>(),
-
-                Component.For<ILogger>()
-                    .Instance(config),
-
+                
+                Component.For<IDateTimeProvider>()
+                    .ImplementedBy<DateTimeProvider>(),
+                
                 Component.For<IGameProvider>()
                     .ImplementedBy<GameProvider>(),
 
