@@ -180,7 +180,7 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
             return entity;
         }
 
-        public static T WidthOfScreen<T>(this T entity) where T : Entity
+        public static T WidthOfContainer<T>(this T entity) where T : Entity
         {
             entity.Size = new Vector2(-1, entity.Size.Y);
 

@@ -23,7 +23,7 @@ namespace FrigidRogue.MonoGame.Core.UserInterface
             Mediator.Send(new NotifyViewModelChangedRequest<T>());
         }
 
-        public Task<Unit> Handle(InterfaceRequest<T> request, CancellationToken cancellationToken)
+        public virtual Task<Unit> Handle(InterfaceRequest<T> request, CancellationToken cancellationToken)
         {
             request.PropertyInfo.SetValue(Data, request.Value);
 
