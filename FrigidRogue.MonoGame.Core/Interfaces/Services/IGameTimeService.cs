@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace FrigidRogue.MonoGame.Core.Interfaces.Services
 {
-    public interface IGameTimeService : ISaveable
+    public interface IGameTimeService
     {
         void Reset();
         void Update(GameTime gameTime);
@@ -20,5 +20,7 @@ namespace FrigidRogue.MonoGame.Core.Interfaces.Services
         int GameSpeedPercent { get; }
         void Start();
         void Stop();
+        void SaveState(ISaveGameService saveGameService);
+        void LoadState(ISaveGameService saveGameService);
     }
 }
