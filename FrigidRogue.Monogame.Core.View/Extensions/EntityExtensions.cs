@@ -32,6 +32,12 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
             entity.Padding = padding;
             return entity;
         }
+        
+        public static T Padding<T>(this T entity, int x, int y) where T : Entity
+        {
+            entity.Padding(new Vector2(x, y));
+            return entity;
+        }
 
         public static T Anchor<T>(this T entity, Anchor anchor) where T : Entity
         {
@@ -48,6 +54,12 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
         public static T Offset<T>(this T entity, Vector2 offset) where T : Entity
         {
             entity.Offset = offset;
+            return entity;
+        }
+        
+        public static T Offset<T>(this T entity, int x, int y) where T : Entity
+        {
+            entity.Offset(new Vector2(x, y));
             return entity;
         }
 
@@ -80,6 +92,30 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
             entity.FillColor = new Color(new Color(), 0);
             return entity;
         }
+        
+        public static Button Skin(this Button button, ButtonSkin buttonSkin)
+        {
+            button.Skin = buttonSkin;
+            return button;
+        }
+        
+        public static Button SkinDefault(this Button button)
+        {
+            button.Skin(ButtonSkin.Default);
+            return button;
+        }
+
+        public static Button SkinAlternative(this Button button)
+        {
+            button.Skin(ButtonSkin.Alternative);
+            return button;
+        }
+
+        public static Button SkinFancy(this Button button)
+        {
+            button.Skin(ButtonSkin.Fancy);
+            return button;
+        }
 
         public static T Skin<T>(this T panelBase, PanelSkin panelSkin) where T : PanelBase
         {
@@ -87,36 +123,37 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
             return panelBase;
         }
 
-        public static T NoSkin<T>(this T panelBase) where T : PanelBase
+        public static T SkinNone<T>(this T panelBase) where T : PanelBase
         {
             panelBase.Skin(PanelSkin.None);
             return panelBase;
         }
-        public static T SimpleSkin<T>(this T panelBase) where T : PanelBase
+        
+        public static T SkinSimple<T>(this T panelBase) where T : PanelBase
         {
             panelBase.Skin(PanelSkin.Simple);
             return panelBase;
         }
 
-        public static T DefaultSkin<T>(this T panelBase) where T : PanelBase
+        public static T SkinDefault<T>(this T panelBase) where T : PanelBase
         {
             panelBase.Skin(PanelSkin.Default);
             return panelBase;
         }
 
-        public static T AlternativeSkin<T>(this T panelBase) where T : PanelBase
+        public static T SkinAlternative<T>(this T panelBase) where T : PanelBase
         {
             panelBase.Skin(PanelSkin.Alternative);
             return panelBase;
         }
 
-        public static T FancySkin<T>(this T panelBase) where T : PanelBase
+        public static T SkinFancy<T>(this T panelBase) where T : PanelBase
         {
             panelBase.Skin(PanelSkin.Fancy);
             return panelBase;
         }
 
-        public static T ListBackgroundSkin<T>(this T panelBase) where T : PanelBase
+        public static T SkinListBackground<T>(this T panelBase) where T : PanelBase
         {
             panelBase.Skin(PanelSkin.ListBackground);
             return panelBase;

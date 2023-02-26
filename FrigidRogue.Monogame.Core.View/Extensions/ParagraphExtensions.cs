@@ -38,10 +38,10 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
             return paragraph;
         }
         
-        public static Paragraph RecalculateWidth(this Paragraph paragraph, int extraRightPadding)
+        public static Paragraph RecalculateWidth(this Paragraph paragraph, int extraPadding)
         {
             paragraph.RecalculateWidth();
-            paragraph.Width(paragraph.Size.X + extraRightPadding);
+            paragraph.Width(paragraph.Size.X + extraPadding);
 
             return paragraph;
         }
