@@ -7,12 +7,11 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 {
     public abstract class BaseMapTileTexture
     {
-        private static Dictionary<string, Texture2D> _cachedTextures = new Dictionary<string, Texture2D>();
-
+        public Texture2D Texture2D => _tileTexture;
+        protected Texture2D _tileTexture;
         protected readonly IGameProvider _gameProvider;
         protected RenderTarget2D _renderTarget;
         protected SpriteBatch _spriteBatch;
-        protected Texture2D _tileTexture;
         protected float _opacity = 1f;
 
         // Further away = 1.0, closest = 0.0. Since map quads are largely a single unchanged texture

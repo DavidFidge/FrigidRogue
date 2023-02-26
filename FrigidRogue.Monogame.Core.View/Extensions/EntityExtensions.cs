@@ -51,6 +51,12 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
             return entity;
         }
 
+        public static T Size<T>(this T entity, int x, int y) where T : Entity
+        {
+            entity.Size(new Vector2(x, y));
+            return entity;
+        }
+
         public static T Offset<T>(this T entity, Vector2 offset) where T : Entity
         {
             entity.Offset = offset;
