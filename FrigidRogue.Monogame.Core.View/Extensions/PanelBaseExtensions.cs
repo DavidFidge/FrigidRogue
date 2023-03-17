@@ -29,6 +29,7 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
         public static T AutoHeight<T>(this T panelBase) where T : PanelBase
         {
             panelBase.AdjustHeightAutomatically = true;
+            panelBase.Height(0);
 
             return panelBase;
         }
