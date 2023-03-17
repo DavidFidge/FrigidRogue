@@ -18,7 +18,11 @@ namespace FrigidRogue.MonoGame.Core.Services
         public GameInputService(IMouseInput mouseInput, IKeyboardInput keyboardInput)
         {
             _mouseInput = mouseInput;
+            _mouseInput.WaitForNeutralStateBeforeApplyingNewSubscriptions = true;
+
             _keyboardInput = keyboardInput;
+            _keyboardInput.WaitForNeutralStateBeforeApplyingNewSubscriptions = true;
+
             _keyboardInput.RepeatDelay = 500;
         }
 

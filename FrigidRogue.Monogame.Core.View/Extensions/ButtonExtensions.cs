@@ -79,5 +79,37 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
 
             return button;
         }
+        
+        public static Button WidthText(this Button button)
+        {
+            var destRect = button.ButtonParagraph.GetTextDestRect();
+            button.Width(destRect.Width);
+
+            return button;
+        }
+        
+        public static Button WidthTextWithPadding(this Button button, int extraPadding)
+        {
+            button.WidthText();
+            button.Width(button.Size.X + extraPadding);
+
+            return button;
+        }
+        
+        public static Button HeightText(this Button button)
+        {
+            var destRect = button.ButtonParagraph.GetTextDestRect();
+            button.Height(destRect.Height);
+
+            return button;
+        }
+        
+        public static Button HeightTextWithPadding(this Button button, int extraPadding)
+        {
+            button.HeightText();
+            button.Width(button.Size.Y + extraPadding);
+
+            return button;
+        }
     }
 }

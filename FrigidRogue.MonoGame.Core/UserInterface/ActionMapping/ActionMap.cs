@@ -17,6 +17,11 @@ namespace FrigidRogue.MonoGame.Core.UserInterface
             _actionMapStore = actionMapStore;
         }
 
+        public bool ActionIs<T>(Keys key, string selector = null)
+        {
+            return ActionIs<T>(new KeyCombination(key, KeyboardModifier.None), selector);
+        }
+
         public bool ActionIs<T>(Keys key, KeyboardModifier keyboardModifier, string selector = null)
         {
             return ActionIs<T>(new KeyCombination(key, keyboardModifier), selector);
