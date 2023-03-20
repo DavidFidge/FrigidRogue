@@ -18,5 +18,38 @@ namespace FrigidRogue.MonoGame.Core.Extensions
 
             return points;
         }
+
+        public static Rectangle WithExtentsUnordered(Point point1, Point point2)
+        {
+            return new Rectangle(
+                new Point(Math.Min(point1.X, point2.X), Math.Min(point1.Y, point2.Y)),
+                new Point(Math.Max(point1.X, point2.X), Math.Max(point1.Y, point2.Y)));
+        }
+
+        public static Rectangle CoveringPoints(params Point[] points)
+        {
+            if (points == null || points.Length == 0)
+                return Rectangle.Empty;
+
+            if (points.Length == 1)
+                return new Rectangle(points[0], points[0]);
+
+            var minExtentX = points[0].X;
+            var maxExtentX = points[0].X;
+            var minExtentY = points[0].Y;
+            var maxExtentY = points[0].Y;
+
+            foreach (var point in points.Skip(1))
+            {
+                minExtentX = Math.Min(point.X, minExtentX);
+                maxExtentX = Math.Max(point.X, maxExtentX);
+                minExtentY = Math.Min(point.Y, minExtentY);
+                maxExtentY = Math.Max(point.Y, maxExtentY);
+            }
+
+            return new Rectangle(
+                new Point(minExtentX, minExtentY),
+                new Point(maxExtentX, maxExtentY));
+        }
     }
 }

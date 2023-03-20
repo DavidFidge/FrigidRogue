@@ -66,9 +66,6 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 
         public override void SpriteBatchDraw(SpriteBatch spriteBatch, Rectangle destinationRectangle, float? opacityOverride = null)
         {
-            if (_tileTexture == null)
-                throw new Exception("SetTextTexture must be called before drawing");
-
             if (!String.IsNullOrEmpty(Text))
             {
                 SetTextTexture();
