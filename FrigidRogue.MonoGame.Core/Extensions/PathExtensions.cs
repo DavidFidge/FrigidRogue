@@ -9,6 +9,9 @@ namespace FrigidRogue.MonoGame.Core.Extensions
         {
             var enumerator = path.Steps.GetEnumerator();
 
+            if (!enumerator.MoveNext())
+                return Point.None;
+
             while (true)
             {
                 if (enumerator.Current == point)
@@ -22,5 +25,28 @@ namespace FrigidRogue.MonoGame.Core.Extensions
                     return Point.None;
             }
         }
+        
+        public static Point GetStepAfterPointWithStart(this Path path, Point point)
+        {
+            var enumerator = path.StepsWithStart.GetEnumerator();
+
+            if (!enumerator.MoveNext())
+                return Point.None;
+
+            while (true)
+            {
+                if (enumerator.Current == point)
+                {
+                    var hasNextValue = enumerator.MoveNext();
+
+                    return hasNextValue ? enumerator.Current : Point.None;
+                }
+
+                if (!enumerator.MoveNext())
+                    return Point.None;
+            }
+        }
+        
+        
     }
 }
