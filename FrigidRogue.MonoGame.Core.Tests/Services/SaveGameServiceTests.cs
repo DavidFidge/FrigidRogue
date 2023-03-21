@@ -7,6 +7,7 @@ using FrigidRogue.MonoGame.Core.Services;
 using FrigidRogue.TestInfrastructure;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MonoGame.Extended;
 
 namespace FrigidRogue.MonoGame.Core.Tests.Services
 {
@@ -57,6 +58,25 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             Assert.AreEqual(testClass.TestProperty2, loadedTestData.State.TestProperty2);
             Assert.IsFalse(result.RequiresOverwrite);
             Assert.IsNull(result.ErrorMessage);
+            Assert.AreEqual(SaveGameResult.Success, result);
+        }
+
+        [TestMethod]
+        public void Ranges_Should_Save_To_And_Load_From_Store()
+        {
+            // Arrange
+            var testClass3 = new TestClass3();
+            testClass3.TestRange = new Range<int>(5, 10);
+
+            // Act
+            _saveGameService.SaveToStore(testClass3.GetSaveState());
+            var result = _saveGameService.SaveStoreToFile(_saveGameName, false);
+            _saveGameService.LoadStoreFromFile(_saveGameName);
+
+            var loadedTestData = _saveGameService.GetFromStore<TestData3>();
+
+            // Assert
+            Assert.AreEqual(testClass3.TestRange, loadedTestData.State.TestRange);
             Assert.AreEqual(SaveGameResult.Success, result);
         }
 
@@ -172,7 +192,12 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         {
             public string LoadGameDetail { get; set; }
         }
-
+        
+        private class TestData3
+        {
+            public Range<int> TestRange { get; set; }
+        }
+        
         private class TestClass : ILoadGameDetail
         {
             public int TestProperty { get; set; }
@@ -193,6 +218,20 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             {
                 TestProperty = memento.State.TestProperty;
                 TestProperty2 = memento.State.TestProperty2;
+            }
+        }
+        
+        private class TestClass3 : IMementoState<TestData3>
+        {
+            public Range<int> TestRange { get; set; }
+            public IMemento<TestData3> GetSaveState()
+            {
+                return new Memento<TestData3>(new TestData3 { TestRange = TestRange });
+            }
+
+            public void SetLoadState(IMemento<TestData3> memento)
+            {
+                TestRange = memento.State.TestRange;
             }
         }
     }

@@ -1,6 +1,6 @@
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
-
+using MonoGame.Extended.Serialization;
 using MonoGame.Framework.Utilities.Deflate;
 
 using Newtonsoft.Json;
@@ -20,6 +20,8 @@ namespace FrigidRogue.MonoGame.Core.Services
                 ObjectCreationHandling = ObjectCreationHandling.Replace,
                 TypeNameHandling = TypeNameHandling.All
             };
+            
+            _jsonSerializerSettings.Converters.Add(new RangeJsonConverter<int>());
         }
 
         public IMemento<T> GetFromStore<T>()
