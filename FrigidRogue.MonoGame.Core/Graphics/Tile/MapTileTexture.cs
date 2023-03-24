@@ -10,11 +10,6 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         /// <summary>
         /// Create a tile that has a character and an optional background
         /// </summary>
-        /// <param name="tileWidth"></param>
-        /// <param name="tileHeight"></param>
-        /// <param name="foregroundCharacter"></param>
-        /// <param name="foregroundColor"></param>
-        /// <param name="backgroundColour"></param>
         public MapTileTexture(
             IGameProvider gameProvider,
             int tileWidth,
@@ -49,7 +44,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             
             _spriteBatchDrawDepth = spriteBatchDrawDepth;
         }
-
+        
         /// <summary>
         /// Create a tile that only has a background, no foreground
         /// </summary>
@@ -67,6 +62,45 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 
             _spriteBatchDrawDepth = spriteBatchDrawDepth;
             _opacity = (float)backgroundColour.A / byte.MaxValue;
+        }
+
+        /// <summary>
+        /// Create a tile from a bitmap font character. The bitmap font must be a transparent background on a white foreground.
+        /// </summary>
+        public MapTileTexture(
+            IGameProvider gameProvider,
+            int tileWidth,
+            int tileHeight,
+            Texture2D bitmapFontTexture,
+            char character,
+            float spriteBatchDrawDepth,
+            Color foregroundColor,
+            Color? backgroundColour = null
+        ) : base(gameProvider, tileWidth, tileHeight)
+        {
+            var previousRenderTargets = _gameProvider.Game.GraphicsDevice.GetRenderTargets();
+
+            _gameProvider.Game.GraphicsDevice.SetRenderTarget(_renderTarget);
+
+            _gameProvider.Game.GraphicsDevice.Clear(backgroundColour ?? Color.Transparent);
+
+            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+
+            var bitmapCharacterDimensions = bitmapFontTexture.Width / 16;
+
+            var characterIndex = (int)character;
+
+            var characterRegion = new Rectangle((characterIndex % 16) * bitmapCharacterDimensions, (characterIndex / 16) * bitmapCharacterDimensions, bitmapCharacterDimensions, bitmapCharacterDimensions);
+
+            _spriteBatch.Draw(bitmapFontTexture, new Rectangle(0, 0, characterRegion.Width, characterRegion.Height), characterRegion, foregroundColor);
+
+            _spriteBatch.End();
+
+            _gameProvider.Game.GraphicsDevice.SetRenderTargets(previousRenderTargets);
+
+            _tileTexture = _renderTarget;
+
+            _spriteBatchDrawDepth = spriteBatchDrawDepth;
         }
     }
 }

@@ -54,5 +54,10 @@ namespace FrigidRogue.MonoGame.Core.Extensions
         {
             return new Point((int)points.Average(p => p.X), (int)points.Average(p => p.Y));
         }
+
+        public static int ToIndex(this Point point, int width)
+        {
+            return point.Y * width + point.X;
+        }
     }
 }
