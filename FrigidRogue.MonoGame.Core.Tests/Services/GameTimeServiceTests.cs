@@ -73,7 +73,6 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         public void Reset_Should_Restart_Stopwatch()
         {
             // Arrange
-            _fakeStopwatchProvider = Substitute.For<FakeStopwatchProvider>();
             _gameTimeService = SetupBaseComponent(new GameTimeService(_fakeStopwatchProvider));
 
             // Act

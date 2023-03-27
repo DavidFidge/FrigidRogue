@@ -1,6 +1,4 @@
-﻿using FrigidRogue.MonoGame.Core.Interfaces.Components;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace FrigidRogue.MonoGame.Core.Graphics.Quads
@@ -11,7 +9,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         /// Create a tile that has a character and an optional background
         /// </summary>
         public MapTileTexture(
-            IGameProvider gameProvider,
+            GraphicsDevice graphicsDevice,
             int tileWidth,
             int tileHeight,
             SpriteFont spriteFont,
@@ -19,26 +17,26 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             float spriteBatchDrawDepth,
             Color foregroundColor,
             Color? backgroundColour = null
-        ) : base(gameProvider, tileWidth, tileHeight)
+        ) : base(graphicsDevice, tileWidth, tileHeight)
         {
-            var previousRenderTargets = _gameProvider.Game.GraphicsDevice.GetRenderTargets();
+            var previousRenderTargets = graphicsDevice.GetRenderTargets();
 
             var glyph = spriteFont.GetGlyphs()[foregroundCharacter];
 
             var offset = new Vector2((tileWidth - glyph.BoundsInTexture.Width) / 2, (tileHeight - glyph.Cropping.Height) / 2);
             
-            _gameProvider.Game.GraphicsDevice.SetRenderTarget(_renderTarget);
+            graphicsDevice.SetRenderTarget(_renderTarget);
 
             _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
             if (backgroundColour != null)
-                _gameProvider.Game.GraphicsDevice.Clear(backgroundColour.Value);
+                graphicsDevice.Clear(backgroundColour.Value);
 
             _spriteBatch.DrawString(spriteFont, foregroundCharacter.ToString(), offset, foregroundColor);
 
             _spriteBatch.End();
 
-            _gameProvider.Game.GraphicsDevice.SetRenderTargets(previousRenderTargets);
+            graphicsDevice.SetRenderTargets(previousRenderTargets);
 
             _tileTexture = _renderTarget;
             
@@ -48,15 +46,15 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         /// <summary>
         /// Create a tile that only has a background, no foreground
         /// </summary>
-        public MapTileTexture(IGameProvider gameProvider, int tileWidth, int tileHeight, Color backgroundColour, float spriteBatchDrawDepth) : base(gameProvider, tileWidth, tileHeight)
+        public MapTileTexture(GraphicsDevice graphicsDevice, int tileWidth, int tileHeight, Color backgroundColour, float spriteBatchDrawDepth) : base(graphicsDevice, tileWidth, tileHeight)
         {
-            var previousRenderTargets = _gameProvider.Game.GraphicsDevice.GetRenderTargets();
+            var previousRenderTargets = graphicsDevice.GetRenderTargets();
             
-            _gameProvider.Game.GraphicsDevice.SetRenderTarget(_renderTarget);
+            graphicsDevice.SetRenderTarget(_renderTarget);
 
-            _gameProvider.Game.GraphicsDevice.Clear(backgroundColour);
+            graphicsDevice.Clear(backgroundColour);
 
-            _gameProvider.Game.GraphicsDevice.SetRenderTargets(previousRenderTargets);
+            graphicsDevice.SetRenderTargets(previousRenderTargets);
 
             _tileTexture = _renderTarget;
 
@@ -68,7 +66,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         /// Create a tile from a bitmap font character. The bitmap font must be a transparent background on a white foreground.
         /// </summary>
         public MapTileTexture(
-            IGameProvider gameProvider,
+            GraphicsDevice graphicsDevice,
             int tileWidth,
             int tileHeight,
             Texture2D bitmapFontTexture,
@@ -76,13 +74,13 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             float spriteBatchDrawDepth,
             Color foregroundColor,
             Color? backgroundColour = null
-        ) : base(gameProvider, tileWidth, tileHeight)
+        ) : base(graphicsDevice, tileWidth, tileHeight)
         {
-            var previousRenderTargets = _gameProvider.Game.GraphicsDevice.GetRenderTargets();
+            var previousRenderTargets = graphicsDevice.GetRenderTargets();
 
-            _gameProvider.Game.GraphicsDevice.SetRenderTarget(_renderTarget);
+            graphicsDevice.SetRenderTarget(_renderTarget);
 
-            _gameProvider.Game.GraphicsDevice.Clear(backgroundColour ?? Color.Transparent);
+            graphicsDevice.Clear(backgroundColour ?? Color.Transparent);
 
             _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
@@ -96,7 +94,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 
             _spriteBatch.End();
 
-            _gameProvider.Game.GraphicsDevice.SetRenderTargets(previousRenderTargets);
+            graphicsDevice.SetRenderTargets(previousRenderTargets);
 
             _tileTexture = _renderTarget;
 

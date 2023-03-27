@@ -1,12 +1,10 @@
 ﻿using FrigidRogue.MonoGame.Core.Components;
-
+using FrigidRogue.MonoGame.Core.Services;
 using MediatR;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using NSubstitute;
-
-using ILogger = Serilog.ILogger;
 
 namespace FrigidRogue.TestInfrastructure
 {
@@ -14,10 +12,16 @@ namespace FrigidRogue.TestInfrastructure
     public abstract class BaseTest
     {
         protected FakeLogger FakeLogger;
+        protected FakeStopwatchProvider FakeStopwatchProvider;
+        protected GameTimeService FakeGameTimeService;
 
         public BaseTest()
         {
             FakeLogger = new FakeLogger();
+            FakeStopwatchProvider = new FakeStopwatchProvider();
+            FakeGameTimeService = new GameTimeService(FakeStopwatchProvider);
+            SetupBaseComponent(FakeGameTimeService);
+            FakeGameTimeService.Start();
         }
 
         [TestInitialize]

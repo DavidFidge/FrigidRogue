@@ -5,35 +5,33 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 {
-    public abstract class BaseMapTileTexture
+    public abstract class BaseMapTileTexture : IMapTileTexture
     {
         public Texture2D Texture2D => _tileTexture;
         protected Texture2D _tileTexture;
-        protected readonly IGameProvider _gameProvider;
         protected RenderTarget2D _renderTarget;
         protected SpriteBatch _spriteBatch;
         protected float _opacity = 1f;
+        public float Opacity => _opacity;
 
         // Further away = 1.0, closest = 0.0. Since map quads are largely a single unchanged texture
         // then 
         protected float _spriteBatchDrawDepth;
 
-        public BaseMapTileTexture(IGameProvider gameProvider, int tileWidth, int tileHeight)
+        public BaseMapTileTexture(GraphicsDevice graphicsDevice, int tileWidth, int tileHeight)
         {
-            _gameProvider = gameProvider;
-
             _renderTarget = new RenderTarget2D(
-                _gameProvider.Game.GraphicsDevice,
+                graphicsDevice,
                 tileWidth,
                 tileHeight,
                 false,
-                _gameProvider.Game.GraphicsDevice.PresentationParameters.BackBufferFormat,
-                _gameProvider.Game.GraphicsDevice.PresentationParameters.DepthStencilFormat,
+                graphicsDevice.PresentationParameters.BackBufferFormat,
+                graphicsDevice.PresentationParameters.DepthStencilFormat,
                 0,
                 RenderTargetUsage.PreserveContents
             );
 
-            _spriteBatch = new SpriteBatch(_gameProvider.Game.GraphicsDevice);
+            _spriteBatch = new SpriteBatch(graphicsDevice);
         }
 
         public virtual void SpriteBatchDraw(SpriteBatch spriteBatch, Rectangle destinationRectangle, float? opacityOverride = null)
