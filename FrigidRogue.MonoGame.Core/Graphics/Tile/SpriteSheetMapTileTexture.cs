@@ -13,10 +13,17 @@ public class SpriteSheetMapTileTexture : IMapTileTexture
     public float Opacity => _opacity;
     public SpriteSheetAnimation SpriteSheetAnimation => _spriteSheetAnimation;
 
-    public SpriteSheetMapTileTexture(SpriteSheetAnimation spriteSheetAnimation, float opacity = 1f)
+    // Further away = 1.0, closest = 0.0.  Only set if you are using sprite batch draw mode Texture.
+    protected float _spriteBatchDrawDepth;
+
+    public SpriteSheetMapTileTexture(
+        SpriteSheetAnimation spriteSheetAnimation,
+        float opacity = 1f,
+        float spriteBatchDrawDepth = 0)
     {
         _spriteSheetAnimation = spriteSheetAnimation;
         _opacity = opacity;
+        _spriteBatchDrawDepth = spriteBatchDrawDepth;
     }
 
     public virtual void SpriteBatchDraw(SpriteBatch spriteBatch, Rectangle destinationRectangle, float? opacityOverride = null)
@@ -28,7 +35,7 @@ public class SpriteSheetMapTileTexture : IMapTileTexture
         else
             drawColour.A = (byte)(_opacity * byte.MaxValue);
 
-        spriteBatch.Draw(_spriteSheetAnimation.CurrentFrame.Texture, destinationRectangle, _spriteSheetAnimation.CurrentFrame.Bounds, drawColour, 0f, Vector2.Zero, SpriteEffects.None, 0);  // TODO - likely we don't need layers anymore due to use of texture atlases combined with known ordering of tile draws //_spriteBatchDrawDepth);
+        spriteBatch.Draw(_spriteSheetAnimation.CurrentFrame.Texture, destinationRectangle, _spriteSheetAnimation.CurrentFrame.Bounds, drawColour, 0f, Vector2.Zero, SpriteEffects.None, _spriteBatchDrawDepth);
     }
 
     public void Update(IGameTimeService gameTimeService)

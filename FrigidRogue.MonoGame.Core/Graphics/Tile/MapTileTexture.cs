@@ -14,9 +14,9 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             int tileHeight,
             SpriteFont spriteFont,
             char foregroundCharacter,
-            float spriteBatchDrawDepth,
             Color foregroundColor,
-            Color? backgroundColour = null
+            Color? backgroundColour = null,
+            float spriteBatchDrawDepth = 0
         ) : base(graphicsDevice, tileWidth, tileHeight)
         {
             var previousRenderTargets = graphicsDevice.GetRenderTargets();
@@ -46,7 +46,12 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         /// <summary>
         /// Create a tile that only has a background, no foreground
         /// </summary>
-        public MapTileTexture(GraphicsDevice graphicsDevice, int tileWidth, int tileHeight, Color backgroundColour, float spriteBatchDrawDepth) : base(graphicsDevice, tileWidth, tileHeight)
+        public MapTileTexture(
+            GraphicsDevice graphicsDevice,
+            int tileWidth,
+            int tileHeight,
+            Color backgroundColour,
+            float spriteBatchDrawDepth = 0) : base(graphicsDevice, tileWidth, tileHeight)
         {
             var previousRenderTargets = graphicsDevice.GetRenderTargets();
             
@@ -63,7 +68,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         }
 
         /// <summary>
-        /// Create a tile from a bitmap font character. The bitmap font must be a transparent background on a white foreground.
+        /// Create a tile from a bitmap font character. The bitmap font must be a transparent background on a white foreground and must be a 16 character x 16 character image.
         /// </summary>
         public MapTileTexture(
             GraphicsDevice graphicsDevice,
@@ -71,9 +76,9 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
             int tileHeight,
             Texture2D bitmapFontTexture,
             char character,
-            float spriteBatchDrawDepth,
             Color foregroundColor,
-            Color? backgroundColour = null
+            Color? backgroundColour = null,
+            float spriteBatchDrawDepth = 0
         ) : base(graphicsDevice, tileWidth, tileHeight)
         {
             var previousRenderTargets = graphicsDevice.GetRenderTargets();
@@ -84,11 +89,12 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 
             _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
-            var bitmapCharacterDimensions = bitmapFontTexture.Width / 16;
+            var bitmapCharacterWidth = bitmapFontTexture.Width / 16;
+            var bitmapCharacterHeight = bitmapFontTexture.Height / 16;
 
             var characterIndex = (int)character;
 
-            var characterRegion = new Rectangle((characterIndex % 16) * bitmapCharacterDimensions, (characterIndex / 16) * bitmapCharacterDimensions, bitmapCharacterDimensions, bitmapCharacterDimensions);
+            var characterRegion = new Rectangle((characterIndex % 16) * bitmapCharacterWidth, (characterIndex / 16) * bitmapCharacterHeight, bitmapCharacterWidth, bitmapCharacterHeight);
 
             _spriteBatch.Draw(bitmapFontTexture, new Rectangle(0, 0, characterRegion.Width, characterRegion.Height), characterRegion, foregroundColor);
 

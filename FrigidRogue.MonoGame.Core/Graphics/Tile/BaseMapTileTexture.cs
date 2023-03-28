@@ -14,8 +14,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         protected float _opacity = 1f;
         public float Opacity => _opacity;
 
-        // Further away = 1.0, closest = 0.0. Since map quads are largely a single unchanged texture
-        // then 
+        // Further away = 1.0, closest = 0.0.  Only set if you are using sprite batch draw mode Texture.
         protected float _spriteBatchDrawDepth;
 
         public BaseMapTileTexture(GraphicsDevice graphicsDevice, int tileWidth, int tileHeight)
