@@ -11,16 +11,18 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 
         private readonly SpriteFont _spriteFont;
         private readonly Color _foregroundColor;
+        private GraphicsDevice _graphicsDevice;
         public string Text { get; set; }
 
         public GoalMapTileTexture(
-            IGameProvider gameProvider,
+            GraphicsDevice graphicsDevice,
             int tileWidth,
             int tileHeight,
             SpriteFont spriteFont,
             Color foregroundColor
-        ) : base(gameProvider, tileWidth, tileHeight)
+        ) : base(graphicsDevice, tileWidth, tileHeight)
         {
+            _graphicsDevice = graphicsDevice;
             _spriteFont = spriteFont;
             _foregroundColor = foregroundColor;
         }
@@ -32,11 +34,11 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 
             if (!_cachedTextures.ContainsKey(Text))
             {
-                var previousRenderTargets = _gameProvider.Game.GraphicsDevice.GetRenderTargets();
+                var previousRenderTargets = _graphicsDevice.GetRenderTargets();
 
-                _gameProvider.Game.GraphicsDevice.SetRenderTarget(_renderTarget);
+                _graphicsDevice.SetRenderTarget(_renderTarget);
 
-                _gameProvider.Game.GraphicsDevice.Clear(Color.Transparent);
+                _graphicsDevice.Clear(Color.Transparent);
 
                 _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
@@ -44,14 +46,14 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 
                 _spriteBatch.End();
 
-                _gameProvider.Game.GraphicsDevice.SetRenderTargets(previousRenderTargets);
+                _graphicsDevice.SetRenderTargets(previousRenderTargets);
 
                 var textureData = new Color[_renderTarget.Width * _renderTarget.Height];
 
                 _renderTarget.GetData(textureData);
 
                 var texture = new Texture2D(
-                    _gameProvider.Game.GraphicsDevice,
+                    _graphicsDevice,
                     _renderTarget.Width,
                     _renderTarget.Height
                 );

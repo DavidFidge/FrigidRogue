@@ -15,15 +15,13 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
     public class GameTimeServiceTests : BaseTest
     {
         private GameTimeService _gameTimeService;
-        private FakeStopwatchProvider _fakeStopwatchProvider;
 
         [TestInitialize]
         public override void Setup()
         {
             base.Setup();
 
-            _fakeStopwatchProvider = new FakeStopwatchProvider();
-            _gameTimeService = SetupBaseComponent(new GameTimeService(_fakeStopwatchProvider));
+            _gameTimeService = SetupBaseComponent(new GameTimeService(FakeStopwatchProvider));
 
             _gameTimeService.Start();
         }
@@ -32,7 +30,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         public void Reset_Should_Reset_GameTime()
         {
             // Arrange
-            _fakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
+            FakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
 
             _gameTimeService.IncreaseGameSpeed();
             _gameTimeService.PauseGame();
@@ -42,7 +40,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             _gameTimeService.Reset();
 
             // Assert
-            Assert.AreEqual(TimeSpan.Zero, _fakeStopwatchProvider.Elapsed);
+            Assert.AreEqual(TimeSpan.Zero, FakeStopwatchProvider.Elapsed);
             Assert.AreEqual(TimeSpan.Zero, _gameTimeService.GameTime.ElapsedGameTime);
             Assert.AreEqual(TimeSpan.Zero, _gameTimeService.GameTime.TotalGameTime);
             Assert.AreEqual(TimeSpan.Zero, _gameTimeService.GameTime.ElapsedRealTime);
@@ -57,7 +55,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             _gameTimeService.IncreaseGameSpeed();
             _gameTimeService.Reset();
             _gameTimeService.Start();
-            _fakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
+            FakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
 
             // Act
             _gameTimeService.Update(new GameTime());
@@ -73,21 +71,21 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         public void Reset_Should_Restart_Stopwatch()
         {
             // Arrange
-            _fakeStopwatchProvider = Substitute.For<FakeStopwatchProvider>();
-            _gameTimeService = SetupBaseComponent(new GameTimeService(_fakeStopwatchProvider));
+            FakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
+            _gameTimeService = SetupBaseComponent(new GameTimeService(FakeStopwatchProvider));
 
             // Act
             _gameTimeService.Reset();
 
             // Assert
-            _fakeStopwatchProvider.Received().Restart();
+            Assert.AreEqual(TimeSpan.Zero, FakeStopwatchProvider.Elapsed);
         }
 
         [TestMethod]
         public void Start_Should_Throw_Exception_If_Already_Running()
         {
             // Arrange
-            _fakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
+            FakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
 
             _gameTimeService.IncreaseGameSpeed();
             _gameTimeService.PauseGame();
@@ -127,7 +125,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         public void SaveGame_Should_Return_Memento_With_GameTime()
         {
             // Arrange
-            _fakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(2);
+            FakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(2);
             _gameTimeService.Update(new GameTime());
 
             var saveGameService = Substitute.For<ISaveGameService>();
@@ -150,7 +148,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         public void Update_Should_Advance_GameTime()
         {
             // Arrange
-            _fakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
+            FakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
 
             // Act
             _gameTimeService.Update(new GameTime());
@@ -167,7 +165,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         {
             // Arrange
             _gameTimeService.Stop();
-            _fakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
+            FakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
 
             // Act
             _gameTimeService.Update(new GameTime());
@@ -189,7 +187,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         public void Update_Should_Publish_GameTimeUpdateNotification()
         {
             // Arrange
-            _fakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
+            FakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
 
             // Act
             _gameTimeService.Update(new GameTime());
@@ -205,12 +203,12 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         public void Update_Should_Advance_GameTime_By_Elapsed_Amount_Given_2_Different_Updates()
         {
             // Arrange
-            _fakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
+            FakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
 
             // Act
             _gameTimeService.Update(new GameTime());
 
-            _fakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(3);
+            FakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(3);
 
             _gameTimeService.Update(new GameTime());
 
@@ -227,7 +225,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             // Arrange
             _gameTimeService.PauseGame();
 
-            _fakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
+            FakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
 
             // Act
             _gameTimeService.Update(new GameTime());
@@ -246,11 +244,11 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             // Arrange
             _gameTimeService.PauseGame();
 
-            _fakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
+            FakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
 
             _gameTimeService.Update(new GameTime());
 
-            _fakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(3);
+            FakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(3);
 
             // Act
             _gameTimeService.ResumeGame();
@@ -274,7 +272,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             double expectedMilliseconds)
         {
             // Arrange
-            _fakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
+            FakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
 
             // Act
             for (int i = 0; i < numberOfTimes; i++)
@@ -297,7 +295,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             double expectedMilliseconds)
         {
             // Arrange
-            _fakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
+            FakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
 
             // Act
             for (int i = 0; i < numberOfTimes; i++)
@@ -316,7 +314,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         public void DecreaseGameSpeed_Should_Pause_Game_At_Slowest_Rate()
         {
             // Arrange
-            _fakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
+            FakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
 
             // Act
             for (int i = 0; i < 4; i++)
@@ -336,7 +334,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         public void IncreaseGameSpeed_Should_Resume_Game_At_Same_Speed_When_Paused()
         {
             // Arrange
-            _fakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
+            FakeStopwatchProvider.Elapsed = TimeSpan.FromSeconds(1);
 
             // Act
             _gameTimeService.PauseGame();
