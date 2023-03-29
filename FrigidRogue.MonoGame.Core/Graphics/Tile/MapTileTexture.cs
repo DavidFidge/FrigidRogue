@@ -106,5 +106,79 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 
             _spriteBatchDrawDepth = spriteBatchDrawDepth;
         }
+
+        /// <summary>
+        /// Create a tile from a Texture2D with foreground and background of texture
+        /// </summary>
+        public MapTileTexture(
+            GraphicsDevice graphicsDevice,
+            int tileWidth,
+            int tileHeight,
+            Texture2D texture,
+            float spriteBatchDrawDepth = 0
+        ) : base(graphicsDevice, tileWidth, tileHeight)
+        {
+            if (tileWidth == texture.Width && tileHeight == texture.Height)
+            {
+                _tileTexture = new Texture2D(graphicsDevice, tileWidth, tileHeight);
+
+                var colours = new Color[tileWidth * tileHeight];
+
+                texture.GetData(colours);
+                _tileTexture.SetData(colours);
+            }
+            else
+            {
+                var previousRenderTargets = graphicsDevice.GetRenderTargets();
+
+                graphicsDevice.SetRenderTarget(_renderTarget);
+
+                graphicsDevice.Clear(Color.Transparent);
+
+                _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+
+                _spriteBatch.Draw(texture, _renderTarget.Bounds, texture.Bounds, Color.White);
+
+                _spriteBatch.End();
+
+                graphicsDevice.SetRenderTargets(previousRenderTargets);
+
+                _tileTexture = _renderTarget;
+            }
+
+            _spriteBatchDrawDepth = spriteBatchDrawDepth;
+        }
+
+        /// <summary>
+        /// Create a tile from a Texture2D with custom foreground and background
+        /// </summary>
+        public MapTileTexture(
+            GraphicsDevice graphicsDevice,
+            int tileWidth,
+            int tileHeight,
+            Texture2D texture,
+            Color foregroundColor,
+            Color? backgroundColour = null,
+            float spriteBatchDrawDepth = 0
+        ) : base(graphicsDevice, tileWidth, tileHeight)
+        {
+            var previousRenderTargets = graphicsDevice.GetRenderTargets();
+
+            graphicsDevice.SetRenderTarget(_renderTarget);
+
+            graphicsDevice.Clear(backgroundColour ?? Color.Transparent);
+
+            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+
+            _spriteBatch.Draw(texture, _renderTarget.Bounds, texture.Bounds, foregroundColor);
+
+            _spriteBatch.End();
+
+            graphicsDevice.SetRenderTargets(previousRenderTargets);
+
+            _tileTexture = _renderTarget;
+
+            _spriteBatchDrawDepth = spriteBatchDrawDepth;
+        }
     }
 }
