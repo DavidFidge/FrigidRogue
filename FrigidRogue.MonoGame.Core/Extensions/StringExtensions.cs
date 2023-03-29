@@ -18,5 +18,10 @@ namespace FrigidRogue.MonoGame.Core.Extensions
         {
             return Regex.Replace(s, @"\B[A-Z]", " $0");
         }
+        
+        public static string RemoveSpaces(this string s)
+        {
+            return Regex.Replace(s, @"\s", string.Empty);
+        }
     }
 }
