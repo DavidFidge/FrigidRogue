@@ -1,7 +1,7 @@
 ﻿using FrigidRogue.MonoGame.Core.Interfaces.Services;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.Sprites;
+using SpriteSheetAnimation = FrigidRogue.MonoGame.Core.Graphics.Sprites.SpriteSheetAnimation;
 
 namespace FrigidRogue.MonoGame.Core.Graphics.Quads;
 
