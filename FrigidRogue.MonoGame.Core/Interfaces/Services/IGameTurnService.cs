@@ -1,5 +1,4 @@
 ﻿using FrigidRogue.MonoGame.Core.Interfaces.Components;
-
 using MonoGame.Extended;
 
 namespace FrigidRogue.MonoGame.Core.Interfaces.Services
