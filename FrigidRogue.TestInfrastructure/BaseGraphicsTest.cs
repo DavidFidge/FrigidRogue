@@ -13,6 +13,7 @@ namespace FrigidRogue.TestInfrastructure
         {
             base.Setup();
 
+            // This only works with SharpDX (i.e. compiling with WindowsDX)
             GraphicsDevice = new GraphicsDevice(GraphicsAdapter.DefaultAdapter, GraphicsProfile.Reach,
                 new PresentationParameters());
         }
