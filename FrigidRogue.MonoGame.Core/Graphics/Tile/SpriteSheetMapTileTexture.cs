@@ -1,5 +1,4 @@
-﻿using FrigidRogue.MonoGame.Core.Interfaces.Services;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Sprites;
 
@@ -38,8 +37,8 @@ public class SpriteSheetMapTileTexture : IMapTileTexture
         spriteBatch.Draw(_spriteSheetAnimation.CurrentFrame.Texture, destinationRectangle, _spriteSheetAnimation.CurrentFrame.Bounds, drawColour, 0f, Vector2.Zero, SpriteEffects.None, _spriteBatchDrawDepth);
     }
 
-    public void Update(IGameTimeService gameTimeService)
+    public void Update(GameTime gameTime)
     {
-        _spriteSheetAnimation.Update(gameTimeService.GameTime);
+        _spriteSheetAnimation.Update(gameTime);
     }
 }
