@@ -65,5 +65,8 @@ namespace FrigidRogue.MonoGame.Core.Interfaces.Services
         /// </summary>
         /// <returns>Details of games that can be loaded</returns>
         IList<LoadGameDetails> GetLoadGameList();
+
+        IMemento<T> GetHeaderFromStore<T>() where T : IHeaderSaveData;
+        void SaveHeaderToStore<T>(IMemento<T> memento) where T : IHeaderSaveData;
     }
 }

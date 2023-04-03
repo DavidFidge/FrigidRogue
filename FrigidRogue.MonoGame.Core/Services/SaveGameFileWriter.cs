@@ -18,7 +18,7 @@ namespace FrigidRogue.MonoGame.Core.Services
                 return SaveGameResult.Success;
         }
 
-        public SaveGameResult SaveBytesToFile(byte[] saveGameBytes, string saveGameName, bool overwrite)
+        public SaveGameResult SaveBytesToFile(byte[] headerBytes, byte[] saveGameBytes, string saveGameName, bool overwrite)
         {
             var saveGameFile = GetSaveGameFile(saveGameName);
 
@@ -27,7 +27,14 @@ namespace FrigidRogue.MonoGame.Core.Services
 
             try
             {
-                File.WriteAllBytes(saveGameFile, saveGameBytes);
+                var headerByteCount = BitConverter.GetBytes(headerBytes.Length);
+
+                var allBytes = headerByteCount
+                    .Concat(headerBytes)
+                    .Concat(saveGameBytes)
+                    .ToArray();
+
+                File.WriteAllBytes(saveGameFile, allBytes);
             }
             catch (Exception e)
             {
@@ -61,7 +68,7 @@ namespace FrigidRogue.MonoGame.Core.Services
 
             try
             {
-                var bytes = GetBytesFromFile(saveGameName, saveGameFolder);
+                var bytes = GetSaveGameBytesFromFile(saveGameName, saveGameFolder);
                 return new LoadGameResult { Bytes = bytes };
             }
             catch (Exception e)
@@ -73,12 +80,61 @@ namespace FrigidRogue.MonoGame.Core.Services
             }
         }
 
-        private byte[] GetBytesFromFile(string saveGameName, string saveGameFolder)
+        private byte[] GetSaveGameBytesFromFile(string saveGameName, string saveGameFolder)
         {
             var saveGameFile = Path.Combine(saveGameFolder, $"{saveGameName}.sav");
 
-            var saveGameBytes = File.ReadAllBytes(saveGameFile);
+            using var file = File.OpenRead(saveGameFile);
+            using var fileBinary = new BinaryReader(file);
+
+            GetHeaderBytes(fileBinary);
+
+            var saveGameBytes = fileBinary.ReadBytes((int)file.Length);
+
+            fileBinary.Close();
+            file.Close();
+
             return saveGameBytes;
+        }
+
+        public LoadGameHeaderResult LoadHeaderBytesFromFile(string saveGameName)
+        {
+            var saveGameFolder = GetSaveGamePath();
+
+            try
+            {
+                var bytes = GetHeaderBytesFromFile(saveGameName, saveGameFolder);
+                return new LoadGameHeaderResult { Bytes = bytes };
+            }
+            catch (Exception e)
+            {
+                var message = $"Could not load header for game {saveGameName}";
+                Logger.Error(e, message);
+
+                return new LoadGameHeaderResult { ErrorMessage = $"{message}: {e.Message}" };
+            }
+        }
+
+        private byte[] GetHeaderBytesFromFile(string saveGameName, string saveGameFolder)
+        {
+            var saveGameFile = Path.Combine(saveGameFolder, $"{saveGameName}.sav");
+
+            using var file = File.OpenRead(saveGameFile);
+            using var fileBinary = new BinaryReader(file);
+
+            var headerBytes = GetHeaderBytes(fileBinary);
+
+            fileBinary.Close();
+            file.Close();
+
+            return headerBytes;
+        }
+
+        private byte[] GetHeaderBytes(BinaryReader fileBinary)
+        {
+            var headerSizeInBytes = fileBinary.ReadInt32();
+            var headerBytes = fileBinary.ReadBytes(headerSizeInBytes);
+            return headerBytes;
         }
 
         public string GetSaveGamePath()

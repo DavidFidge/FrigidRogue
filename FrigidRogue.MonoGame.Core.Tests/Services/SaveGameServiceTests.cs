@@ -1,8 +1,6 @@
 ﻿using System.IO;
 
-using FrigidRogue.MonoGame.Core.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
-using FrigidRogue.MonoGame.Core.Interfaces.Services;
 using FrigidRogue.MonoGame.Core.Services;
 using FrigidRogue.TestInfrastructure;
 
@@ -39,7 +37,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         }
 
         [TestMethod]
-        public void Should_Save_To_And_Load_From_Store()
+        public void Should_Save_To_And_Load_From_Store_No_Header()
         {
             // Arrange
             var testClass = new TestClass2();
@@ -51,7 +49,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             var result = _saveGameService.SaveStoreToFile(_saveGameName, false);
             _saveGameService.LoadStoreFromFile(_saveGameName);
 
-            var loadedTestData = _saveGameService.GetFromStore<TestData>();
+            var loadedTestData = _saveGameService.GetFromStore<TestData2>();
 
             // Assert
             Assert.AreEqual(testClass.TestProperty, loadedTestData.State.TestProperty);
@@ -59,6 +57,60 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             Assert.IsFalse(result.RequiresOverwrite);
             Assert.IsNull(result.ErrorMessage);
             Assert.AreEqual(SaveGameResult.Success, result);
+        }
+
+        [TestMethod]
+        public void Should_Save_To_And_Load_From_Store_With_Header()
+        {
+            // Arrange
+            var testClass = new TestClass2();
+            testClass.TestProperty = 1;
+            testClass.TestProperty2 = "hello";
+
+            var testHeaderClass = new TestClass1();
+            testHeaderClass.LoadGameDetail = "header";
+
+            // Act
+            _saveGameService.SaveToStore(testClass.GetSaveState());
+            _saveGameService.SaveHeaderToStore(testHeaderClass.GetSaveState());
+            var result = _saveGameService.SaveStoreToFile(_saveGameName, false);
+            _saveGameService.LoadStoreFromFile(_saveGameName);
+
+            var loadedTestData = _saveGameService.GetFromStore<TestData2>();
+            var loadedTestHeaderData = _saveGameService.GetHeaderFromStore<TestData1>();
+
+            // Assert
+            Assert.AreEqual(testClass.TestProperty, loadedTestData.State.TestProperty);
+            Assert.AreEqual(testClass.TestProperty2, loadedTestData.State.TestProperty2);
+            Assert.AreEqual(testHeaderClass.LoadGameDetail, loadedTestHeaderData.State.LoadGameDetail);
+            Assert.IsFalse(result.RequiresOverwrite);
+            Assert.IsNull(result.ErrorMessage);
+            Assert.AreEqual(SaveGameResult.Success, result);
+        }
+
+        [TestMethod]
+        public void Clear_Should_Empty_Game_Store_And_Header()
+        {
+            // Arrange
+            var testClass = new TestClass2();
+            testClass.TestProperty = 1;
+            testClass.TestProperty2 = "hello";
+
+            var testHeaderClass = new TestClass1();
+            testHeaderClass.LoadGameDetail = "header";
+
+            _saveGameService.SaveToStore(testClass.GetSaveState());
+            _saveGameService.SaveHeaderToStore(testHeaderClass.GetSaveState());
+
+            // Act
+            _saveGameService.Clear();
+
+            // Assert
+            var exception = Assert.ThrowsException<Exception>(() => _saveGameService.GetFromStore<TestData2>());
+            Assert.AreEqual($"An object was not found in the store which is or can be assigned as a type {typeof(TestData2)}", exception.Message);
+
+            var exceptionHeader = Assert.ThrowsException<Exception>(() => _saveGameService.GetHeaderFromStore<TestData1>());
+            Assert.AreEqual($"An object was not found in the store which is or can be assigned as a type {typeof(TestData1)}", exceptionHeader.Message);
         }
 
         [TestMethod]
@@ -152,17 +204,12 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             // Arrange
             var dateTimeNow = DateTime.Now;
 
-            var testClass = new TestClass
+            var testClass = new TestClass1
             {
                 LoadGameDetail = $"Load Details{dateTimeNow.Ticks}"
             };
 
-            var testData2 = new TestData2
-            {
-                LoadGameDetail = testClass.LoadGameDetail
-            };
-
-            _saveGameService.SaveToStore(new Memento<TestData2> { State = testData2 });
+            _saveGameService.SaveHeaderToStore(testClass.GetSaveState());
             _saveGameService.SaveStoreToFile(_saveGameName, true);
 
             // Act
@@ -172,6 +219,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             var gameToLoad = loadGameList.Single(l => l.Filename == _saveGameName);
 
             Assert.AreEqual(_saveGameName, gameToLoad.Filename);
+            Assert.AreEqual(testClass.LoadGameDetail, gameToLoad.LoadGameDetail);
 
             // The load time should be in the vicinity of current date time. We can't do a
             // comparison by dateTimeNow <= gameToLoad as sometimes gameToLoad can be LESS THAN
@@ -182,45 +230,53 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             // Assert.IsTrue(Math.Abs(dateTimeNow.Ticks - gameToLoad.DateTime.Ticks) < 100000);
         }
 
-        private class TestData
-        {
-            public int TestProperty { get; set; }
-            public string TestProperty2 { get; set; }
-        }
-
-        private class TestData2 : ILoadGameDetail
+        private class TestData1 : IHeaderSaveData
         {
             public string LoadGameDetail { get; set; }
         }
-        
-        private class TestData3
+
+        private class TestClass1 : IHeaderSaveData, IMementoState<TestData1>
         {
-            public Range<int> TestRange { get; set; }
-        }
-        
-        private class TestClass : ILoadGameDetail
-        {
-            public int TestProperty { get; set; }
             public string LoadGameDetail { get; set; }
-        }
-
-        private class TestClass2 : IMementoState<TestData>
-        {
-            public int TestProperty { get; set; }
-            public string TestProperty2 { get; set; }
-
-            public IMemento<TestData> GetSaveState()
+            public IMemento<TestData1> GetSaveState()
             {
-                return new Memento<TestData>(new TestData { TestProperty = TestProperty, TestProperty2 = TestProperty2 });
+                return new Memento<TestData1>(new TestData1 { LoadGameDetail = LoadGameDetail });
             }
 
-            public void SetLoadState(IMemento<TestData> memento)
+            public void SetLoadState(IMemento<TestData1> memento)
+            {
+                LoadGameDetail = memento.State.LoadGameDetail;
+            }
+        }
+
+        private class TestData2
+        {
+            public int TestProperty { get; set; }
+            public string TestProperty2 { get; set; }
+        }
+
+        private class TestClass2 : IMementoState<TestData2>
+        {
+            public int TestProperty { get; set; }
+            public string TestProperty2 { get; set; }
+
+            public IMemento<TestData2> GetSaveState()
+            {
+                return new Memento<TestData2>(new TestData2 { TestProperty = TestProperty, TestProperty2 = TestProperty2 });
+            }
+
+            public void SetLoadState(IMemento<TestData2> memento)
             {
                 TestProperty = memento.State.TestProperty;
                 TestProperty2 = memento.State.TestProperty2;
             }
         }
-        
+
+        private class TestData3
+        {
+            public Range<int> TestRange { get; set; }
+        }
+
         private class TestClass3 : IMementoState<TestData3>
         {
             public Range<int> TestRange { get; set; }

@@ -2,7 +2,7 @@ using FrigidRogue.MonoGame.Core.Interfaces.Components;
 
 namespace FrigidRogue.MonoGame.Core.Services
 {
-    public class LoadGameDetails : ILoadGameDetail
+    public class LoadGameDetails : IHeaderSaveData
     {
         public string Filename { get; set; }
         public DateTime DateTime { get; set; }

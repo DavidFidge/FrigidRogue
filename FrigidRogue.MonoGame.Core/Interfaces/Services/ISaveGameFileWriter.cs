@@ -16,11 +16,12 @@ namespace FrigidRogue.MonoGame.Core.Interfaces.Services
         /// <summary>
         /// Saves game to file. If an exception is thrown it is caught and returned in the SaveGameResult object ErrorMessage string.
         /// </summary>
+        /// <param name="headerBytes">Game header which contains info to show in load game list</param>
         /// <param name="saveGameBytes">Game to save to file as bytes</param>
         /// <param name="saveGameName">Name of save game</param>
         /// <param name="overwrite">Set to true to allow any existing game to be overwritten. If not set, SaveGameResult will return with a result of Overwrite without saving the game.</param>
         /// <returns>SaveGameResult holding results of saving the file</returns>
-        SaveGameResult SaveBytesToFile(byte[] saveGameBytes, string saveGameName, bool overwrite);
+        SaveGameResult SaveBytesToFile(byte[] headerBytes, byte[] saveGameBytes, string saveGameName, bool overwrite);
 
         /// <summary>
         /// Loads a game from file. Any exceptions are caught and returned in the LoadGameResult ErrorMessage
@@ -41,5 +42,12 @@ namespace FrigidRogue.MonoGame.Core.Interfaces.Services
         /// <param name="saveGameName">Name of save game</param>
         /// <returns>FileInfo for the save game</returns>
         FileInfo GetFileInfo(string saveGameName);
+
+        /// <summary>
+        /// Loads a game header from file. Any exceptions are caught and returned in the LoadGameResult ErrorMessage
+        /// </summary>
+        /// <param name="saveGameName">Game to load header from</param>
+        /// <returns>LoadGameHeaderResult holding the results of loading the header for the game, including the loaded game header bytes if load was successful</returns>
+        LoadGameHeaderResult LoadHeaderBytesFromFile(string saveGameName);
     }
 }

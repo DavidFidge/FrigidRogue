@@ -7,11 +7,13 @@ namespace FrigidRogue.MonoGame.Core.Services
     public class SaveGameService : BaseComponent, ISaveGameService
     {
         private readonly ISaveGameStore _saveGameStore;
+        private readonly ISaveGameStore _headerStore;
         private readonly ISaveGameFileWriter _saveGameFileWriter;
 
         public SaveGameService(ISaveGameFileWriter saveGameFileWriter)
         {
             _saveGameStore = new SaveGameStore();
+            _headerStore = new SaveGameStore();
 
             _saveGameFileWriter = saveGameFileWriter;
         }
@@ -21,9 +23,18 @@ namespace FrigidRogue.MonoGame.Core.Services
             return _saveGameStore.GetFromStore<T>();
         }
 
+        public IMemento<T> GetHeaderFromStore<T>() where T : IHeaderSaveData
+        {
+            return _headerStore.GetFromStore<T>();
+        }
         public void SaveToStore<T>(IMemento<T> memento)
         {
-            _saveGameStore.SaveToStore<T>(memento);
+            _saveGameStore.SaveToStore(memento);
+        }
+
+        public void SaveHeaderToStore<T>(IMemento<T> memento) where T : IHeaderSaveData
+        {
+            _headerStore.SaveToStore(memento);
         }
 
         public IList<IMemento<TSaveData>> GetListFromStore<TSaveData>()
@@ -39,6 +50,7 @@ namespace FrigidRogue.MonoGame.Core.Services
         public void Clear()
         {
             _saveGameStore.Clear();
+            _headerStore.Clear();
         }
 
         public SaveGameResult CanSaveStoreToFile(string saveGameName)
@@ -49,8 +61,9 @@ namespace FrigidRogue.MonoGame.Core.Services
         public SaveGameResult SaveStoreToFile(string saveGameName, bool overwrite)
         {
             var saveGameBytes = _saveGameStore.GetSaveGameBytes();
+            var headerBytes = _headerStore.GetSaveGameBytes();
 
-            return _saveGameFileWriter.SaveBytesToFile(saveGameBytes, saveGameName, overwrite);
+            return _saveGameFileWriter.SaveBytesToFile(headerBytes, saveGameBytes, saveGameName, overwrite);
         }
 
         public LoadGameResult LoadStoreFromFile(string saveGameName)
@@ -72,32 +85,30 @@ namespace FrigidRogue.MonoGame.Core.Services
 
             foreach (var saveGameName in saveGameFilenames)
             {
-                var loadGameResult = _saveGameFileWriter.LoadBytesFromFile(saveGameName);
+                var loadGameResult = _saveGameFileWriter.LoadHeaderBytesFromFile(saveGameName);
 
                 if (loadGameResult.Failure)
                 {
-                    Logger.Warning($"Error occurred when getting load game details for file {saveGameName} - {loadGameResult.ErrorMessage}");
+                    Logger.Warning($"Error occurred when getting load game header details for file {saveGameName} - {loadGameResult.ErrorMessage}");
                     continue;
                 }
 
-                var saveGameStore = new SaveGameStore();
-
                 try
                 {
-                    saveGameStore.DeserialiseStoreFromBytes(loadGameResult.Bytes);
+                    _headerStore.DeserialiseStoreFromBytes(loadGameResult.Bytes);
                 }
                 catch (Exception e)
                 {
-                    Logger.Warning(e, $"Exception occurred when deserialising save game from bytes for save file {saveGameName}");
+                    Logger.Warning(e, $"Exception occurred when deserialising save game header from bytes for save file {saveGameName}");
 
                     continue;
                 }
 
-                IMemento<ILoadGameDetail> loadGameDetails;
+                IMemento<IHeaderSaveData> loadGameDetails;
 
                 try
                 {
-                    loadGameDetails = saveGameStore.GetFromStore<ILoadGameDetail>();
+                    loadGameDetails = _headerStore.GetFromStore<IHeaderSaveData>();
                 }
                 catch (Exception e)
                 {
