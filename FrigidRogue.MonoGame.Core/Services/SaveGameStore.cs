@@ -14,7 +14,7 @@ namespace FrigidRogue.MonoGame.Core.Services
     {
         private readonly JsonSerializerSettings _jsonSerializerSettings;
 
-        private Dictionary<Type, string> _jsonGameObjectStore = new();
+        private Dictionary<Type, object> _jsonGameObjectStore = new();
 
         public SaveGameStore()
         {
@@ -29,47 +29,43 @@ namespace FrigidRogue.MonoGame.Core.Services
 
         public IMemento<T> GetFromStore<T>()
         {
-            var success = _jsonGameObjectStore.TryGetValue(typeof(T), out string jsonString);
+            var success = _jsonGameObjectStore.TryGetValue(typeof(T), out object item);
 
             if (success)
-                return new Memento<T>(JsonConvert.DeserializeObject<T>(jsonString, _jsonSerializerSettings));
+                return new Memento<T>((T)item);
 
             var key = _jsonGameObjectStore.Keys.FirstOrDefault(k => typeof(T).IsAssignableFrom(k));
 
             if (key == null)
                 throw new Exception($"An object was not found in the store which is or can be assigned as a type {typeof(T)}");
 
-            jsonString = _jsonGameObjectStore[key];
+            item = _jsonGameObjectStore[key];
 
-            return new Memento<T>((T)JsonConvert.DeserializeObject(jsonString, key, _jsonSerializerSettings));
+            return new Memento<T>((T)item);
         }
 
         public void SaveToStore<T>(IMemento<T> memento)
         {
-            var jsonString = JsonConvert.SerializeObject(memento.State, _jsonSerializerSettings);
-
-            _jsonGameObjectStore.Add(typeof(T), jsonString);
+            _jsonGameObjectStore.Add(typeof(T), memento.State);
         }
 
         public IList<IMemento<TSaveData>> GetListFromStore<TSaveData>()
         {
-            var jsonString = _jsonGameObjectStore[typeof(IList<TSaveData>)];
+            var item = _jsonGameObjectStore[typeof(IList<TSaveData>)];
 
-            var list = JsonConvert.DeserializeObject<IList<IMemento<TSaveData>>>(jsonString, _jsonSerializerSettings);
+            var list = (IList<IMemento<TSaveData>>)item;
 
             return list;
         }
 
         public void SaveListToStore<TSaveData>(IList<IMemento<TSaveData>> item)
         {
-            var jsonString = JsonConvert.SerializeObject(item, _jsonSerializerSettings);
-
-            _jsonGameObjectStore.Add(typeof(IList<TSaveData>), jsonString);
+            _jsonGameObjectStore.Add(typeof(IList<TSaveData>), item);
         }
 
         public void Clear()
         {
-            _jsonGameObjectStore = new Dictionary<Type, string>();
+            _jsonGameObjectStore = new Dictionary<Type, object>();
         }
 
         public byte[] GetSaveGameBytes()
@@ -85,7 +81,7 @@ namespace FrigidRogue.MonoGame.Core.Services
         {
             var saveGameString = GZipStream.UncompressString(saveGameBytes);
 
-            _jsonGameObjectStore = JsonConvert.DeserializeObject<Dictionary<Type, string>>(saveGameString, _jsonSerializerSettings);
+            _jsonGameObjectStore = JsonConvert.DeserializeObject<Dictionary<Type, object>>(saveGameString, _jsonSerializerSettings);
         }
 
         // Alternative implementation for uncompressing using BestSpeed.  Currently not using as it doesn't appear to improve performance much.
