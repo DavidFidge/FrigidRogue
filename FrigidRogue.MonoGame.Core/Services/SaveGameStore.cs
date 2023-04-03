@@ -4,6 +4,7 @@ using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
 using MonoGame.Extended.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
 using CompressionLevel = MonoGame.Framework.Utilities.Deflate.CompressionLevel;
 using CompressionMode = MonoGame.Framework.Utilities.Deflate.CompressionMode;
 using GZipStream = MonoGame.Framework.Utilities.Deflate.GZipStream;
@@ -70,18 +71,27 @@ namespace FrigidRogue.MonoGame.Core.Services
 
         public byte[] GetSaveGameBytes()
         {
-            var saveGameString = JsonConvert.SerializeObject(_jsonGameObjectStore, _jsonSerializerSettings);
+            var ms = new MemoryStream();
+            using var writer = new BsonWriter(ms);
+            var serializer = JsonSerializer.Create(_jsonSerializerSettings);
+            serializer.Serialize(writer, _jsonGameObjectStore);
 
-            var saveGameBytes = GZipStream.CompressString(saveGameString);
+            var array = ms.ToArray();
+
+            var saveGameBytes = GZipStream.CompressBuffer(array);
 
             return saveGameBytes;
         }
 
         public void DeserialiseStoreFromBytes(byte[] saveGameBytes)
         {
-            var saveGameString = GZipStream.UncompressString(saveGameBytes);
+            var array = GZipStream.UncompressBuffer(saveGameBytes);
 
-            _jsonGameObjectStore = JsonConvert.DeserializeObject<Dictionary<Type, object>>(saveGameString, _jsonSerializerSettings);
+            var ms = new MemoryStream(array);
+            using var reader = new BsonReader(ms);
+            var serializer = JsonSerializer.Create(_jsonSerializerSettings);
+
+            _jsonGameObjectStore = serializer.Deserialize<Dictionary<Type, object>>(reader);
         }
 
         // Alternative implementation for uncompressing using BestSpeed.  Currently not using as it doesn't appear to improve performance much.
