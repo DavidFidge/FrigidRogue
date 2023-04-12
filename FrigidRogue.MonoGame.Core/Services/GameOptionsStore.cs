@@ -11,6 +11,7 @@ namespace FrigidRogue.MonoGame.Core.Services
     public class GameOptionsStore : IGameOptionsStore
     {
         private readonly JsonSerializerSettings _jsonSerializerSettings;
+        private readonly Dictionary<Type, object> _cache = new();
 
         public GameOptionsStore()
         {
@@ -22,6 +23,9 @@ namespace FrigidRogue.MonoGame.Core.Services
 
         public IMemento<T> GetFromStore<T>()
         {
+            if (_cache.ContainsKey(typeof(T)))
+                return new Memento<T>((T)_cache[typeof(T)]);
+
             var gameOptionsFile = GetGameOptionsFilePath<T>();
 
             if (!File.Exists(gameOptionsFile))
@@ -29,7 +33,11 @@ namespace FrigidRogue.MonoGame.Core.Services
 
             var jsonString = File.ReadAllText(gameOptionsFile);
 
-            return new Memento<T>(JsonConvert.DeserializeObject<T>(jsonString, _jsonSerializerSettings));
+            var option = new Memento<T>(JsonConvert.DeserializeObject<T>(jsonString, _jsonSerializerSettings));
+
+            _cache.Add(typeof(T), option.State);
+
+            return option;
         }
 
         public void SaveToStore<T>(IMemento<T> memento)
@@ -39,6 +47,13 @@ namespace FrigidRogue.MonoGame.Core.Services
             var jsonString = JsonConvert.SerializeObject(memento.State, _jsonSerializerSettings);
 
             File.WriteAllText(gameOptionsFile, jsonString);
+
+            // Invalidate the cache.  Another way would be to update the cache if it exists, but this way has the advantage where
+            // T does not need to be cloned or properties copied to ensure that a copy of the state is saved rather than the
+            // object itself (the object could later be modified by the game code thus causing the cache data to be modified too
+            // if it used the same object).  When another get is done, it is read from file and thus we have a new copy of T.
+            if (_cache.ContainsKey(typeof(T)))
+                _cache.Remove(typeof(T));
         }
 
         private string GetGameOptionsFilePath<T>()

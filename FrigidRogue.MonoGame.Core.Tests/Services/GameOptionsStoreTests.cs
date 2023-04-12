@@ -46,13 +46,6 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
         [TestMethod]
         public void Should_Return_Null_If_No_File_Found()
         {
-            // Arrange
-            var testData = new GameOptionsStoreTestData();
-
-            var gameOptionsFolder = GetGameOptionsFilePath<GameOptionsStoreTestData>();
-
-            var nonExistantFolder = Path.Combine(gameOptionsFolder, "NonExistantFolder");
-
             // Act
             var memento = _gameOptionsStore.GetFromStore<GameOptionsStoreTestData>();
 
@@ -77,6 +70,79 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             Assert.AreEqual(2, loadedData.ListProperty.Count);
             Assert.AreEqual(1, loadedData.ListProperty[0].IntProperty);
             Assert.AreEqual(2, loadedData.ListProperty[1].IntProperty);
+        }
+
+        [TestMethod]
+        public void Should_Load_Using_Cache()
+        {
+            // Arrange
+            var testData = new GameOptionsStoreTestData();
+            testData.ListProperty[1].IntProperty = 2;
+
+            _gameOptionsStore.SaveToStore(new Memento<GameOptionsStoreTestData>(testData));
+            _gameOptionsStore.GetFromStore<GameOptionsStoreTestData>(); // Load from file, next call will load from cache
+
+            // Act
+            var optionsFile = GetGameOptionsFilePath<GameOptionsStoreTestData>();
+
+            // Lock the file, ensuring it cannot be opened elsewhere
+            using var file = File.Open(optionsFile, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+            var loadedData = _gameOptionsStore.GetFromStore<GameOptionsStoreTestData>().State;
+            file.Close();
+
+            // Assert
+            Assert.AreEqual("Test", loadedData.StringProperty);
+            Assert.AreEqual(2, loadedData.ListProperty.Count);
+            Assert.AreEqual(1, loadedData.ListProperty[0].IntProperty);
+            Assert.AreEqual(2, loadedData.ListProperty[1].IntProperty);
+        }
+
+        [TestMethod]
+        public void Second_Save_Should_Overwrite_Existing_Data()
+        {
+            // Arrange
+            var testData = new GameOptionsStoreTestData();
+            testData.ListProperty[1].IntProperty = 2;
+
+            var testData2 = new GameOptionsStoreTestData();
+            testData2.ListProperty[1].IntProperty = 3;
+
+            _gameOptionsStore.SaveToStore(new Memento<GameOptionsStoreTestData>(testData));
+            _gameOptionsStore.SaveToStore(new Memento<GameOptionsStoreTestData>(testData2));
+
+            // Act
+            var loadedData = _gameOptionsStore.GetFromStore<GameOptionsStoreTestData>().State;
+
+            // Assert
+            Assert.AreEqual("Test", loadedData.StringProperty);
+            Assert.AreEqual(2, loadedData.ListProperty.Count);
+            Assert.AreEqual(1, loadedData.ListProperty[0].IntProperty);
+            Assert.AreEqual(3, loadedData.ListProperty[1].IntProperty);
+        }
+
+        [TestMethod]
+        public void Second_Save_Should_Not_Update_Cache_With_Reference_Of_Object_Being_Saved()
+        {
+            // Arrange
+            var testData = new GameOptionsStoreTestData();
+            testData.ListProperty[1].IntProperty = 2;
+
+            var testData2 = new GameOptionsStoreTestData();
+            testData2.ListProperty[1].IntProperty = 3;
+
+            _gameOptionsStore.SaveToStore(new Memento<GameOptionsStoreTestData>(testData));
+            _gameOptionsStore.GetFromStore<GameOptionsStoreTestData>(); // Load from file, next call will load from cache
+            _gameOptionsStore.SaveToStore(new Memento<GameOptionsStoreTestData>(testData2));
+
+            // Act
+            testData2.ListProperty[1].IntProperty = 4; // Update object which was saved.  Loading from cache should not return this updated value
+            var loadedData = _gameOptionsStore.GetFromStore<GameOptionsStoreTestData>().State;
+
+            // Assert
+            Assert.AreEqual("Test", loadedData.StringProperty);
+            Assert.AreEqual(2, loadedData.ListProperty.Count);
+            Assert.AreEqual(1, loadedData.ListProperty[0].IntProperty);
+            Assert.AreEqual(3, loadedData.ListProperty[1].IntProperty);
         }
 
         private string GetGameOptionsFilePath<T>()
