@@ -41,4 +41,14 @@ public class SpriteSheetMapTileTexture : IMapTileTexture
     {
         _spriteSheetAnimation.Update(gameTime);
     }
+
+    public void Stop()
+    {
+        _spriteSheetAnimation.Stop();
+    }
+
+    public void Play()
+    {
+        _spriteSheetAnimation.Play();
+    }
 }
