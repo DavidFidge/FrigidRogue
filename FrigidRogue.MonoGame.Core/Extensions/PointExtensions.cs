@@ -14,6 +14,11 @@ namespace FrigidRogue.MonoGame.Core.Extensions
             return point.Neighbours(0, settableGridView.Width, 0, settableGridView.Height);
         }
 
+        public static List<Point> Neighbours(this Point point, int xMax, int yMax)
+        {
+            return point.Neighbours(0, xMax, 0, yMax);
+        }
+
         public static List<Point> Neighbours(this Point centrePoint, int? xMin = null, int? xMax = null, int? yMin = null, int? yMax = null)
         {
             var pointList = new List<Point>();
