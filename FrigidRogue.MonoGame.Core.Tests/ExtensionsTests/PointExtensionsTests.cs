@@ -109,7 +109,49 @@ namespace FrigidRogue.MonoGame.Core.Tests.Extensions
 
             CollectionAssert.AreEquivalent(expectedPoints, result);
         }
+        
+        [TestMethod]
+        public void Neighbours_Should_Return_Surrounding_Points_For_Cardinal_Direction()
+        {
+            // Arrange
+            var point = new Point();
 
+            // Act
+            var result = point.Neighbours(adjacencyRule: AdjacencyRule.Cardinals);
+
+            // Assert
+            var expectedPoints = new List<Point>
+            {
+                new Point(-1, 0),
+                new Point(0, -1),
+                new Point(0, 1),
+                new Point(1, 0),
+            };
+
+            CollectionAssert.AreEquivalent(expectedPoints, result);
+        }
+
+        [TestMethod]
+        public void Neighbours_Should_Return_Surrounding_Points_For_Diagonal_Direction()
+        {
+            // Arrange
+            var point = new Point();
+
+            // Act
+            var result = point.Neighbours(adjacencyRule: AdjacencyRule.Diagonals);
+
+            // Assert
+            var expectedPoints = new List<Point>
+            {
+                new Point(-1, -1),
+                new Point(-1, 1),
+                new Point(1, -1),
+                new Point(1, 1)
+            };
+
+            CollectionAssert.AreEquivalent(expectedPoints, result);
+        }
+        
         [TestMethod]
         public void Neighbours_Should_Return_All_Surrounding_Points_Limited_By_X_Min()
         {

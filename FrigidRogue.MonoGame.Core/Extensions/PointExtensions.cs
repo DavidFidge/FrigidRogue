@@ -9,17 +9,18 @@ namespace FrigidRogue.MonoGame.Core.Extensions
 {
     public static class PointExtensions
     {
-        public static List<Point> Neighbours<T>(this Point point, IGridView<T> settableGridView)
+        public static List<Point> Neighbours<T>(this Point point, IGridView<T> settableGridView, AdjacencyRule.Types adjacencyRule = AdjacencyRule.Types.EightWay)
         {
-            return point.Neighbours(0, settableGridView.Width, 0, settableGridView.Height);
+            return point.Neighbours(0, settableGridView.Width, 0, settableGridView.Height, adjacencyRule);
         }
 
-        public static List<Point> Neighbours(this Point point, int xMax, int yMax)
+        public static List<Point> Neighbours(this Point point, int xMax, int yMax, AdjacencyRule.Types adjacencyRule = AdjacencyRule.Types.EightWay)
         {
-            return point.Neighbours(0, xMax, 0, yMax);
+            return point.Neighbours(0, xMax, 0, yMax, adjacencyRule);
         }
 
-        public static List<Point> Neighbours(this Point centrePoint, int? xMin = null, int? xMax = null, int? yMin = null, int? yMax = null)
+        public static List<Point> Neighbours(this Point centrePoint, int? xMin = null, int? xMax = null,
+            int? yMin = null, int? yMax = null, AdjacencyRule.Types adjacencyRule = AdjacencyRule.Types.EightWay)
         {
             var pointList = new List<Point>();
 
@@ -33,8 +34,12 @@ namespace FrigidRogue.MonoGame.Core.Extensions
                 {
                     var point = new Point(x, y);
 
-                    if (point != centrePoint)
+                    if (point != centrePoint
+                        && (adjacencyRule == AdjacencyRule.Types.EightWay ||
+                            point.IsNextTo(centrePoint, adjacencyRule)))
+                    {
                         pointList.Add(point);
+                    }
                 }
             }
 
