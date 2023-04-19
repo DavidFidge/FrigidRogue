@@ -1,4 +1,3 @@
-using GoRogue.GameFramework;
 using Microsoft.Xna.Framework;
 
 using SadRogue.Primitives;
@@ -42,6 +41,42 @@ namespace FrigidRogue.MonoGame.Core.Extensions
                     }
                 }
             }
+
+            return pointList;
+        }
+
+        public static List<Point> NeighboursOutwardsFrom<T>(this Point point, int distance, IGridView<T> settableGridView)
+        {
+            return point.NeighboursOutwardsFrom(0, settableGridView.Width, 0, settableGridView.Height);
+        }
+
+        public static List<Point> NeighboursOutwardsFrom(this Point point, int distance, int xMax, int yMax)
+        {
+            return point.NeighboursOutwardsFrom(0, xMax, 0, yMax);
+        }
+
+        public static List<Point> NeighboursOutwardsFrom(this Point centrePoint, int distance, int? xMin = null, int? xMax = null,
+            int? yMin = null, int? yMax = null)
+        {
+            var pointList = new List<Point>();
+
+            for (var x = Math.Max(xMin ?? centrePoint.X - distance, centrePoint.X - distance);
+                 x <= Math.Min(xMax ?? centrePoint.X + distance, centrePoint.X + distance);
+                 x++)
+            {
+                for (var y = Math.Max(yMin ?? centrePoint.Y - distance, centrePoint.Y - distance);
+                     y <= Math.Min(yMax ?? centrePoint.Y + distance, centrePoint.Y + distance);
+                     y++)
+                {
+                    var point = new Point(x, y);
+
+                    if (point != centrePoint)
+                    {
+                        pointList.Add(point);
+                    }
+                }
+            }
+
 
             return pointList;
         }

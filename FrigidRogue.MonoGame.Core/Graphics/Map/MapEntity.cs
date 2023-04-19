@@ -53,7 +53,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Map
 
             Transform.ChangeTranslation(_initialMapTranslation);
             TransformChanged();
-            
+
             _mapQuad.LoadContent(_mapWidth, _mapHeight, null);
         }
 

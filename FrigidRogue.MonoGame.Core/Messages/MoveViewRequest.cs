@@ -1,6 +1,4 @@
-﻿using FrigidRogue.MonoGame.Core.Graphics.Camera;
-
-using MediatR;
+﻿using MediatR;
 
 namespace FrigidRogue.MonoGame.Core.Messages
 {

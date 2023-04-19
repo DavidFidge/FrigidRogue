@@ -109,7 +109,73 @@ namespace FrigidRogue.MonoGame.Core.Tests.Extensions
 
             CollectionAssert.AreEquivalent(expectedPoints, result);
         }
-        
+
+        [TestMethod]
+        public void NeighboursOutwardsFrom_Should_Return_All_Surrounding_Points()
+        {
+            // Arrange
+            var point = new Point();
+
+            // Act
+            var result = point.NeighboursOutwardsFrom(2, -5, 5, -5, 5);
+
+            // Assert
+            var expectedPoints = new List<Point>
+            {
+                new Point(-2, -2),
+                new Point(-2, -1),
+                new Point(-2, -0),
+                new Point(-2, 1),
+                new Point(-2, 2),
+                new Point(-1, -2),
+                new Point(-1, -1),
+                new Point(-1, -0),
+                new Point(-1, 1),
+                new Point(-1, 2),
+                new Point(0, -2),
+                new Point(0, -1),
+                new Point(0, 1),
+                new Point(0, 2),
+                new Point(1, -2),
+                new Point(1, -1),
+                new Point(1, -0),
+                new Point(1, 1),
+                new Point(1, 2),
+                new Point(2, -2),
+                new Point(2, -1),
+                new Point(2, -0),
+                new Point(2, 1),
+                new Point(2, 2)
+            };
+
+            CollectionAssert.AreEquivalent(expectedPoints, result);
+        }
+
+        [TestMethod]
+        public void NeighboursOutwardsFrom_Should_Return_All_Surrounding_Points_Limited_By_MinMax()
+        {
+            // Arrange
+            var point = new Point();
+
+            // Act
+            var result = point.NeighboursOutwardsFrom(10, -1, 1, -1, 1);
+
+            // Assert
+            var expectedPoints = new List<Point>
+            {
+                new Point(-1, -1),
+                new Point(-1, 0),
+                new Point(-1, 1),
+                new Point(0, -1),
+                new Point(0, 1),
+                new Point(1, -1),
+                new Point(1, 0),
+                new Point(1, 1)
+            };
+
+            CollectionAssert.AreEquivalent(expectedPoints, result);
+        }
+
         [TestMethod]
         public void Neighbours_Should_Return_Surrounding_Points_For_Cardinal_Direction()
         {

@@ -1,11 +1,9 @@
 using FrigidRogue.MonoGame.Core.Extensions;
 using FrigidRogue.TestInfrastructure;
-using GoRogue.GameFramework;
 using GoRogue.Pathing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using SadRogue.Primitives;
-using SadRogue.Primitives.GridViews;
 
 namespace FrigidRogue.MonoGame.Core.Tests.Extensions
 {
