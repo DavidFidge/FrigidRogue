@@ -7,6 +7,7 @@ using FrigidRogue.MonoGame.Core.Services;
 using MediatR;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace FrigidRogue.MonoGame.Core.Graphics.Camera
 {
@@ -19,6 +20,9 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
     {
         private Quaternion _cameraRotation;
         private readonly IGameProvider _gameProvider;
+        private GraphicsDevice GraphicsDevice => _gameProvider?.Game.GraphicsDevice ?? _nullGameProviderGraphicsDevice;
+        private readonly GraphicsDevice _nullGameProviderGraphicsDevice;
+
         private const int ProjectionAngle = 90;
         private readonly float _nearClippingPlane = 0.5f;
         private readonly float _farClippingPlane = 10000f;
@@ -48,6 +52,12 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
         public GameCamera(IGameProvider gameProvider)
         {
             _gameProvider = gameProvider;
+            Reset();
+        }
+
+        public GameCamera(GraphicsDevice nullGameProviderGraphicsDevice)
+        {
+            _nullGameProviderGraphicsDevice = nullGameProviderGraphicsDevice;
             Reset();
         }
 
@@ -195,7 +205,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
         public void RecalculateProjectionMatrix()
         {
             var aspectRatio = _renderResolution == null
-                ? _gameProvider.Game.GraphicsDevice.Viewport.AspectRatio
+                ? GraphicsDevice.Viewport.AspectRatio
                 : (float)_renderResolution.Width / _renderResolution.Height;
 
             Projection = Matrix.CreatePerspectiveFieldOfView(
@@ -211,8 +221,8 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
             var nearScreenPoint = new Vector3(x, y, 0);
             var farScreenPoint = new Vector3(x, y, 1);
 
-            var near3DPoint = _gameProvider.Game.GraphicsDevice.Viewport.Unproject(nearScreenPoint, Projection, View, Matrix.Identity);
-            var far3DPoint = _gameProvider.Game.GraphicsDevice.Viewport.Unproject(farScreenPoint, Projection, View, Matrix.Identity);
+            var near3DPoint = GraphicsDevice.Viewport.Unproject(nearScreenPoint, Projection, View, Matrix.Identity);
+            var far3DPoint = GraphicsDevice.Viewport.Unproject(farScreenPoint, Projection, View, Matrix.Identity);
 
             var pointerRayDirection = far3DPoint - near3DPoint;
 
