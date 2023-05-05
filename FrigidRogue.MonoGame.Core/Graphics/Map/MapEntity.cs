@@ -41,7 +41,8 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Map
 
         public void SetMapTexture(Texture2D texture)
         {
-            _mapQuad.Texture = texture;
+            if (_mapQuad.Texture != texture)
+                _mapQuad.Texture = texture;
         }
 
         public void LoadContent(int mapWidth, int mapHeight)
