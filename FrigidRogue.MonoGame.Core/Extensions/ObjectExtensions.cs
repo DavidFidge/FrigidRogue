@@ -25,11 +25,6 @@ namespace FrigidRogue.MonoGame.Core.Extensions
         {
             return !list.Any();
         }
-
-        public static T RandomItem<T>(this IList<T> list)
-        {
-            return list[GlobalRandom.DefaultRNG.NextInt(0, list.Count)];
-        }
         
         public static T[] Initialise<T>(this T[] array, Func<T> func)
         {
