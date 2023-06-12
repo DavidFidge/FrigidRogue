@@ -10,16 +10,21 @@ namespace FrigidRogue.MonoGame.Core.Extensions
     {
         public static List<Point> Neighbours<T>(this Point point, IGridView<T> settableGridView, AdjacencyRule.Types adjacencyRule = AdjacencyRule.Types.EightWay)
         {
-            return point.Neighbours(0, settableGridView.Width, 0, settableGridView.Height, adjacencyRule);
+            return point.Neighbours(0, 0, settableGridView.Width - 1, settableGridView.Height - 1, adjacencyRule);
         }
 
         public static List<Point> Neighbours(this Point point, int xMax, int yMax, AdjacencyRule.Types adjacencyRule = AdjacencyRule.Types.EightWay)
         {
-            return point.Neighbours(0, xMax, 0, yMax, adjacencyRule);
+            return point.Neighbours(0, 0, xMax, yMax, adjacencyRule);
         }
 
-        public static List<Point> Neighbours(this Point centrePoint, int? xMin = null, int? xMax = null,
-            int? yMin = null, int? yMax = null, AdjacencyRule.Types adjacencyRule = AdjacencyRule.Types.EightWay)
+        public static List<Point> Neighbours(
+            this Point centrePoint,
+            int? xMin = null,
+            int? yMin = null,
+            int? xMax = null,
+            int? yMax = null,
+            AdjacencyRule.Types adjacencyRule = AdjacencyRule.Types.EightWay)
         {
             var pointList = new List<Point>();
 

@@ -225,7 +225,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Extensions
             var point = new Point();
 
             // Act
-            var result = point.Neighbours(0);
+            var result = point.Neighbours(xMin: 0);
 
             // Assert
             var expectedPoints = new List<Point>
@@ -314,7 +314,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Extensions
             var point = new Point();
 
             // Act
-            var result = point.Neighbours(2);
+            var result = point.Neighbours(xMin: 2);
 
             // Assert
             Assert.IsTrue(result.IsEmpty());
@@ -346,7 +346,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Extensions
         {
             // Arrange
             var point = new Point(2, 2);
-            var settableGridView = new ArrayView<bool>(2, 2);
+            var settableGridView = new ArrayView<bool>(3, 3);
 
             // Act
             var result = point.Neighbours(settableGridView);
