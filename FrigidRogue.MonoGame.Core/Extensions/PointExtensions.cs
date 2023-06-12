@@ -1,4 +1,3 @@
-using GoRogue.GameFramework;
 using Microsoft.Xna.Framework;
 
 using SadRogue.Primitives;
@@ -9,12 +8,23 @@ namespace FrigidRogue.MonoGame.Core.Extensions
 {
     public static class PointExtensions
     {
-        public static List<Point> Neighbours<T>(this Point point, IGridView<T> settableGridView)
+        public static List<Point> Neighbours<T>(this Point point, IGridView<T> settableGridView, AdjacencyRule.Types adjacencyRule = AdjacencyRule.Types.EightWay)
         {
-            return point.Neighbours(0, settableGridView.Width, 0, settableGridView.Height);
+            return point.Neighbours(0, 0, settableGridView.Width - 1, settableGridView.Height - 1, adjacencyRule);
         }
 
-        public static List<Point> Neighbours(this Point centrePoint, int? xMin = null, int? xMax = null, int? yMin = null, int? yMax = null)
+        public static List<Point> Neighbours(this Point point, int xMax, int yMax, AdjacencyRule.Types adjacencyRule = AdjacencyRule.Types.EightWay)
+        {
+            return point.Neighbours(0, 0, xMax, yMax, adjacencyRule);
+        }
+
+        public static List<Point> Neighbours(
+            this Point centrePoint,
+            int? xMin = null,
+            int? yMin = null,
+            int? xMax = null,
+            int? yMax = null,
+            AdjacencyRule.Types adjacencyRule = AdjacencyRule.Types.EightWay)
         {
             var pointList = new List<Point>();
 
@@ -28,10 +38,50 @@ namespace FrigidRogue.MonoGame.Core.Extensions
                 {
                     var point = new Point(x, y);
 
-                    if (point != centrePoint)
+                    if (point != centrePoint
+                        && (adjacencyRule == AdjacencyRule.Types.EightWay ||
+                            point.IsNextTo(centrePoint, adjacencyRule)))
+                    {
                         pointList.Add(point);
+                    }
                 }
             }
+
+            return pointList;
+        }
+
+        public static List<Point> NeighboursOutwardsFrom<T>(this Point point, int distance, IGridView<T> settableGridView)
+        {
+            return point.NeighboursOutwardsFrom(0, settableGridView.Width, 0, settableGridView.Height);
+        }
+
+        public static List<Point> NeighboursOutwardsFrom(this Point point, int distance, int xMax, int yMax)
+        {
+            return point.NeighboursOutwardsFrom(0, xMax, 0, yMax);
+        }
+
+        public static List<Point> NeighboursOutwardsFrom(this Point centrePoint, int distance, int? xMin = null, int? xMax = null,
+            int? yMin = null, int? yMax = null)
+        {
+            var pointList = new List<Point>();
+
+            for (var x = Math.Max(xMin ?? centrePoint.X - distance, centrePoint.X - distance);
+                 x <= Math.Min(xMax ?? centrePoint.X + distance, centrePoint.X + distance);
+                 x++)
+            {
+                for (var y = Math.Max(yMin ?? centrePoint.Y - distance, centrePoint.Y - distance);
+                     y <= Math.Min(yMax ?? centrePoint.Y + distance, centrePoint.Y + distance);
+                     y++)
+                {
+                    var point = new Point(x, y);
+
+                    if (point != centrePoint)
+                    {
+                        pointList.Add(point);
+                    }
+                }
+            }
+
 
             return pointList;
         }

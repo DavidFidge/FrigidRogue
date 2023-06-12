@@ -65,7 +65,6 @@ namespace FrigidRogue.MonoGame.Core.Graphics
             basicEffect.CopyTextureFrom(TextureEffectTemplate);
 
             basicEffect.Texture = texture;
-
             basicEffect.DiffuseColor = Color.White.ToVector3();
             basicEffect.LightingEnabled = false;
 

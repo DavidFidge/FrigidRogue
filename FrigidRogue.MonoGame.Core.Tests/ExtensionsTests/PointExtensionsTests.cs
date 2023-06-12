@@ -111,13 +111,121 @@ namespace FrigidRogue.MonoGame.Core.Tests.Extensions
         }
 
         [TestMethod]
+        public void NeighboursOutwardsFrom_Should_Return_All_Surrounding_Points()
+        {
+            // Arrange
+            var point = new Point();
+
+            // Act
+            var result = point.NeighboursOutwardsFrom(2, -5, 5, -5, 5);
+
+            // Assert
+            var expectedPoints = new List<Point>
+            {
+                new Point(-2, -2),
+                new Point(-2, -1),
+                new Point(-2, -0),
+                new Point(-2, 1),
+                new Point(-2, 2),
+                new Point(-1, -2),
+                new Point(-1, -1),
+                new Point(-1, -0),
+                new Point(-1, 1),
+                new Point(-1, 2),
+                new Point(0, -2),
+                new Point(0, -1),
+                new Point(0, 1),
+                new Point(0, 2),
+                new Point(1, -2),
+                new Point(1, -1),
+                new Point(1, -0),
+                new Point(1, 1),
+                new Point(1, 2),
+                new Point(2, -2),
+                new Point(2, -1),
+                new Point(2, -0),
+                new Point(2, 1),
+                new Point(2, 2)
+            };
+
+            CollectionAssert.AreEquivalent(expectedPoints, result);
+        }
+
+        [TestMethod]
+        public void NeighboursOutwardsFrom_Should_Return_All_Surrounding_Points_Limited_By_MinMax()
+        {
+            // Arrange
+            var point = new Point();
+
+            // Act
+            var result = point.NeighboursOutwardsFrom(10, -1, 1, -1, 1);
+
+            // Assert
+            var expectedPoints = new List<Point>
+            {
+                new Point(-1, -1),
+                new Point(-1, 0),
+                new Point(-1, 1),
+                new Point(0, -1),
+                new Point(0, 1),
+                new Point(1, -1),
+                new Point(1, 0),
+                new Point(1, 1)
+            };
+
+            CollectionAssert.AreEquivalent(expectedPoints, result);
+        }
+
+        [TestMethod]
+        public void Neighbours_Should_Return_Surrounding_Points_For_Cardinal_Direction()
+        {
+            // Arrange
+            var point = new Point();
+
+            // Act
+            var result = point.Neighbours(adjacencyRule: AdjacencyRule.Cardinals);
+
+            // Assert
+            var expectedPoints = new List<Point>
+            {
+                new Point(-1, 0),
+                new Point(0, -1),
+                new Point(0, 1),
+                new Point(1, 0),
+            };
+
+            CollectionAssert.AreEquivalent(expectedPoints, result);
+        }
+
+        [TestMethod]
+        public void Neighbours_Should_Return_Surrounding_Points_For_Diagonal_Direction()
+        {
+            // Arrange
+            var point = new Point();
+
+            // Act
+            var result = point.Neighbours(adjacencyRule: AdjacencyRule.Diagonals);
+
+            // Assert
+            var expectedPoints = new List<Point>
+            {
+                new Point(-1, -1),
+                new Point(-1, 1),
+                new Point(1, -1),
+                new Point(1, 1)
+            };
+
+            CollectionAssert.AreEquivalent(expectedPoints, result);
+        }
+        
+        [TestMethod]
         public void Neighbours_Should_Return_All_Surrounding_Points_Limited_By_X_Min()
         {
             // Arrange
             var point = new Point();
 
             // Act
-            var result = point.Neighbours(0);
+            var result = point.Neighbours(xMin: 0);
 
             // Assert
             var expectedPoints = new List<Point>
@@ -206,7 +314,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Extensions
             var point = new Point();
 
             // Act
-            var result = point.Neighbours(2);
+            var result = point.Neighbours(xMin: 2);
 
             // Assert
             Assert.IsTrue(result.IsEmpty());
@@ -238,7 +346,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Extensions
         {
             // Arrange
             var point = new Point(2, 2);
-            var settableGridView = new ArrayView<bool>(2, 2);
+            var settableGridView = new ArrayView<bool>(3, 3);
 
             // Act
             var result = point.Neighbours(settableGridView);

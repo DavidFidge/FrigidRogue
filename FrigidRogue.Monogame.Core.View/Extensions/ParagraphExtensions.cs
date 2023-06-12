@@ -1,7 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using GeonBit.UI.Entities;
-
-using MediatR;
+﻿using GeonBit.UI.Entities;
 using Microsoft.Xna.Framework;
 
 namespace FrigidRogue.MonoGame.Core.View.Extensions

@@ -1,6 +1,4 @@
-﻿using FrigidRogue.MonoGame.Core.Interfaces.Components;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace FrigidRogue.MonoGame.Core.Graphics.Quads

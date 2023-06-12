@@ -3,9 +3,6 @@ using FrigidRogue.TestInfrastructure;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using SadRogue.Primitives;
-using SadRogue.Primitives.GridViews;
-
 namespace FrigidRogue.MonoGame.Core.Tests.Extensions
 {
     [TestClass]
