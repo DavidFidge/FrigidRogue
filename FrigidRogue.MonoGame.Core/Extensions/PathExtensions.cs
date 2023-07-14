@@ -47,6 +47,20 @@ namespace FrigidRogue.MonoGame.Core.Extensions
             }
         }
         
-        
+        public static bool IsPointOnPathAndNotAtEnd(this Path path, Point point)
+        {
+            if (path == null)
+                return false;
+            
+            var currentPathLocation = path.StepsWithStart.DefaultIfEmpty(Point.None).FirstOrDefault(s => s == point);
+
+            if (currentPathLocation == Point.None)
+                return false;
+
+            if (currentPathLocation == path.End)
+                return false;
+
+            return true;
+        }
     }
 }
