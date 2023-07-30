@@ -31,7 +31,7 @@ namespace FrigidRogue.MonoGame.Core.Extensions
                     foreach (var rule in rules)
                     {
                         if (!rule.IsValid(point))
-                            continue;
+                            break;
 
                         return point;
                     }
