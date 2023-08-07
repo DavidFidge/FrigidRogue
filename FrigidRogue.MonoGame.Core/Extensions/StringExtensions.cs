@@ -23,5 +23,10 @@ namespace FrigidRogue.MonoGame.Core.Extensions
         {
             return Regex.Replace(s, @"\s", string.Empty);
         }
+
+        public static string ToSeparateWords(this string s)
+        {
+            return Regex.Replace(s, "([A-Z])", " $1", RegexOptions.Compiled).Trim();
+        }
     }
 }
