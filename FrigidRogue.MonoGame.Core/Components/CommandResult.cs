@@ -77,13 +77,17 @@ namespace FrigidRogue.MonoGame.Core.Components
 
         public static CommandResult Success(BaseGameActionCommand command, string message, BaseGameActionCommand subsequentCommand)
         {
-            return new CommandResult
+            var commandResult = new CommandResult
             {
                 Command = command,
                 Result = CommandResultEnum.Success,
-                SubsequentCommands = new List<BaseGameActionCommand> { subsequentCommand },
                 Messages = new List<string> { message }
             };
+            
+            if (subsequentCommand != null)
+                commandResult.SubsequentCommands.Add(subsequentCommand);
+
+            return commandResult;
         }
 
         public static CommandResult Success(BaseGameActionCommand command, List<string> messages)
@@ -94,13 +98,6 @@ namespace FrigidRogue.MonoGame.Core.Components
                 Result = CommandResultEnum.Success,
                 Messages = messages
             };
-        }
-
-        public IList<BaseGameActionCommand> GetAllSubsequentCommands()
-        {
-            return SubsequentCommands
-                .SelectMany(s => s.CommandResult.GetAllSubsequentCommands())
-                .ToList();
         }
     }
 }

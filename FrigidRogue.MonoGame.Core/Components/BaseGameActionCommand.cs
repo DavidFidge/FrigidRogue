@@ -14,6 +14,13 @@ namespace FrigidRogue.MonoGame.Core.Components
         /// </summary>
         protected bool AdvanceSequenceNumber = true;
 
+        // These four are currently not persisted so must be assigned in constructor
+        // or consistently assigned in Execute. Do not assign in Initialize.
+        public bool InterruptsMovement { get; set; }
+        public bool RequiresPlayerInput { get; set; }
+        public bool EndsPlayerTurn { get; set; }
+        public bool PersistForReplay { get; set; }
+        
         public IGameTurnService GameTurnService { get; set; }
 
         public override CommandResult Execute()
