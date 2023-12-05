@@ -8,6 +8,8 @@ namespace FrigidRogue.MonoGame.Core.Components
 
         public TurnDetails TurnDetails { get; set; } = new TurnDetails();
 
+        public uint Id { get; set; }
+        
         /// <summary>
         /// Whether to advance the sequence number when calling execute. You only want to advance the
         /// sequence number when the game is being played, not during a replay.
