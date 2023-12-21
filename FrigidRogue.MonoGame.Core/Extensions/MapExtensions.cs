@@ -28,13 +28,19 @@ namespace FrigidRogue.MonoGame.Core.Extensions
             {
                 foreach (var point in points)
                 {
+                    // does not need to be initialised as rules is guaranteed to have items
+                    var ruleIsValid = false;
+                    
                     foreach (var rule in rules)
                     {
-                        if (!rule.IsValid(point))
+                        ruleIsValid = rule.IsValid(point);
+                        
+                        if (!ruleIsValid)
                             break;
-
-                        return point;
                     }
+                    
+                    if (ruleIsValid)
+                        return point;   
                 }
 
                 radius++;
