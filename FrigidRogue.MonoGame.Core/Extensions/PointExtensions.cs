@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using SadRogue.Primitives;
 using SadRogue.Primitives.GridViews;
 using Point = SadRogue.Primitives.Point;
+using Rectangle = SadRogue.Primitives.Rectangle;
 
 namespace FrigidRogue.MonoGame.Core.Extensions
 {
@@ -52,12 +53,12 @@ namespace FrigidRogue.MonoGame.Core.Extensions
 
         public static List<Point> NeighboursOutwardsFrom<T>(this Point point, int distance, IGridView<T> settableGridView)
         {
-            return point.NeighboursOutwardsFrom(0, settableGridView.Width, 0, settableGridView.Height);
+            return point.NeighboursOutwardsFrom(distance, 0, settableGridView.Width, 0, settableGridView.Height);
         }
 
         public static List<Point> NeighboursOutwardsFrom(this Point point, int distance, int xMax, int yMax)
         {
-            return point.NeighboursOutwardsFrom(0, xMax, 0, yMax);
+            return point.NeighboursOutwardsFrom(distance, 0, xMax, 0, yMax);
         }
 
         public static List<Point> NeighboursOutwardsFrom(this Point centrePoint, int distance, int? xMin = null, int? xMax = null,
@@ -178,6 +179,14 @@ namespace FrigidRogue.MonoGame.Core.Extensions
             }
 
             return false;
+        }
+
+        public static Point Clamp(this Point point, Rectangle rectangle)
+        {
+            return new Point(
+                Math.Clamp(point.X, rectangle.MinExtentX, rectangle.MaxExtentX),
+                Math.Clamp(point.Y, rectangle.MinExtentY, rectangle.MaxExtentY)
+            );
         }
     }
 }
