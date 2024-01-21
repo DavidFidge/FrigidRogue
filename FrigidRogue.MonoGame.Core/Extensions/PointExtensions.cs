@@ -139,9 +139,9 @@ namespace FrigidRogue.MonoGame.Core.Extensions
             return new Vector2(point.X, point.Y);
         }
 
-        public static Point FromVectorRounded(this Vector2 vector2)
+        public static Point FromVectorRounded(this Vector2 vector2, MidpointRounding midpointRounding = MidpointRounding.AwayFromZero)
         {
-            return new Point((int)Math.Round(vector2.X, 0), (int)Math.Round(vector2.Y, 0));
+            return new Point((int)Math.Round(vector2.X, 0, midpointRounding), (int)Math.Round(vector2.Y, 0, MidpointRounding.AwayFromZero));
         }
 
         public static Point GetMidpoint(this IEnumerable<Point> points)
