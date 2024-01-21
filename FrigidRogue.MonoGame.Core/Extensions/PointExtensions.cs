@@ -53,7 +53,7 @@ namespace FrigidRogue.MonoGame.Core.Extensions
 
         public static List<Point> NeighboursOutwardsFrom<T>(this Point point, int distance, IGridView<T> settableGridView)
         {
-            return point.NeighboursOutwardsFrom(distance, 0, settableGridView.Width, 0, settableGridView.Height);
+            return point.NeighboursOutwardsFrom(distance, 0, settableGridView.Width - 1, 0, settableGridView.Height - 1);
         }
 
         public static List<Point> NeighboursOutwardsFrom(this Point point, int distance, int xMax, int yMax)
