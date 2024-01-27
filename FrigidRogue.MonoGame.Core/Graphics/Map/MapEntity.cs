@@ -50,7 +50,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Map
             _mapWidth = mapWidth * _tileWidth;
             _mapHeight = mapHeight * _tileHeight;
 
-            _initialMapTranslation = new Vector3(0, 0, -20f);
+            _initialMapTranslation = new Vector3(0, 3f, -15f);
 
             Transform.ChangeTranslation(_initialMapTranslation);
             TransformChanged();
