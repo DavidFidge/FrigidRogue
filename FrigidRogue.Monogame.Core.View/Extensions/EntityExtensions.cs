@@ -56,6 +56,12 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
             entity.Size(new Vector2(x, y));
             return entity;
         }
+        
+        public static T Size<T>(this T entity, float x, float y) where T : Entity
+        {
+            entity.Size(new Vector2(x, y));
+            return entity;
+        }
 
         public static T Offset<T>(this T entity, Vector2 offset) where T : Entity
         {
@@ -68,7 +74,13 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
             entity.Offset(new Vector2(x, y));
             return entity;
         }
-
+        
+        public static T Offset<T>(this T entity, float x, float y) where T : Entity
+        {
+            entity.Offset(new Vector2(x, y));
+            return entity;
+        }
+        
         public static T Bold<T>(this T entity) where T : Paragraph
         {
             entity.TextStyle = FontStyle.Bold;
@@ -236,7 +248,14 @@ namespace FrigidRogue.MonoGame.Core.View.Extensions
 
             return entity;
         }
+        
+        public static T HeightOfParent<T>(this T entity) where T : Entity
+        {
+            entity.Size = new Vector2(entity.Size.X, 0f);
 
+            return entity;
+        }
+        
         public static T FullSize<T>(this T entity) where T : Entity
         {
             entity.Size = new Vector2(-1, -1);
