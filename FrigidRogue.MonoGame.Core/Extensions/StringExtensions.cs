@@ -28,5 +28,12 @@ namespace FrigidRogue.MonoGame.Core.Extensions
         {
             return Regex.Replace(s, "([A-Z])", " $1", RegexOptions.Compiled).Trim();
         }
+        
+        public static string ReverseString(this string str)
+        {
+            var charArray = str.ToCharArray();
+            Array.Reverse(charArray);
+            return new string(charArray);
+        }
     }
 }
