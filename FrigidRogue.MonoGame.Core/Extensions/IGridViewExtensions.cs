@@ -163,5 +163,20 @@ namespace FrigidRogue.MonoGame.Core.Extensions
 
             return result.ToString();
         }
+        
+        public static ArrayView<T> Subset<T>(this IGridView<T> gridView, Rectangle rectangle)
+        {
+            var subset = new ArrayView<T>(rectangle.Width, rectangle.Height);
+
+            for (var y = 0; y < rectangle.Height; y++)
+            {
+                for (var x = 0; x < rectangle.Width; x++)
+                {
+                    subset[x, y] = gridView[x + rectangle.MinExtentX, y + rectangle.MinExtentY];
+                }
+            }
+
+            return subset;
+        }
     }
 }

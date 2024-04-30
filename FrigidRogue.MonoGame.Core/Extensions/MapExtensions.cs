@@ -65,7 +65,7 @@ namespace FrigidRogue.MonoGame.Core.Extensions
 
             return rectangle;
         }
-
+        
         public static Rectangle RectangleCoveringPoints(this Map map, params Point[] points)
         {
             if (points == null || points.Length == 0)

@@ -1,4 +1,5 @@
 using SadRogue.Primitives;
+using SadRogue.Primitives.GridViews;
 
 namespace FrigidRogue.MonoGame.Core.Extensions
 {
