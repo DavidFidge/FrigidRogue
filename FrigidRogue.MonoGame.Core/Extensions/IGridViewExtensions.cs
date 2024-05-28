@@ -7,9 +7,13 @@ namespace FrigidRogue.MonoGame.Core.Extensions
 {
     public static class IGridViewExtensions
     {
-        public static void AddToStringBuilder<T>(this IGridView<T> gridView, StringBuilder stringBuilder)
+        public static void AddToStringBuilder<T>(this IGridView<T> gridView, StringBuilder stringBuilder, string elementSeparator = " ", int? fieldSize = 0)
         {
-            var str = gridView.ExtendToString(rowSeparator: Environment.NewLine, elementStringifier: (obj, x, y) => obj?.ToString() ?? "-");
+            string str;
+            if (fieldSize != null)
+                str = gridView.ExtendToString(elementSeparator: elementSeparator, rowSeparator: Environment.NewLine, elementStringifier: (obj, x, y) => obj?.ToString() ?? "-", fieldSize: fieldSize.Value);
+            else
+                str = gridView.ExtendToString(elementSeparator: elementSeparator, rowSeparator: Environment.NewLine, elementStringifier: (obj, x, y) => obj?.ToString() ?? "-");
 
             var lines = str.Split(Environment.NewLine);
 
