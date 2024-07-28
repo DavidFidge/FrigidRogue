@@ -19,8 +19,7 @@ namespace FrigidRogue.MonoGame.Core.Components
         public bool InterruptsMovement { get; set; }
         public bool RequiresPlayerInput { get; set; }
         public bool EndsPlayerTurn { get; set; }
-        public bool PersistForReplay { get; set; }
-        
+
         public IGameTurnService GameTurnService { get; set; }
 
         public override CommandResult Execute()
