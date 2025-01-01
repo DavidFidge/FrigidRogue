@@ -2,6 +2,6 @@
 
 public interface IMediator
 {
-    void Publish(INotification notification);
+    void Publish<T>(T notification) where T : INotification;
     void Send<T>(T request) where T : IRequest;
 }

@@ -24,8 +24,4 @@ namespace FrigidRogue.MonoGame.Core.Installers
             })));
         }
     }
-
-    public class ServiceFactory
-    {
-    }
 }

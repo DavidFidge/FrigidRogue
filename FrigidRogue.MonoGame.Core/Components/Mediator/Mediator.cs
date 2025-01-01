@@ -11,12 +11,33 @@ public class Mediator : IMediator
     {
     }
     
-    public void Publish(INotification notification)
+    public void Publish<T>(T notification) where T : INotification
     {
+        var instances = Kernel.Resolve<ServiceFactory>().GetInstances<INotificationHandler<T>>();
+
+        try
+        {
+            foreach (var instance in instances)
+                instance.Handle(notification);
+        }
+        finally
+        {
+            foreach (var instance in instances)
+                Kernel.ReleaseComponent(instance);
+        }
     }
 
     public void Send<T>(T request) where T : IRequest
     {
-        throw new NotImplementedException();
+        var instance = Kernel.Resolve<ServiceFactory>().GetInstance<IRequestHandler<T>>();
+
+        try
+        {
+            instance.Handle(request);
+        }
+        finally
+        {
+            Kernel.ReleaseComponent(instance);
+        }
     }
 }
