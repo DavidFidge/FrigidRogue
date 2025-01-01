@@ -1,5 +1,4 @@
 ﻿using FrigidRogue.MonoGame.Core.Interfaces.Components;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -60,7 +59,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
 
         protected override float GetBasicEffectAlphaValue()
         {
-            return (float)Colour.A / System.Byte.MaxValue;
+            return (float)Colour.A / Byte.MaxValue;
         }
 
         public void SetColourOpacity(float opacity = 1f)
@@ -71,7 +70,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
                 newOpacity = 0;
 
             else if (opacity < 1f)
-                newOpacity = (byte)(opacity * System.Byte.MaxValue);
+                newOpacity = (byte)(opacity * Byte.MaxValue);
 
             Colour = new Color(Colour, newOpacity);
         }

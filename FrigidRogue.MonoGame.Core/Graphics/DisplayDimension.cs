@@ -100,6 +100,6 @@ namespace FrigidRogue.MonoGame.Core.Services
                     Upper = float.MaxValue
                 }
             };
-        };
+        }
     }
 }

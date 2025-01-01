@@ -1,5 +1,4 @@
 ﻿using FrigidRogue.MonoGame.Core.Services;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 

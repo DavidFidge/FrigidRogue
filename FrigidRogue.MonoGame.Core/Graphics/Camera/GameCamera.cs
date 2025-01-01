@@ -1,11 +1,8 @@
 ﻿using System.Threading;
-using System.Threading.Tasks;
-
+using FrigidRogue.MonoGame.Core.Components.Mediator;
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Messages;
 using FrigidRogue.MonoGame.Core.Services;
-using MediatR;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -156,13 +153,12 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
             );
         }
 
-        public Task<Unit> Handle(ZoomViewRequest request, CancellationToken cancellationToken)
+        public void Handle(ZoomViewRequest request)
         {
             Zoom(request.Difference);
-            return Unit.Task;
         }
 
-        public Task<Unit> Handle(RotateViewRequest request, CancellationToken cancellationToken)
+        public void Handle(RotateViewRequest request)
         {
             if (request.XRotation > float.Epsilon)
                 Rotate(CameraMovementType.RotateDown, request.XRotation);
@@ -173,18 +169,14 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
                 Rotate(CameraMovementType.RotateLeft, request.ZRotation);
             else if (request.ZRotation < float.Epsilon)
                 Rotate(CameraMovementType.RotateRight, -request.ZRotation);
-
-            return Unit.Task;
         }
 
-        public Task<Unit> Handle(MoveViewContinousRequest request, CancellationToken cancellationToken)
+        public void Handle(MoveViewContinousRequest request)
         {
             ContinuousCameraMovementType = request.CameraMovementTypeFlags;
-
-            return Unit.Task;
         }
 
-        public Task<Unit> Handle(MoveViewRequest request, CancellationToken cancellationToken)
+        public void Handle(MoveViewRequest request)
         {
             if (request.MoveX > 0)
                 Move(CameraMovementType.PanLeft, request.MoveX * MoveSensitivity);
@@ -198,8 +190,6 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
 
             if (request.MoveZ != 0)
                 Zoom((int)(request.MoveZ * ZoomSensitivity));
-
-            return Unit.Task;
         }
 
         public void RecalculateProjectionMatrix()

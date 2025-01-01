@@ -1,5 +1,5 @@
-﻿using FrigidRogue.MonoGame.Core.Components;
-
+﻿using System.Diagnostics.CodeAnalysis;
+using FrigidRogue.MonoGame.Core.Components;
 using Microsoft.Xna.Framework;
 
 namespace FrigidRogue.MonoGame.Core.Extensions
@@ -163,7 +163,7 @@ namespace FrigidRogue.MonoGame.Core.Extensions
         /// <exception cref="ArgumentOutOfRangeException">
         /// The index [<paramref name="row"/>, <paramref name="column"/>] is out of range.
         /// </exception>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1023:IndexersShouldNotBeMultidimensional")]
+        [SuppressMessage("Microsoft.Design", "CA1023:IndexersShouldNotBeMultidimensional")]
         public static float GetIndex(this Matrix matrix, int row, int column)
         {
             switch (row)
@@ -482,7 +482,7 @@ namespace FrigidRogue.MonoGame.Core.Extensions
         ///                 * Matrix.CreateScale(scale);
         /// </code>
         /// </example>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
         public static bool Decompose(this Matrix matrix, out Vector3 scale, out Quaternion rotation, out Vector3 translation)
         {
             Matrix rotationMatrix;
@@ -522,8 +522,8 @@ namespace FrigidRogue.MonoGame.Core.Extensions
         /// Matrix srt = new Matrix(sr, translation);
         /// </code>
         /// </example>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1")]
+        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
         public static bool Decompose(this Matrix matrix, out Vector3 scale, out Matrix rotation, out Vector3 translation)
         {
             // Extract translation
@@ -638,7 +638,7 @@ namespace FrigidRogue.MonoGame.Core.Extensions
         /// This method requires that the matrix is a 3D scale/rotation/translation (SRT) matrix. See
         /// also <see cref="Decompose(out Vector3,out Quaternion,out Vector3)"/>.
         /// </remarks>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
         public static void DecomposeFast(this Matrix matrix, out Vector3 scale, out Quaternion rotation, out Vector3 translation)
         {
             Matrix rotationMatrix;
@@ -658,7 +658,7 @@ namespace FrigidRogue.MonoGame.Core.Extensions
         /// This method requires that the matrix is a 3D scale/rotation/translation (SRT) matrix. See
         /// also <see cref="Decompose(out Vector3,out Matrix,out Vector3)"/>.
         /// </remarks>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
         public static void DecomposeFast(this Matrix matrix, out Vector3 scale, out Matrix rotation, out Vector3 translation)
         {
             // Extract translation
@@ -1392,7 +1392,7 @@ namespace FrigidRogue.MonoGame.Core.Extensions
         /// <param name="y">The translation along the y-axis.</param>
         /// <param name="z">The translation along the z-axis.</param>
         /// <returns>A transformation matrix that translates vectors.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
         public static Matrix CreateTranslation(this Matrix matrix, float x, float y, float z)
         {
             Matrix result = Matrix.Identity;
@@ -1500,7 +1500,7 @@ namespace FrigidRogue.MonoGame.Core.Extensions
         /// <exception cref="ArgumentException">
         /// <paramref name="zNear"/> is greater than or equal to <paramref name="zFar"/>.
         /// </exception>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
         public static Matrix CreateOrthographic(float width, float height, float zNear, float zFar)
         {
             // See DirectX, D3DXMatrixOrthoRH().
@@ -1554,7 +1554,7 @@ namespace FrigidRogue.MonoGame.Core.Extensions
         /// <paramref name="bottom"/> is equal to <paramref name="top"/>, or
         /// <paramref name="zNear"/> is greater than or equal to <paramref name="zFar"/>.
         /// </exception>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
         public static Matrix CreateOrthographicOffCenter(float left, float right, float bottom, float top, float zNear, float zFar)
         {
             // See DirectX, D3DXMatrixOrthoOffCenterRH().
@@ -1612,7 +1612,7 @@ namespace FrigidRogue.MonoGame.Core.Extensions
         /// <exception cref="ArgumentException">
         /// <paramref name="zNear"/> is greater than or equal to <paramref name="zFar"/>.
         /// </exception>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
         public static Matrix CreatePerspective(float width, float height, float zNear, float zFar)
         {
             // See DirectX, D3DXMatrixPerspectiveRH()
@@ -1710,7 +1710,7 @@ namespace FrigidRogue.MonoGame.Core.Extensions
         /// <exception cref="ArgumentException">
         /// <paramref name="zNear"/> is greater than or equal to <paramref name="zFar"/>.
         /// </exception>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
         public static Matrix CreatePerspectiveFieldOfView(float fieldOfViewY, float aspectRatio, float zNear, float zFar)
         {
             // See DirectX, D3DXMatrixPerspectiveFovRH().
@@ -1791,7 +1791,7 @@ namespace FrigidRogue.MonoGame.Core.Extensions
         /// <paramref name="bottom"/> is equal to <paramref name="top"/>, or 
         /// <paramref name="zNear"/> is greater than or equal to <paramref name="zFar"/>.
         /// </exception>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
         public static Matrix CreatePerspectiveOffCenter(float left, float right, float bottom, float top, float zNear, float zFar)
         {
             // See DirectX, D3DXMatrixPerspectiveOffCenterRH().

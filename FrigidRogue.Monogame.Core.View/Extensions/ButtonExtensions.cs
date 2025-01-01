@@ -1,6 +1,5 @@
-﻿using GeonBit.UI.Entities;
-
-using MediatR;
+﻿using FrigidRogue.MonoGame.Core.Components.Mediator;
+using GeonBit.UI.Entities;
 
 namespace FrigidRogue.MonoGame.Core.View.Extensions
 {

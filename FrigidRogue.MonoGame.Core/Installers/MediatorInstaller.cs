@@ -1,8 +1,7 @@
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-
-using MediatR;
+using FrigidRogue.MonoGame.Core.Components.Mediator;
 
 namespace FrigidRogue.MonoGame.Core.Installers
 {
@@ -24,5 +23,9 @@ namespace FrigidRogue.MonoGame.Core.Installers
                 return enumerableType != null ? k.ResolveAll(enumerableType.GetGenericArguments()[0]) : k.Resolve(type);
             })));
         }
+    }
+
+    public class ServiceFactory
+    {
     }
 }

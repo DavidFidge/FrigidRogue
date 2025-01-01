@@ -1,9 +1,7 @@
 ﻿using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Services;
 using FrigidRogue.MonoGame.Core.View.Interfaces;
-
 using GeonBit.UI;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 

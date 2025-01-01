@@ -2,9 +2,7 @@ using FrigidRogue.MonoGame.Core.Components;
 using FrigidRogue.MonoGame.Core.Extensions;
 using FrigidRogue.MonoGame.Core.Interfaces.Graphics;
 using FrigidRogue.MonoGame.Core.Messages;
-
 using Microsoft.Xna.Framework;
-
 using NGenerics.Patterns.Visitor;
 
 namespace FrigidRogue.MonoGame.Core.Graphics

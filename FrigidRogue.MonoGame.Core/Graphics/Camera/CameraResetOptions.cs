@@ -5,5 +5,5 @@
         AbsoluteZ,
         WidthOfObjectAtZero,
         HeightOfObjectAtZero
-    };
+    }
 }

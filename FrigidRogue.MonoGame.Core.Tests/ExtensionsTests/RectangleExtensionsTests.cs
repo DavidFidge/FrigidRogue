@@ -1,8 +1,6 @@
 using FrigidRogue.TestInfrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using SadRogue.Primitives;
-
 using RectangleExtensions = FrigidRogue.MonoGame.Core.Extensions.RectangleExtensions;
 
 namespace FrigidRogue.MonoGame.Core.Tests.Extensions

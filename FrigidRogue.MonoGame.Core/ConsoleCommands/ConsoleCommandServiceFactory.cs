@@ -1,5 +1,4 @@
 using Castle.Core.Internal;
-
 using FrigidRogue.MonoGame.Core.Interfaces.ConsoleCommands;
 
 namespace FrigidRogue.MonoGame.Core.ConsoleCommands

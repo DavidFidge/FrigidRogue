@@ -1,9 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
-
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
-
 using Newtonsoft.Json;
 
 namespace FrigidRogue.MonoGame.Core.Services
