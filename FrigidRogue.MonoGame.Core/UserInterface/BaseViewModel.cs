@@ -29,7 +29,7 @@ namespace FrigidRogue.MonoGame.Core.UserInterface
                 .SingleOrDefault(m => m.Name == $"{nameof(Handle)}{request.PropertyInfo.Name}");
 
             if (handlerMethod != null)
-                handlerMethod.Invoke(this, new object[] { request, cancellationToken });
+                handlerMethod.Invoke(this, new object[] { request });
         }
     }
 }
