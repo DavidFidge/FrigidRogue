@@ -2,7 +2,6 @@ using FrigidRogue.MonoGame.Core.Components;
 using FrigidRogue.MonoGame.Core.Extensions;
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
-
 using MonoGame.Extended;
 
 namespace FrigidRogue.MonoGame.Core.Services

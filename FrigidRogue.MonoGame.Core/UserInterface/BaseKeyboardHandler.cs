@@ -1,8 +1,6 @@
 ﻿using FrigidRogue.MonoGame.Core.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.UserInterface;
-
 using InputHandlers.Keyboard;
-
 using Microsoft.Xna.Framework.Input;
 
 namespace FrigidRogue.MonoGame.Core.UserInterface

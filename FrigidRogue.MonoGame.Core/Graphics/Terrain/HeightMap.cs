@@ -2,7 +2,6 @@
 using System.IO;
 using System.Reflection;
 using System.Text;
-
 using Microsoft.Xna.Framework;
 
 namespace FrigidRogue.MonoGame.Core.Graphics.Terrain
@@ -213,8 +212,8 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Terrain
                 xLower = xHigher - 1;
             }
 
-            var yRelative = (yCoord - yLower) / ((float)yHigher - (float)yLower);
-            var xRelative = (xCoord - xLower) / ((float)xHigher - (float)xLower);
+            var yRelative = (yCoord - yLower) / (yHigher - (float)yLower);
+            var xRelative = (xCoord - xLower) / (xHigher - (float)xLower);
 
             var heightLxLy = _heightMap[GetIndex(xLower, yLower)];
             var heightLxHy = _heightMap[GetIndex(xLower, yHigher)];

@@ -1,8 +1,6 @@
 using FrigidRogue.MonoGame.Core.Extensions;
 using FrigidRogue.TestInfrastructure;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using SadRogue.Primitives;
 using SadRogue.Primitives.GridViews;
 

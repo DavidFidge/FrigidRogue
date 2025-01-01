@@ -1,5 +1,4 @@
 ﻿using GeonBit.UI.Entities;
-
 using Microsoft.Xna.Framework;
 
 namespace FrigidRogue.MonoGame.Core.View.Extensions

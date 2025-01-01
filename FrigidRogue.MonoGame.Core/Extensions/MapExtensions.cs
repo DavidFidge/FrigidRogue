@@ -1,10 +1,8 @@
 ﻿using FrigidRogue.MonoGame.Core.Components.MapPointChoiceRules;
 using GoRogue.GameFramework;
 using GoRogue.Random;
-
 using SadRogue.Primitives.GridViews;
 using ShaiRandom.Generators;
-
 using Point = SadRogue.Primitives.Point;
 using Rectangle = SadRogue.Primitives.Rectangle;
 

@@ -1,11 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text.RegularExpressions;
-
 using FrigidRogue.MonoGame.Core.Components;
-
 using Microsoft.Xna.Framework;
-
 using MathHelper = FrigidRogue.MonoGame.Core.Components.MathHelper;
 
 namespace FrigidRogue.MonoGame.Core.Extensions

@@ -1,8 +1,6 @@
 ﻿using FrigidRogue.MonoGame.Core.Extensions;
 using FrigidRogue.TestInfrastructure;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using SadRogue.Primitives;
 using SadRogue.Primitives.GridViews;
 
@@ -15,7 +13,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Extensions
         public void Should_Get_Subset_Of_Map()
         {
             // Arrange
-            var test = new bool[]
+            var test = new[]
             {
                 true, true, true,
                 false, true, false,
@@ -28,7 +26,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Extensions
             var result = gridView.Subset(new Rectangle(1, 1, 2, 2));
             
             // Assert
-            var expectedResult = new bool[]
+            var expectedResult = new[]
             {
                 true, false,
                 false, false

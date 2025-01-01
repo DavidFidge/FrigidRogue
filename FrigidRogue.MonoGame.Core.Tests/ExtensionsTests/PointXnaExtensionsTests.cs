@@ -1,6 +1,5 @@
 using FrigidRogue.MonoGame.Core.Extensions;
 using FrigidRogue.TestInfrastructure;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xna.Framework;
 

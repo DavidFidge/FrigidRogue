@@ -3,10 +3,8 @@ using FrigidRogue.MonoGame.Core.Interfaces.Services;
 using FrigidRogue.MonoGame.Core.Messages;
 using FrigidRogue.MonoGame.Core.Services;
 using FrigidRogue.TestInfrastructure;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xna.Framework;
-
 using NSubstitute;
 
 namespace FrigidRogue.MonoGame.Core.Tests.Services

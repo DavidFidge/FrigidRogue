@@ -1,10 +1,8 @@
 using FrigidRogue.MonoGame.Core.Graphics.Terrain;
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.TestInfrastructure;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xna.Framework;
-
 using NSubstitute;
 
 namespace FrigidRogue.MonoGame.Core.Tests.Graphics
@@ -233,16 +231,14 @@ namespace FrigidRogue.MonoGame.Core.Tests.Graphics
                 .Hill(
                     new Vector2(0f, 0f),
                     new Vector2(1f, 1f),
-                    3,
-                    HeightMap.PatchMethod.ReplaceIfHigher);
+                    3);
 
             // Act
             var result = startingHeightMap
                 .Hill(
                     new Vector2(0.25f, 0.25f),
                     new Vector2(1f, 1f),
-                    3,
-                    HeightMap.PatchMethod.ReplaceIfHigher)
+                    3)
                 .HeightMap();
 
             // Assert

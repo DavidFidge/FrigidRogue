@@ -1,10 +1,7 @@
 ﻿using System.Threading;
-using System.Threading.Tasks;
-
 using FrigidRogue.MonoGame.Core.Components;
+using FrigidRogue.MonoGame.Core.Components.Mediator;
 using FrigidRogue.MonoGame.Core.Messages;
-
-using MediatR;
 
 namespace FrigidRogue.MonoGame.Core.UserInterface
 {
@@ -23,7 +20,7 @@ namespace FrigidRogue.MonoGame.Core.UserInterface
             Mediator.Send(new NotifyViewModelChangedRequest<T>());
         }
 
-        public virtual Task<Unit> Handle(InterfaceRequest<T> request, CancellationToken cancellationToken)
+        public virtual void Handle(InterfaceRequest<T> request)
         {
             request.PropertyInfo.SetValue(Data, request.Value);
 
@@ -32,9 +29,7 @@ namespace FrigidRogue.MonoGame.Core.UserInterface
                 .SingleOrDefault(m => m.Name == $"{nameof(Handle)}{request.PropertyInfo.Name}");
 
             if (handlerMethod != null)
-                handlerMethod.Invoke(this, new object[] { request, cancellationToken });
-
-            return Unit.Task;
+                handlerMethod.Invoke(this, new object[] { request });
         }
     }
 }

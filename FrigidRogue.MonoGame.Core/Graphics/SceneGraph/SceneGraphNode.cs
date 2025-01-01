@@ -1,7 +1,5 @@
 ﻿using FrigidRogue.MonoGame.Core.Components;
-
 using Microsoft.Xna.Framework;
-
 using NGenerics.DataStructures.Trees;
 
 namespace FrigidRogue.MonoGame.Core.Graphics

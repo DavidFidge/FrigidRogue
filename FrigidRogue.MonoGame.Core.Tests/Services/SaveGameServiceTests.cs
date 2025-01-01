@@ -1,9 +1,7 @@
 ﻿using System.IO;
-
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Services;
 using FrigidRogue.TestInfrastructure;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MonoGame.Extended;
 

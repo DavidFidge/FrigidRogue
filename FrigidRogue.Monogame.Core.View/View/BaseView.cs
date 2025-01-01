@@ -3,9 +3,8 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
-
 using FrigidRogue.MonoGame.Core.Components;
+using FrigidRogue.MonoGame.Core.Components.Mediator;
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
 using FrigidRogue.MonoGame.Core.Messages;
 using FrigidRogue.MonoGame.Core.UserInterface;
@@ -14,8 +13,6 @@ using FrigidRogue.MonoGame.Core.View.Interfaces;
 using GeonBit.UI.Entities;
 using InputHandlers.Keyboard;
 using InputHandlers.Mouse;
-
-using MediatR;
 using Entity = GeonBit.UI.Entities.Entity;
 
 namespace FrigidRogue.MonoGame.Core.View
@@ -122,10 +119,9 @@ namespace FrigidRogue.MonoGame.Core.View
         {
         }
 
-        public Task<Unit> Handle(NotifyViewModelChangedRequest<TData> notifyViewModelChangedRequest, CancellationToken cancellationToken)
+        public void Handle(NotifyViewModelChangedRequest<TData> notifyViewModelChangedRequest)
         {
             ViewModelChanged();
-            return Unit.Task;
         }
 
         public virtual void Draw()
@@ -162,16 +158,15 @@ namespace FrigidRogue.MonoGame.Core.View
             childView.Initialize();
         }
 
-        protected Task<Unit> ShowChildView<TChildViewModel, TChildData>(BaseView<TChildViewModel, TChildData> childView, Panel panel)
+        protected void ShowChildView<TChildViewModel, TChildData>(BaseView<TChildViewModel, TChildData> childView, Panel panel)
             where TChildViewModel : BaseViewModel<TChildData>
             where TChildData : new()
         {
             childView.Show();
             panel.Visible = false;
-            return Unit.Task;
         }
 
-        protected Task<Unit> ShowChildViewWithRootSwap<TChildViewModel, TChildData>(BaseView<TChildViewModel, TChildData> childView, Panel panel)
+        protected void ShowChildViewWithRootSwap<TChildViewModel, TChildData>(BaseView<TChildViewModel, TChildData> childView, Panel panel)
             where TChildViewModel : BaseViewModel<TChildData>
             where TChildData : new()
         {
@@ -179,10 +174,9 @@ namespace FrigidRogue.MonoGame.Core.View
             RootPanel.AddChild(childView.RootPanel);
             childView.Show();
             panel.Visible = false;
-            return Unit.Task;
         }
 
-        protected Task<Unit> HideChildView<TChildViewModel, TChildData>(BaseView<TChildViewModel, TChildData> childView, Panel panel)
+        protected void HideChildView<TChildViewModel, TChildData>(BaseView<TChildViewModel, TChildData> childView, Panel panel)
             where TChildViewModel : BaseViewModel<TChildData>
             where TChildData : new()
         {
@@ -191,8 +185,6 @@ namespace FrigidRogue.MonoGame.Core.View
                 childView.Hide();
                 panel.Visible = true;
             }
-
-            return Unit.Task;
         }
 
         protected void SetupChildPanel<TChildViewModel, TChildData>(BaseView<TChildViewModel, TChildData> childView)

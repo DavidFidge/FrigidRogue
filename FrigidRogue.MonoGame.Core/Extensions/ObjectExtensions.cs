@@ -1,5 +1,3 @@
-using GoRogue.Random;
-
 namespace FrigidRogue.MonoGame.Core.Extensions
 {
     public static class ObjectExtensions

@@ -1,5 +1,4 @@
 ﻿using System.Xml.Serialization;
-
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
 
 namespace FrigidRogue.MonoGame.Core.Configuration

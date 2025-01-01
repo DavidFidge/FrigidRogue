@@ -2,7 +2,6 @@
 using System.Reflection;
 using FrigidRogue.MonoGame.Core.Services;
 using FrigidRogue.TestInfrastructure;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FrigidRogue.MonoGame.Core.Tests.Services

@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Reflection;
-
 using FrigidRogue.MonoGame.Core.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
 
@@ -14,8 +13,7 @@ namespace FrigidRogue.MonoGame.Core.Services
 
             if (File.Exists(saveGameFile))
                 return SaveGameResult.Overwrite;
-            else
-                return SaveGameResult.Success;
+            return SaveGameResult.Success;
         }
 
         public SaveGameResult SaveBytesToFile(byte[] headerBytes, byte[] saveGameBytes, string saveGameName, bool overwrite)

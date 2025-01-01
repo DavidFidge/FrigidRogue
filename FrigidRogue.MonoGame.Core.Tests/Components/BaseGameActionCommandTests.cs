@@ -2,9 +2,7 @@
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
 using FrigidRogue.TestInfrastructure;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using NSubstitute;
 
 namespace FrigidRogue.MonoGame.Core.Tests.Components

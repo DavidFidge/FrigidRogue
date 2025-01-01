@@ -1,9 +1,7 @@
 ﻿using FrigidRogue.MonoGame.Core.Messages;
 using FrigidRogue.MonoGame.Core.UserInterface;
 using FrigidRogue.TestInfrastructure;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using NSubstitute;
 
 namespace FrigidRogue.MonoGame.Core.Tests.UserInterface

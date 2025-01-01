@@ -1,7 +1,6 @@
 using FrigidRogue.MonoGame.Core.Extensions;
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Graphics.Terrain;
-
 using Microsoft.Xna.Framework;
 
 namespace FrigidRogue.MonoGame.Core.Graphics.Terrain

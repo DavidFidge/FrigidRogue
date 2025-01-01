@@ -14,5 +14,5 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Camera
         RotateDown = 128,
         Forward = 256,
         Backward = 512,
-    };
+    }
 }

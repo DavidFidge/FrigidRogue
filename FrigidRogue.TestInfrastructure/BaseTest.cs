@@ -1,9 +1,7 @@
 ﻿using FrigidRogue.MonoGame.Core.Components;
+using FrigidRogue.MonoGame.Core.Components.Mediator;
 using FrigidRogue.MonoGame.Core.Services;
-using MediatR;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using NSubstitute;
 
 namespace FrigidRogue.TestInfrastructure

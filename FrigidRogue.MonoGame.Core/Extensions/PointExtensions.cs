@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-
 using SadRogue.Primitives;
 using SadRogue.Primitives.GridViews;
 using Point = SadRogue.Primitives.Point;

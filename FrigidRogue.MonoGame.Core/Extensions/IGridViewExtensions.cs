@@ -42,7 +42,7 @@ namespace FrigidRogue.MonoGame.Core.Extensions
         
         public static void AddToStringBuilderGrid<T>(this IGridView<T> gridView, StringBuilder stringBuilder, int gridCellWidth, Func<T, string> elementStringifierValues = null)
         {
-            elementStringifierValues ??= (obj) => obj?.ToString() ?? "null";
+            elementStringifierValues ??= obj => obj?.ToString() ?? "null";
 
             var str = gridView.ExtendToString(fieldSize: gridCellWidth, rowSeparator: Environment.NewLine, elementStringifier: elementStringifierValues);
 
@@ -54,7 +54,7 @@ namespace FrigidRogue.MonoGame.Core.Extensions
         
         public static void AddToStringBuilderWithPathGrid<T>(this IGridView<T> gridView, StringBuilder stringBuilder, Path path, int gridCellWidth, Func<T, string> elementStringifierValues = null)
         {
-            elementStringifierValues ??= (obj) => obj?.ToString() ?? "null";
+            elementStringifierValues ??= obj => obj?.ToString() ?? "null";
             
             var str = gridView.ExtendToString(fieldSize: gridCellWidth, rowSeparator: Environment.NewLine, elementStringifier: (obj, x, y) =>
             {

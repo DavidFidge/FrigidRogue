@@ -1,6 +1,5 @@
 ﻿using InputHandlers.Keyboard;
 using InputHandlers.Mouse;
-
 using Microsoft.Xna.Framework;
 
 namespace FrigidRogue.MonoGame.Core.Interfaces.Services

@@ -1,5 +1,4 @@
 ﻿using FrigidRogue.MonoGame.Core.Components;
-
 using NGenerics.Patterns.Visitor;
 
 namespace FrigidRogue.MonoGame.Core.Graphics

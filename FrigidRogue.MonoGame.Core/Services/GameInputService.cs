@@ -1,8 +1,6 @@
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
-
 using InputHandlers.Keyboard;
 using InputHandlers.Mouse;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 

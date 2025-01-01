@@ -102,7 +102,7 @@ namespace FrigidRogue.MonoGame.Core.Services
                     memoryStream.Write(buffer, 0, count);
 
             memoryStream.Seek(0L, SeekOrigin.Begin);
-            var result = new StreamReader((Stream) memoryStream, utF8).ReadToEnd();
+            var result = new StreamReader(memoryStream, utF8).ReadToEnd();
 
             decompressorMemoryStream.Close();
             decompressor.Close();

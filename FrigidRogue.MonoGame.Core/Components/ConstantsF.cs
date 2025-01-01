@@ -1,4 +1,6 @@
-﻿namespace FrigidRogue.MonoGame.Core.Components
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace FrigidRogue.MonoGame.Core.Components
 {
     /// <summary>
     /// Provides useful constants (single-precision).
@@ -6,7 +8,7 @@
     public static class ConstantsF
     {
         /// <summary>Represents the mathematical constant e.</summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
         public const float E = 2.718281828459045235360287471352f;
 
         /// <summary>Represents the logarithm base 10 of e.</summary>
@@ -16,11 +18,11 @@
         public const float Log2OfE = 1.4426950408889634073599246810019f;
 
         /// <summary>Represents the natural logarithm of 2.</summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly")]
+        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly")]
         public const float Ln2 = 0.69314718055994530941723212145818f;
 
         /// <summary>Represents the natural logarithm of 10.</summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly")]
+        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly")]
         public const float Ln10 = 2.3025850929940456840179914546844f;
 
         /// <summary>Represents one divided by the mathematical constant π.</summary>

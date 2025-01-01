@@ -3,10 +3,8 @@ using FrigidRogue.MonoGame.Core.Extensions;
 using FrigidRogue.MonoGame.Core.Graphics;
 using FrigidRogue.MonoGame.Core.Tests.Services;
 using FrigidRogue.TestInfrastructure;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xna.Framework;
-
 using IDrawable = FrigidRogue.MonoGame.Core.Graphics.IDrawable;
 
 namespace FrigidRogue.MonoGame.Core.Tests.Graphics

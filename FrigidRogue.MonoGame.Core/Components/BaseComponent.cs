@@ -1,6 +1,5 @@
-﻿using FrigidRogue.MonoGame.Core.Interfaces.Components;
-using MediatR;
-
+﻿using FrigidRogue.MonoGame.Core.Components.Mediator;
+using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using Serilog;
 
 namespace FrigidRogue.MonoGame.Core.Components

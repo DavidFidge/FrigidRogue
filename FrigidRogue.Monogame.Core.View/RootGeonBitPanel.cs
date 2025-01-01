@@ -2,7 +2,6 @@
 using FrigidRogue.MonoGame.Core.View.Interfaces;
 using GeonBit.UI.Entities;
 using Microsoft.Xna.Framework;
-
 using Entity = GeonBit.UI.Entities.Entity;
 
 namespace FrigidRogue.MonoGame.Core.UserInterface

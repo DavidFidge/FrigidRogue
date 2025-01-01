@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿
+using FrigidRogue.MonoGame.Core.Components.Mediator;
 
 namespace FrigidRogue.MonoGame.Core.Messages
 {

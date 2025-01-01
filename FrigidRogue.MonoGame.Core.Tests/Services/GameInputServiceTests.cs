@@ -1,13 +1,10 @@
 using FrigidRogue.MonoGame.Core.Services;
 using FrigidRogue.TestInfrastructure;
-
 using InputHandlers.Keyboard;
 using InputHandlers.Mouse;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-
 using NSubstitute;
 
 namespace FrigidRogue.MonoGame.Core.Tests.Services

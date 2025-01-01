@@ -1,5 +1,4 @@
 using GeonBit.UI.Entities;
-
 using Microsoft.Xna.Framework;
 
 namespace FrigidRogue.MonoGame.Core.View
@@ -13,7 +12,7 @@ namespace FrigidRogue.MonoGame.Core.View
         }
 
         public SelectList(IList<T> listItems, Anchor anchor, Vector2? offset = null)
-            : this(listItems, Entity.USE_DEFAULT_SIZE, anchor, offset, PanelSkin.ListBackground)
+            : this(listItems, USE_DEFAULT_SIZE, anchor, offset)
         {
             SetListItems(listItems);
         }

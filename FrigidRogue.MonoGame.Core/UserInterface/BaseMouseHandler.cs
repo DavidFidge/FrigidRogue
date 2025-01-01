@@ -1,7 +1,5 @@
 ﻿using FrigidRogue.MonoGame.Core.Components;
-
 using InputHandlers.Mouse;
-
 using Microsoft.Xna.Framework.Input;
 
 namespace FrigidRogue.MonoGame.Core.UserInterface
