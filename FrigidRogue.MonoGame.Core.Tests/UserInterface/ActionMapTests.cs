@@ -1,12 +1,9 @@
 using FrigidRogue.MonoGame.Core.Interfaces.UserInterface;
 using FrigidRogue.MonoGame.Core.UserInterface;
 using FrigidRogue.TestInfrastructure;
-
 using InputHandlers.Keyboard;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xna.Framework.Input;
-
 using NSubstitute;
 
 namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
@@ -30,7 +27,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
         public void ActionIs_Should_Return_False_If_Action_Store_Does_Not_Contain_Action()
         {
             // Arrange
-            var keyCombinations = new Dictionary<string, KeyCombination>()
+            var keyCombinations = new Dictionary<string, KeyCombination>
             {
                 {
                     "TestMapOther", new KeyCombination(Keys.A)
@@ -65,7 +62,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
         public void ActionIs_Should_Return_True_If_Key_And_Modifier_Match_Store()
         {
             // Arrange
-            var keyCombinations = new Dictionary<string, KeyCombination>()
+            var keyCombinations = new Dictionary<string, KeyCombination>
             {
                 {
                     "TestMap1", new KeyCombination(Keys.A, KeyboardModifier.Alt)
@@ -85,7 +82,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
         public void ActionIs_Should_Return_False_If_Key_Does_Not_Match_Store()
         {
             // Arrange
-            var keyCombinations = new Dictionary<string, KeyCombination>()
+            var keyCombinations = new Dictionary<string, KeyCombination>
             {
                 {
                     "TestMap1", new KeyCombination(Keys.A)
@@ -108,7 +105,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
         public void ActionIs_Should_Return_False_If_Modifier_Does_Not_Match_Store(KeyboardModifier keyboardModifier)
         {
             // Arrange
-            var keyCombinations = new Dictionary<string, KeyCombination>()
+            var keyCombinations = new Dictionary<string, KeyCombination>
             {
                 {
                     "TestMap1", new KeyCombination(Keys.A, KeyboardModifier.Alt)
@@ -128,7 +125,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
         public void ActionIs_Should_Return_True_When_Selector_Is_Used()
         {
             // Arrange
-            var keyCombinations = new Dictionary<string, KeyCombination>()
+            var keyCombinations = new Dictionary<string, KeyCombination>
             {
                 {
                     "TestMap1", new KeyCombination(Keys.A, KeyboardModifier.Alt)
@@ -151,7 +148,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
         public void ActionIs_Should_Return_True_When_Second_Selector_Is_Used()
         {
             // Arrange
-            var keyCombinations = new Dictionary<string, KeyCombination>()
+            var keyCombinations = new Dictionary<string, KeyCombination>
             {
                 {
                     "TestMap1", new KeyCombination(Keys.A, KeyboardModifier.Alt)
@@ -174,7 +171,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
         public void ActionName_Should_Return_Action_Name_Of_Key_Pressed()
         {
             // Arrange
-            var keyCombinations = new Dictionary<string, KeyCombination>()
+            var keyCombinations = new Dictionary<string, KeyCombination>
             {
                 {
                     "TestMap1", new KeyCombination(Keys.A, KeyboardModifier.Alt)
@@ -197,7 +194,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
         public void ActionIs_Should_Return_False_When_Selector_Is_Used_And_Key_Does_Not_Match()
         {
             // Arrange
-            var keyCombinations = new Dictionary<string, KeyCombination>()
+            var keyCombinations = new Dictionary<string, KeyCombination>
             {
                 {
                     "TestMap1", new KeyCombination(Keys.A)
@@ -228,7 +225,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
             var result = Assert.ThrowsException<Exception>(() => _actionMap.ActionIs<TestActionMultiple>(new KeyCombination(Keys.A), "DoesNotExist"));
 
             // Assert
-            Assert.AreEqual($"No ActionMapAttribute with name DoesNotExist found on class TestActionMultiple", result.Message);
+            Assert.AreEqual("No ActionMapAttribute with name DoesNotExist found on class TestActionMultiple", result.Message);
         }
 
         [ActionMap(Name = "TestMap1")]

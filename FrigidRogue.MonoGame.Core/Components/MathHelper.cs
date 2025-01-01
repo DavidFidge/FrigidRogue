@@ -1,4 +1,6 @@
-﻿namespace FrigidRogue.MonoGame.Core.Components
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace FrigidRogue.MonoGame.Core.Components
 {
     public static class MathHelper
     {
@@ -46,7 +48,7 @@
         /// <param name="cathetusA">Cathetus a.</param>
         /// <param name="cathetusB">Cathetus b.</param>
         /// <returns>The hypotenuse c, which is Sqrt(a*a + b*b).</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
         public static float Hypotenuse(float cathetusA, float cathetusB)
         {
             float h = 0;
@@ -70,7 +72,7 @@
         /// <param name="cathetusA">Cathetus a.</param>
         /// <param name="cathetusB">Cathetus b.</param>
         /// <returns>The hypotenuse c, which is Sqrt(a*a + b*b).</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
         public static double Hypotenuse(double cathetusA, double cathetusB)
         {
             double h = 0;
@@ -94,7 +96,7 @@
         /// <typeparam name="T">The type of the objects.</typeparam>
         /// <param name="obj1">First variable.</param>
         /// <param name="obj2">Second variable.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference")]
+        [SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference")]
         public static void Swap<T>(ref T obj1, ref T obj2)
         {
             T temp = obj1;
@@ -162,7 +164,7 @@
         /// The largest non-negative integer x such that 2<sup>x</sup> ≤ <paramref name="value"/>.
         /// Exception: If <paramref name="value"/> is 0 then 0 is returned.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly")]
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly")]
         public static uint Log2LessOrEqual(uint value)
         {
             // See Game Programming Gems 3, "Fast Base-2 Functions for Logarithms and Random Number Generation.
@@ -322,7 +324,7 @@
         /// <see langword="true"/> if <paramref name="value"/> is a power of two; otherwise, 
         /// <see langword="false"/>.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2233:OperationsShouldNotOverflow", MessageId = "value-1")]
+        [SuppressMessage("Microsoft.Usage", "CA2233:OperationsShouldNotOverflow", MessageId = "value-1")]
         public static bool IsPowerOf2(int value)
         {
             // See http://stackoverflow.com/questions/600293/how-to-check-if-a-number-is-a-power-of-2
@@ -362,7 +364,7 @@
         /// <remarks>
         /// This method computes the Gaussian bell curve.
         /// </remarks>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
         public static float Gaussian(float x, float coefficient, float expectedValue, float standardDeviation)
         {
             float xMinusExpected = x - expectedValue;
@@ -384,7 +386,7 @@
         /// <remarks>
         /// This method computes the Gaussian bell curve.
         /// </remarks>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
         public static double Gaussian(double x, double coefficient, double expectedValue, double standardDeviation)
         {
             double xMinusExpected = x - expectedValue;
@@ -405,7 +407,7 @@
         /// of Pascal's triangle (using zero-based indices for k and n). This method returns 0 for
         /// negative <paramref name="n"/>.
         /// </remarks>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
         public static long BinomialCoefficient(int n, int k)
         {
             // See http://blog.plover.com/math/choose.html.
@@ -434,7 +436,7 @@
         /// </summary>
         /// <param name="f">The number.</param>
         /// <returns>The fractional part of <paramref name="f"/>.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
         public static float Frac(float f)
         {
             return f - (float)Math.Floor(f);
@@ -445,7 +447,7 @@
         /// </summary>
         /// <param name="d">The number.</param>
         /// <returns>The fractional part of <paramref name="d"/>.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
         public static double Frac(double d)
         {
             return d - Math.Floor(d);

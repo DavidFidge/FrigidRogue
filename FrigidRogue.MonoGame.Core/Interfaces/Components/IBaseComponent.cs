@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿using FrigidRogue.MonoGame.Core.Components.Mediator;
 using Serilog;
 
 namespace FrigidRogue.MonoGame.Core.Components

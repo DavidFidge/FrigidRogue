@@ -3,6 +3,7 @@ using FrigidRogue.MonoGame.Core.Graphics.Quads;
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Point = SadRogue.Primitives.Point;
 
 namespace FrigidRogue.MonoGame.Core.Graphics.Map
 {
@@ -58,7 +59,7 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Map
             _mapQuad.LoadContent(_mapWidth, _mapHeight, null);
         }
 
-        public void SetCentreTranslation(SadRogue.Primitives.Point targetTile)
+        public void SetCentreTranslation(Point targetTile)
         {
             var xTranslation = (-targetTile.X * _tileWidth) + HalfMapWidth;
             var yTranslation = (targetTile.Y * _tileHeight) - HalfMapHeight;

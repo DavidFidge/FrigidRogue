@@ -1,8 +1,7 @@
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-
-using MediatR;
+using FrigidRogue.MonoGame.Core.Components.Mediator;
 
 namespace FrigidRogue.MonoGame.Core.Installers
 {

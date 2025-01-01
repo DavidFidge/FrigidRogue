@@ -1,6 +1,5 @@
 using FrigidRogue.MonoGame.Core.Services;
 using FrigidRogue.TestInfrastructure;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FrigidRogue.MonoGame.Core.Tests.Services
@@ -202,7 +201,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.Services
             var exception = Assert.ThrowsException<ArgumentException>(() => _gameTurnService.GetTurnNumberFromSequenceNumber(0));
 
             // Assert
-            Assert.AreEqual($"Sequence number 0 has not yet been reached (Parameter 'sequenceNumber')", exception.Message);
+            Assert.AreEqual("Sequence number 0 has not yet been reached (Parameter 'sequenceNumber')", exception.Message);
         }
     }
 }

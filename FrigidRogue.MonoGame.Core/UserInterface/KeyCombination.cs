@@ -1,5 +1,4 @@
 ﻿using InputHandlers.Keyboard;
-
 using Microsoft.Xna.Framework.Input;
 
 namespace FrigidRogue.MonoGame.Core.UserInterface

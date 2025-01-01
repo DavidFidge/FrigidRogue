@@ -1,5 +1,4 @@
 ﻿using System.IO;
-
 using FrigidRogue.MonoGame.Core.Services;
 
 namespace FrigidRogue.MonoGame.Core.Interfaces.Services

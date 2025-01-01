@@ -1,11 +1,9 @@
 ﻿using System.Reflection;
-
 using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-
 using FrigidRogue.MonoGame.Core.Components;
 using FrigidRogue.MonoGame.Core.Configuration;
 using FrigidRogue.MonoGame.Core.ConsoleCommands;
@@ -18,12 +16,12 @@ using FrigidRogue.MonoGame.Core.Interfaces.Services;
 using FrigidRogue.MonoGame.Core.Interfaces.UserInterface;
 using FrigidRogue.MonoGame.Core.Services;
 using FrigidRogue.MonoGame.Core.UserInterface;
-
 using InputHandlers.Keyboard;
 using InputHandlers.Mouse;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Core;
+using Random = FrigidRogue.MonoGame.Core.Components.Random;
 
 namespace FrigidRogue.MonoGame.Core.Installers
 {
@@ -70,7 +68,7 @@ namespace FrigidRogue.MonoGame.Core.Installers
                     .ImplementedBy<GameTurnService>(),
 
                 Component.For<IRandom>()
-                    .ImplementedBy<Components.Random>(),
+                    .ImplementedBy<Random>(),
 
                 Component.For<ISaveGameService>()
                     .ImplementedBy<SaveGameService>(),

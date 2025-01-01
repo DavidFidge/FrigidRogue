@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
 
 namespace FrigidRogue.MonoGame.Core.Components
 {
@@ -330,7 +331,7 @@ namespace FrigidRogue.MonoGame.Core.Components
         /// <see langword="true"/> if <paramref name="value1"/> ≤ <paramref name="value2"/> or their 
         /// difference is less than the epsilon tolerance; otherwise, <see langword="false"/>.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "LessOr")]
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "LessOr")]
         public static bool IsLessOrEqual(float value1, float value2)
         {
             return (value1 < value2) || AreEqual(value1, value2);
@@ -350,7 +351,7 @@ namespace FrigidRogue.MonoGame.Core.Components
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="epsilon"/> is negative or 0.
         /// </exception>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "LessOr")]
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "LessOr")]
         public static bool IsLessOrEqual(float value1, float value2, float epsilon)
         {
             return (value1 < value2) || AreEqual(value1, value2, epsilon);
@@ -366,7 +367,7 @@ namespace FrigidRogue.MonoGame.Core.Components
         /// <see langword="true"/> if <paramref name="value1"/> ≤ <paramref name="value2"/> or their 
         /// difference is less than the epsilon tolerance; otherwise, <see langword="false"/>.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "LessOr")]
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "LessOr")]
         public static bool IsLessOrEqual(double value1, double value2)
         {
             return (value1 < value2) || AreEqual(value1, value2);
@@ -386,7 +387,7 @@ namespace FrigidRogue.MonoGame.Core.Components
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="epsilon"/> is negative or 0.
         /// </exception>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "LessOr")]
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "LessOr")]
         public static bool IsLessOrEqual(double value1, double value2, double epsilon)
         {
             return (value1 < value2) || AreEqual(value1, value2, epsilon);
@@ -1064,7 +1065,7 @@ namespace FrigidRogue.MonoGame.Core.Components
         [StructLayout(LayoutKind.Explicit)]
         private struct SingleToUInt32
         {
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+            [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
             [FieldOffset(0)]
             internal float Single;
             [FieldOffset(0)]
@@ -1074,7 +1075,7 @@ namespace FrigidRogue.MonoGame.Core.Components
         [StructLayout(LayoutKind.Explicit)]
         private struct DoubleToUInt64
         {
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+            [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
             [FieldOffset(0)]
             internal double Double;
             [FieldOffset(0)]
@@ -1160,9 +1161,9 @@ namespace FrigidRogue.MonoGame.Core.Components
         /// <param name="value">The floating-point number.</param>
         /// <param name="n">The number of significant bits.</param>
         /// <returns>The <paramref name="n"/> significant bits of <paramref name="value"/>.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "unsigned")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "n")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2233:OperationsShouldNotOverflow", MessageId = "31-n")]
+        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "unsigned")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "n")]
+        [SuppressMessage("Microsoft.Usage", "CA2233:OperationsShouldNotOverflow", MessageId = "31-n")]
         public static uint GetSignificantBitsUnsigned(float value, int n)
         {
             // Reference: http://aras-p.info/blog/2014/01/16/rough-sorting-by-depth/
@@ -1191,9 +1192,9 @@ namespace FrigidRogue.MonoGame.Core.Components
         /// The sign bit is flipped to ensure that the bit representation of a positive floating-point
         /// number is greater than the bit representation of a negative number.
         /// </remarks>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "signed")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "n")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2233:OperationsShouldNotOverflow", MessageId = "32-n")]
+        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "signed")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "n")]
+        [SuppressMessage("Microsoft.Usage", "CA2233:OperationsShouldNotOverflow", MessageId = "32-n")]
         public static uint GetSignificantBitsSigned(float value, int n)
         {
             // Example:

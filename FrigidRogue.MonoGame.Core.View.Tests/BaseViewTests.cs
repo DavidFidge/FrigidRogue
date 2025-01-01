@@ -1,20 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Threading;
-
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
 using FrigidRogue.MonoGame.Core.Messages;
 using FrigidRogue.MonoGame.Core.UserInterface;
 using FrigidRogue.MonoGame.Core.View;
 using FrigidRogue.MonoGame.Core.View.Interfaces;
 using FrigidRogue.TestInfrastructure;
-
 using GeonBit.UI.Entities;
-
 using InputHandlers.Keyboard;
 using InputHandlers.Mouse;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using NSubstitute;
 
 namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
@@ -287,7 +282,7 @@ namespace FrigidRogue.MonoGame.Core.Tests.UserInterface
             };
 
             // Act
-            testView.Handle(new NotifyViewModelChangedRequest<TestData>(), new CancellationToken());
+            testView.Handle(new NotifyViewModelChangedRequest<TestData>());
 
             // Assert
             Assert.IsTrue(testView.ViewModelChangedCalled);

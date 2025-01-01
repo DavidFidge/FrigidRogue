@@ -1,7 +1,6 @@
 using FrigidRogue.MonoGame.Core.ContentPipeline;
 using FrigidRogue.MonoGame.Core.Extensions;
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
