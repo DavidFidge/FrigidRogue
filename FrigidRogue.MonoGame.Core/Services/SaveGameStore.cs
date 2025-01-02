@@ -2,7 +2,7 @@ using System.IO;
 using System.Text;
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
-using MonoGame.Extended.Serialization;
+
 using Newtonsoft.Json;
 using CompressionLevel = MonoGame.Framework.Utilities.Deflate.CompressionLevel;
 using CompressionMode = MonoGame.Framework.Utilities.Deflate.CompressionMode;
