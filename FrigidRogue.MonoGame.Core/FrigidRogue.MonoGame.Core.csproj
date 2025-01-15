@@ -1,14 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Castle.Core" Version="4.4.1" />
     <PackageReference Include="Castle.Windsor" Version="5.1.2" />
-    <PackageReference Include="InputHandlers.MonoGame.WindowsDX" Version="1.7.0" />
-    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
+    <PackageReference Include="InputHandlers.MonoGame.WindowsDX" Version="1.8.0" />
+    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.2.1105" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NGenerics" Version="1.5.3" />
     <PackageReference Include="Serilog" Version="2.12.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.4.0" />
@@ -20,7 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\GoRogue\GoRogue\GoRogue.csproj" />
-    <ProjectReference Include="..\..\MonoGame.Extended\src\cs\MonoGame.Extended\MonoGame.Extended.csproj" />
+    <ProjectReference Include="..\..\MonoGame.Extended\source\MonoGame.Extended\MonoGame.Extended.csproj" />
     <ProjectReference Include="..\FrigidRogue.MonoGame.Core.ContentPipeline\FrigidRogue.MonoGame.Core.ContentPipeline.csproj" />
   </ItemGroup>
 

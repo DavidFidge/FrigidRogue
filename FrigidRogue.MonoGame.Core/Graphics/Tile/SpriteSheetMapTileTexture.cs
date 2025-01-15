@@ -1,26 +1,26 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.Sprites;
+using MonoGame.Extended.Graphics;
 
 namespace FrigidRogue.MonoGame.Core.Graphics.Quads;
 
 public class SpriteSheetMapTileTexture : IMapTileTexture
 {
-    private readonly SpriteSheetAnimation _spriteSheetAnimation;
+    private readonly AnimatedSprite _animatedSprite;
     private readonly float _opacity;
 
     public float Opacity => _opacity;
-    public SpriteSheetAnimation SpriteSheetAnimation => _spriteSheetAnimation;
+    public AnimatedSprite AnimatedSprite => _animatedSprite;
 
     // Further away = 1.0, closest = 0.0.  Only set if you are using sprite batch draw mode Texture.
     protected float _spriteBatchDrawDepth;
 
     public SpriteSheetMapTileTexture(
-        SpriteSheetAnimation spriteSheetAnimation,
+        AnimatedSprite animatedSprite,
         float opacity = 1f,
         float spriteBatchDrawDepth = 0)
     {
-        _spriteSheetAnimation = spriteSheetAnimation;
+        _animatedSprite = animatedSprite;
         _opacity = opacity;
         _spriteBatchDrawDepth = spriteBatchDrawDepth;
     }
@@ -34,21 +34,21 @@ public class SpriteSheetMapTileTexture : IMapTileTexture
         else
             drawColour.A = (byte)(_opacity * byte.MaxValue);
 
-        spriteBatch.Draw(_spriteSheetAnimation.CurrentFrame.Texture, destinationRectangle, _spriteSheetAnimation.CurrentFrame.Bounds, drawColour, 0f, Vector2.Zero, SpriteEffects.None, _spriteBatchDrawDepth);
+        spriteBatch.Draw(_animatedSprite.TextureRegion.Texture, destinationRectangle, _animatedSprite.TextureRegion.Bounds, drawColour, 0f, Vector2.Zero, SpriteEffects.None, _spriteBatchDrawDepth);
     }
 
     public void Update(GameTime gameTime)
     {
-        _spriteSheetAnimation.Update(gameTime);
+        _animatedSprite.Update(gameTime);
     }
 
     public void Stop()
     {
-        _spriteSheetAnimation.Stop();
+        _animatedSprite.Controller.Stop();
     }
 
     public void Play()
     {
-        _spriteSheetAnimation.Play();
+        _animatedSprite.Controller.Play();
     }
 }

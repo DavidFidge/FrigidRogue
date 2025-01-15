@@ -1,12 +1,11 @@
 using System.IO;
+using System.IO.Compression;
 using System.Text;
+
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Interfaces.Services;
-using MonoGame.Extended.Serialization;
+
 using Newtonsoft.Json;
-using CompressionLevel = MonoGame.Framework.Utilities.Deflate.CompressionLevel;
-using CompressionMode = MonoGame.Framework.Utilities.Deflate.CompressionMode;
-using GZipStream = MonoGame.Framework.Utilities.Deflate.GZipStream;
 
 namespace FrigidRogue.MonoGame.Core.Services
 {
@@ -76,26 +75,26 @@ namespace FrigidRogue.MonoGame.Core.Services
         {
             var saveGameString = JsonConvert.SerializeObject(_jsonGameObjectStore, _jsonSerializerSettings);
 
-            var saveGameBytes = GZipStream.CompressString(saveGameString);
+            
+            var saveGameBytes = CompressString(saveGameString);
 
             return saveGameBytes;
         }
 
         public void DeserialiseStoreFromBytes(byte[] saveGameBytes)
         {
-            var saveGameString = GZipStream.UncompressString(saveGameBytes);
+            var saveGameString = UncompressString(saveGameBytes);
 
             _jsonGameObjectStore = JsonConvert.DeserializeObject<Dictionary<Type, string>>(saveGameString, _jsonSerializerSettings);
         }
 
-        // Alternative implementation for uncompressing using BestSpeed.  Currently not using as it doesn't appear to improve performance much.
         private static string UncompressString(byte[] saveGameBytes)
         {
             var buffer = new byte[1024];
             var utF8 = Encoding.UTF8;
             using var memoryStream = new MemoryStream();
             using var decompressorMemoryStream = new MemoryStream(saveGameBytes);
-            using var decompressor = (Stream) new GZipStream(decompressorMemoryStream, CompressionMode.Decompress, CompressionLevel.BestSpeed);
+            using var decompressor = (Stream) new GZipStream(decompressorMemoryStream, CompressionMode.Decompress);
 
                 int count;
                 while ((count = decompressor.Read(buffer, 0, buffer.Length)) != 0)
@@ -111,14 +110,13 @@ namespace FrigidRogue.MonoGame.Core.Services
             return result;
         }
 
-        // Alternative implementation for compressing using BestSpeed.  Currently not using as it doesn't appear to improve performance much
         private static byte[] CompressString(string saveGameString)
         {
             var utf8Encoding = Encoding.UTF8;
             var bytes = utf8Encoding.GetBytes(saveGameString);
 
             using var memoryStream = new MemoryStream();
-            using var compressor = new GZipStream(memoryStream, CompressionMode.Compress, CompressionLevel.BestSpeed);
+            using var compressor = new GZipStream(memoryStream, CompressionLevel.Fastest);
 
             compressor.Write(bytes, 0, bytes.Length);
             compressor.Close();
