@@ -44,7 +44,7 @@ namespace FrigidRogue.MonoGame.Core.UserInterface
         {
             var actionMaps = typeof(T).GetAttributes<ActionMapAttribute>().ToList();
 
-            if (actionMaps.IsNullOrEmpty())
+            if (actionMaps == null || actionMaps.Count == 0)
                 throw new Exception($"No {typeof(ActionMapAttribute).Name} found on class {typeof(T).Name}");
 
             if (selector != null)
