@@ -3,6 +3,9 @@
     public abstract class BaseCommand : BaseComponent
     {
         public abstract CommandResult Execute();
-        public abstract void Undo();
+
+        public virtual void Undo()
+        {
+        }
     }
 }

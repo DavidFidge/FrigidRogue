@@ -57,6 +57,8 @@ namespace FrigidRogue.MonoGame.Core.Components
             UndoInternal();
         }
 
-        protected abstract void UndoInternal();
+        protected virtual void UndoInternal()
+        {
+        }
     }
 }
