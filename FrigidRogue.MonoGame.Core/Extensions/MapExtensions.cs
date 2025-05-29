@@ -1,6 +1,8 @@
 ﻿using FrigidRogue.MonoGame.Core.Components.MapPointChoiceRules;
 using GoRogue.GameFramework;
 using GoRogue.Random;
+
+using SadRogue.Primitives;
 using SadRogue.Primitives.GridViews;
 using ShaiRandom.Generators;
 using Point = SadRogue.Primitives.Point;
@@ -10,6 +12,11 @@ namespace FrigidRogue.MonoGame.Core.Extensions
 {
     public static class MapExtensions
     {
+        public static Point RandomPosition(this Map map)
+        {
+            return GlobalRandom.DefaultRNG.RandomPosition(map);
+        }
+
         public static Point RandomPositionFromRules(this Map map, List<MapPointChoiceRule> rules, Point startingPoint)
         {
             if (startingPoint == Point.None) 
@@ -79,6 +86,11 @@ namespace FrigidRogue.MonoGame.Core.Extensions
             rectangle = Rectangle.GetIntersection(rectangle, map.Bounds());
             
             return rectangle;
+        }
+
+        public static IEnumerable<Point> CircleCoveringPoints(this Map map, Point point, int radius)
+        {
+            return Radius.Circle.PositionsInRadius(point, radius, map.Bounds());
         }
     }
 }
