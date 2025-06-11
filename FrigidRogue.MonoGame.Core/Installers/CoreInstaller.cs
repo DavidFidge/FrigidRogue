@@ -21,7 +21,6 @@ using InputHandlers.Mouse;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Core;
-using Random = FrigidRogue.MonoGame.Core.Components.Random;
 
 namespace FrigidRogue.MonoGame.Core.Installers
 {
@@ -66,9 +65,6 @@ namespace FrigidRogue.MonoGame.Core.Installers
 
                 Component.For<IGameTurnService>()
                     .ImplementedBy<GameTurnService>(),
-
-                Component.For<IRandom>()
-                    .ImplementedBy<Random>(),
 
                 Component.For<ISaveGameService>()
                     .ImplementedBy<SaveGameService>(),
