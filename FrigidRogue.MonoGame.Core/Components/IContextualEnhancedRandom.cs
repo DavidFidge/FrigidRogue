@@ -8,6 +8,8 @@ namespace FrigidRogue.MonoGame.Core.Components
     {
         MizuchiRandom GetSaveState();
         bool NextBool(string context);
+        int NextInt(int upper, string context);
+        int NextInt(int lower, int upper, string context);
         void Reset(ulong seed);
         void SetLoadState(MizuchiRandom loadState);
     }
