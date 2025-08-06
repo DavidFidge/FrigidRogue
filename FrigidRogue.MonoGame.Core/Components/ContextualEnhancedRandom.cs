@@ -225,12 +225,12 @@ namespace FrigidRogue.MonoGame.Core.Components
 
         public virtual int NextInt(int upper, string context)
         {
-            return NextInt(upper, context);
+            return NextInt(upper);
         }
 
         public virtual int NextInt(int lower, int upper, string context)
         {
-            return NextInt(lower, upper, context);
+            return NextInt(lower, upper);
         }
     }
 }
