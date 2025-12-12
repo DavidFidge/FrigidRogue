@@ -50,5 +50,6 @@ public class SpriteSheetMapTileTexture : IMapTileTexture
     public void Play()
     {
         _animatedSprite.Controller.Play();
+        _animatedSprite.Controller.Unpause();
     }
 }
