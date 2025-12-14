@@ -43,5 +43,25 @@ namespace FrigidRogue.MonoGame.Core.Extensions
 
             return list;
         }
+
+        public static bool In<T>(this T item, params T[] values)
+        {
+            foreach (var value in values)
+            {
+                if (item.Equals(value))
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool NotIn<T>(this T item, params T[] values)
+        {
+            foreach (var value in values)
+            {
+                if (item.Equals(value))
+                    return false;
+            }
+            return true;
+        }
     }
 }
