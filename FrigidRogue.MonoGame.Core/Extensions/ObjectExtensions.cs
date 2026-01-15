@@ -63,5 +63,13 @@ namespace FrigidRogue.MonoGame.Core.Extensions
             }
             return true;
         }
+
+        public static bool ParseOrFalse(this string item)
+        {
+            if (string.IsNullOrEmpty(item))
+                return false;
+
+            return bool.Parse(item.ToLower());
+        }
     }
 }
