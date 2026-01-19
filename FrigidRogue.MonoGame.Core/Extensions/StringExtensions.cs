@@ -35,5 +35,21 @@ namespace FrigidRogue.MonoGame.Core.Extensions
             Array.Reverse(charArray);
             return new string(charArray);
         }
+
+        public static bool ParseBoolOrFalse(this string item)
+        {
+            if (string.IsNullOrEmpty(item))
+                return false;
+
+            return bool.Parse(item.ToLower());
+        }
+
+        public static int ParseIntOrDefault(this string item, int def = 0)
+        {
+            if (string.IsNullOrEmpty(item))
+                return def;
+
+            return int.Parse(item);
+        }
     }
 }
