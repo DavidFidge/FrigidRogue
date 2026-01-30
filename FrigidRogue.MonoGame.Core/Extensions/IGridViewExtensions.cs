@@ -182,5 +182,10 @@ namespace FrigidRogue.MonoGame.Core.Extensions
 
             return subset;
         }
+
+        public static IEnumerable<Point> CircleCoveringPoints<T>(this IGridView<T> map, Point point, int radius)
+        {
+            return Radius.Circle.PositionsInRadius(point, radius, map.Bounds());
+        }
     }
 }

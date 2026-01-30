@@ -1,4 +1,6 @@
-﻿using FrigidRogue.MonoGame.Core.Components.MapPointChoiceRules;
+﻿using System.Runtime.CompilerServices;
+
+using FrigidRogue.MonoGame.Core.Components.MapPointChoiceRules;
 using GoRogue.GameFramework;
 using GoRogue.Random;
 
@@ -86,11 +88,6 @@ namespace FrigidRogue.MonoGame.Core.Extensions
             rectangle = Rectangle.GetIntersection(rectangle, map.Bounds());
             
             return rectangle;
-        }
-
-        public static IEnumerable<Point> CircleCoveringPoints(this Map map, Point point, int radius)
-        {
-            return Radius.Circle.PositionsInRadius(point, radius, map.Bounds());
         }
     }
 }
