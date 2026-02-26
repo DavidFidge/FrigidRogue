@@ -108,6 +108,92 @@ namespace FrigidRogue.MonoGame.Core.Graphics.Quads
         }
 
         /// <summary>
+        /// Create a tile from a bitmap font character. The bitmap font must be a transparent background on a white foreground and must be a 16 character x 16 character image.
+        /// Draws the glyph into one of four quadrants based on the provided direction.
+        /// </summary>
+        public MapTileTexture(
+            GraphicsDevice graphicsDevice,
+            int tileWidth,
+            int tileHeight,
+            Texture2D bitmapFontTexture,
+            char character,
+            SadRogue.Primitives.Direction direction,
+            Color foregroundColor,
+            Color? backgroundColour = null,
+            float spriteBatchDrawDepth = 0
+        ) : base(graphicsDevice, tileWidth, tileHeight)
+        {
+            var previousRenderTargets = graphicsDevice.GetRenderTargets();
+
+            graphicsDevice.SetRenderTarget(_renderTarget);
+
+            graphicsDevice.Clear(backgroundColour ?? Color.Transparent);
+
+            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+
+            var bitmapCharacterWidth = bitmapFontTexture.Width / 16;
+            var bitmapCharacterHeight = bitmapFontTexture.Height / 16;
+
+            var characterIndex = (int)character;
+
+            var characterRegion = new Rectangle((characterIndex % 16) * bitmapCharacterWidth, (characterIndex / 16) * bitmapCharacterHeight, bitmapCharacterWidth, bitmapCharacterHeight);
+
+            // Compute destination rectangle so the glyph is drawn into one quadrant:
+            // top-left (UpLeft), top-right (UpRight), bottom-left (DownLeft), bottom-right (DownRight).
+            var quadrantWidth = tileWidth / 2;
+            var quadrantHeight = tileHeight / 2;
+
+            // Desired size is the source glyph size; scale down to fit quadrant if necessary.
+            var srcWidth = characterRegion.Width;
+            var srcHeight = characterRegion.Height;
+
+            float scale = Math.Min(1f, Math.Min((float)quadrantWidth / srcWidth, (float)quadrantHeight / srcHeight));
+            var destWidth = Math.Max(1, (int)(srcWidth * scale));
+            var destHeight = Math.Max(1, (int)(srcHeight * scale));
+
+            int destX = (tileWidth - destWidth) / 2;
+            int destY = (tileHeight - destHeight) / 2;
+
+            // Map directions to quadrants. Default centers the glyph if direction is not one of the four diagonals.
+            switch (direction.Type)
+            {
+                case SadRogue.Primitives.Direction.Types.UpLeft:
+                    destX = (quadrantWidth - destWidth) / 2;
+                    destY = (quadrantHeight - destHeight) / 2;
+                    break;
+                case SadRogue.Primitives.Direction.Types.UpRight:
+                    destX = quadrantWidth + (quadrantWidth - destWidth) / 2;
+                    destY = (quadrantHeight - destHeight) / 2;
+                    break;
+                case SadRogue.Primitives.Direction.Types.DownLeft:
+                    destX = (quadrantWidth - destWidth) / 2;
+                    destY = quadrantHeight + (quadrantHeight - destHeight) / 2;
+                    break;
+                case SadRogue.Primitives.Direction.Types.DownRight:
+                    destX = quadrantWidth + (quadrantWidth - destWidth) / 2;
+                    destY = quadrantHeight + (quadrantHeight - destHeight) / 2;
+                    break;
+                default:
+                    // For other directions, fall back to center of the tile
+                    destX = (tileWidth - destWidth) / 2;
+                    destY = (tileHeight - destHeight) / 2;
+                    break;
+            }
+
+            var destRect = new Rectangle(destX, destY, destWidth, destHeight);
+
+            _spriteBatch.Draw(bitmapFontTexture, destRect, characterRegion, foregroundColor);
+
+            _spriteBatch.End();
+
+            graphicsDevice.SetRenderTargets(previousRenderTargets);
+
+            _tileTexture = _renderTarget;
+
+            _spriteBatchDrawDepth = spriteBatchDrawDepth;
+        }
+
+        /// <summary>
         /// Create a tile from a Texture2D with foreground and background of texture
         /// </summary>
         public MapTileTexture(
