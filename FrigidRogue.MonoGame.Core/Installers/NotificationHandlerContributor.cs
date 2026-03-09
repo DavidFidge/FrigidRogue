@@ -27,7 +27,7 @@ namespace FrigidRogue.MonoGame.Core.Installers
             }
             catch (ReflectionTypeLoadException ex)
             {
-                return ex.Types.Where(t => t != null)!;
+                return ex.Types.Where(t => t != null).Cast<Type>();
             }
         }
     }
