@@ -1,26 +1,18 @@
-﻿using Castle.MicroKernel.Registration;
-using Castle.MicroKernel.SubSystems.Configuration;
-using Castle.Windsor;
+﻿using Microsoft.Extensions.DependencyInjection;
 using FrigidRogue.MonoGame.Core.UserInterface;
 using FrigidRogue.MonoGame.Core.View.Interfaces;
 using GeonBit.UI.Entities;
 
 namespace FrigidRogue.MonoGame.Core.View.Installers
 {
-    public class ViewInstaller : IWindsorInstaller
+    public class ViewInstaller
     {
-        public void Install(IWindsorContainer container, IConfigurationStore store)
+        public void Install(IServiceCollection services)
         {
-            container.Kernel.ComponentModelBuilder.AddContributor(new ScreenContributor());
-
-            container.Register(
-                Component.For<IRootPanel<Entity>>()
-                    .ImplementedBy<RootGeonBitPanel>()
-                    .LifeStyle.Transient,
-
-                Component.For<IUserInterface>()
-                    .ImplementedBy<GeonBitUserInterfaceWrapper>()
-            );
+            new ScreenContributor().Process(services, typeof(ViewInstaller).Assembly);
+            
+            services.AddTransient<IRootPanel<Entity>, RootGeonBitPanel>();
+            services.AddTransient<IUserInterface, GeonBitUserInterfaceWrapper>();
         }
     }
 }
