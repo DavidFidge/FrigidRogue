@@ -1,4 +1,4 @@
-using Castle.Core.Internal;
+using System.Reflection;
 using FrigidRogue.MonoGame.Core.Interfaces.UserInterface;
 using InputHandlers.Keyboard;
 using Microsoft.Xna.Framework.Input;
@@ -28,7 +28,7 @@ namespace FrigidRogue.MonoGame.Core.UserInterface
         {
             var keyCombination = new KeyCombination(key, keyboardModifier);
 
-            var actionMaps = typeof(T).GetAttributes<ActionMapAttribute>().ToList();
+            var actionMaps = typeof(T).GetCustomAttributes<ActionMapAttribute>().ToList();
 
             var actionMap = actionMaps.Single(am => KeyMatchesAction(keyCombination, am));
 
@@ -42,7 +42,7 @@ namespace FrigidRogue.MonoGame.Core.UserInterface
 
         public bool ActionIs<T>(KeyCombination keyCombination, string selector = null)
         {
-            var actionMaps = typeof(T).GetAttributes<ActionMapAttribute>().ToList();
+            var actionMaps = typeof(T).GetCustomAttributes<ActionMapAttribute>().ToList();
 
             if (actionMaps == null || actionMaps.Count == 0)
                 throw new Exception($"No {typeof(ActionMapAttribute).Name} found on class {typeof(T).Name}");

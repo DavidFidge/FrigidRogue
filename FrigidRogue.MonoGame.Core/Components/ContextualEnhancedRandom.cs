@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel.Design;
 
-using Castle.Core;
-
 using FrigidRogue.MonoGame.Core.Interfaces.Components;
 using FrigidRogue.MonoGame.Core.Services;
 

@@ -1,9 +1,4 @@
 ﻿using System.Reflection;
-using Castle.Facilities.TypedFactory;
-using Castle.MicroKernel.Registration;
-using Castle.MicroKernel.Resolvers.SpecializedResolvers;
-using Castle.MicroKernel.SubSystems.Configuration;
-using Castle.Windsor;
 using FrigidRogue.MonoGame.Core.Components;
 using FrigidRogue.MonoGame.Core.Configuration;
 using FrigidRogue.MonoGame.Core.ConsoleCommands;
@@ -19,21 +14,21 @@ using FrigidRogue.MonoGame.Core.UserInterface;
 using InputHandlers.Keyboard;
 using InputHandlers.Mouse;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Serilog;
 using Serilog.Core;
 
 namespace FrigidRogue.MonoGame.Core.Installers
 {
-    public class CoreInstaller : IWindsorInstaller
+    public class CoreInstaller
     {
-        public void Install(IWindsorContainer container, IConfigurationStore store)
+        public void Install(IServiceCollection services, IConfiguration configuration = null)
         {
             Logger loggerConfig;
             
-            if (container.Kernel.HasComponent(typeof(IConfiguration)))
+            if (configuration != null)
             {
-                var configuration = container.Resolve<IConfiguration>();
-
                 loggerConfig = new LoggerConfiguration()
                     .ReadFrom.Configuration(configuration)
                     .CreateLogger();
@@ -46,80 +41,32 @@ namespace FrigidRogue.MonoGame.Core.Installers
                     .CreateLogger();
             }
 
-            container.AddFacility<TypedFactoryFacility>();
+            new RequestHandlerContributor().Process(services, typeof(CoreInstaller).Assembly);
+            new NotificationHandlerContributor().Process(services, typeof(CoreInstaller).Assembly);
 
-            container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel, true));
+            new MediatorInstaller().Install(services);
 
-            container.Kernel.ComponentModelBuilder.AddContributor(new RequestHandlerContributor());
-            container.Kernel.ComponentModelBuilder.AddContributor(new NotificationHandlerContributor());
+            services.AddSingleton<ILogger>(loggerConfig);
+            services.AddTransient<IGameTimeService, GameTimeService>();
+            services.AddTransient<IGameTurnService, GameTurnService>();
+            services.AddTransient<ISaveGameService, SaveGameService>();
+            services.AddTransient<ISaveGameFileWriter, SaveGameFileWriter>();
+            services.AddTransient<IGameInputService, GameInputService>();
+            services.AddTransient<IStopwatchProvider, StopwatchProvider>();
+            services.AddTransient<IKeyboardInput, KeyboardInput>();
+            services.AddTransient<IMouseInput, MouseInput>();
+            services.AddTransient<IDateTimeProvider, DateTimeProvider>();
+            services.AddTransient<IGameProvider, GameProvider>();
+            services.AddTransient<IGameOptionsStore, GameOptionsStore>();
+            services.AddTransient<MaterialQuadTemplate>();
+            services.AddTransient<TexturedQuadTemplate>();
+            services.AddTransient<IConfigurationSettings, ConfigurationSettings>();
+            services.AddTransient<IConsoleCommandServiceFactory, ConsoleCommandServiceFactory>();
+            services.AddTransient<IGraphicsSettings>(_ => BaseConfigurationSectionHandler.Load<GraphicsSettings>());
+            services.AddTransient<IActionMap, ActionMap>();
+            services.TryAddTransient<IActionMapStore, EmptyActionMapStore>();
+            services.AddTransient<ISceneGraph, SceneGraph>();
 
-            container.Install(new MediatorInstaller());
-
-            container.Register(
-                
-                Component.For<ILogger>()
-                    .Instance(loggerConfig),
-
-                Component.For<IGameTimeService>()
-                    .ImplementedBy<GameTimeService>(),
-
-                Component.For<IGameTurnService>()
-                    .ImplementedBy<GameTurnService>(),
-
-                Component.For<ISaveGameService>()
-                    .ImplementedBy<SaveGameService>(),
-
-                Component.For<ISaveGameFileWriter>()
-                    .ImplementedBy<SaveGameFileWriter>(),
-
-                Component.For<IGameInputService>()
-                    .ImplementedBy<GameInputService>(),
-
-                Component.For<IStopwatchProvider>()
-                    .ImplementedBy<StopwatchProvider>()
-                    .LifeStyle.Transient,
-
-                Component.For<IKeyboardInput>()
-                    .ImplementedBy<KeyboardInput>(),
-
-                Component.For<IMouseInput>()
-                    .ImplementedBy<MouseInput>(),
-                
-                Component.For<IDateTimeProvider>()
-                    .ImplementedBy<DateTimeProvider>(),
-                
-                Component.For<IGameProvider>()
-                    .ImplementedBy<GameProvider>(),
-
-                Component.For<IGameOptionsStore>()
-                    .ImplementedBy<GameOptionsStore>(),
-
-                Component.For<MaterialQuadTemplate>()
-                    .LifeStyle.Transient,
-
-                Component.For<TexturedQuadTemplate>()
-                    .LifeStyle.Transient,
-
-                Component.For<IConfigurationSettings>()
-                    .ImplementedBy<ConfigurationSettings>(),
-
-                Component.For<IConsoleCommandServiceFactory>()
-                    .ImplementedBy<ConsoleCommandServiceFactory>(),
-
-                Component.For<IGraphicsSettings>()
-                    .UsingFactoryMethod(k => BaseConfigurationSectionHandler.Load<GraphicsSettings>()),
-
-                Component.For<IActionMap>()
-                    .ImplementedBy<ActionMap>(),
-
-                Component.For<IActionMapStore>()
-                    .ImplementedBy<EmptyActionMapStore>()
-                    .IsFallback(),
-
-                Component.For<ISceneGraph>()
-                    .ImplementedBy<SceneGraph>()
-                    .LifeStyle.Transient
-            );
         }
     }
 }

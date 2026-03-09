@@ -1,18 +1,20 @@
-﻿using Castle.Core;
-using Castle.MicroKernel;
-using Castle.MicroKernel.ModelBuilder;
+﻿using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FrigidRogue.MonoGame.Core.Installers
 {
-    public class RequestHandlerContributor : IContributeComponentModelConstruction
+    public class RequestHandlerContributor
     {
-        public void ProcessModel(IKernel kernel, ComponentModel model)
+        public void Process(IServiceCollection services, Assembly assembly)
         {
-            foreach (var interfaceType in model.Implementation.GetInterfaces())
+            foreach (var implementationType in assembly.GetTypes().Where(t => t is { IsClass: true, IsAbstract: false }))
             {
-                if (interfaceType.Name.StartsWith("IRequestHandler") && interfaceType.GetGenericArguments().Length > 0)
+                foreach (var interfaceType in implementationType.GetInterfaces())
                 {
-                    model.AddService(interfaceType);
+                    if (interfaceType.Name.StartsWith("IRequestHandler") && interfaceType.GetGenericArguments().Length > 0)
+                    {
+                        services.AddTransient(interfaceType, implementationType);
+                    }
                 }
             }
         }

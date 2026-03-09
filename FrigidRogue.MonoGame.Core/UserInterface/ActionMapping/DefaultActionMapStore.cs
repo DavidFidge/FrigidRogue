@@ -1,4 +1,4 @@
-using Castle.Core.Internal;
+using System.Reflection;
 using FrigidRogue.MonoGame.Core.Interfaces.UserInterface;
 
 namespace FrigidRogue.MonoGame.Core.UserInterface
@@ -13,7 +13,7 @@ namespace FrigidRogue.MonoGame.Core.UserInterface
                 .GetAssemblies()
                 .AsParallel()
                 .SelectMany(a => a.GetTypes())
-                .SelectMany(t => t.GetAttributes<ActionMapAttribute>())
+                .SelectMany(t => t.GetCustomAttributes<ActionMapAttribute>())
                 .Where(t => t != null)
                 .ToDictionary(t => t.Name, t => new KeyCombination(t.DefaultKey, t.DefaultKeyboardModifier));
             }

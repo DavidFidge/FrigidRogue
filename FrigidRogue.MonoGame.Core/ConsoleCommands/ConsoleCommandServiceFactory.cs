@@ -1,4 +1,4 @@
-using Castle.Core.Internal;
+using System.Reflection;
 using FrigidRogue.MonoGame.Core.Interfaces.ConsoleCommands;
 
 namespace FrigidRogue.MonoGame.Core.ConsoleCommands
@@ -7,10 +7,10 @@ namespace FrigidRogue.MonoGame.Core.ConsoleCommands
     {
         private readonly Dictionary<string, IConsoleCommand> _consoleCommands;
 
-        public ConsoleCommandServiceFactory(IConsoleCommand[] consoleCommands)
+        public ConsoleCommandServiceFactory(IEnumerable<IConsoleCommand> consoleCommands)
         {
             _consoleCommands = consoleCommands
-                .ToDictionary(c => c.GetType().GetAttributes<ConsoleCommandAttribute>().Single().Name.ToLower());
+                .ToDictionary(c => c.GetType().GetCustomAttributes<ConsoleCommandAttribute>().Single().Name.ToLower());
         }
 
         public IConsoleCommand CommandFor(ConsoleCommand command)

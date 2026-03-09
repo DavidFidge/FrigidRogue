@@ -1,43 +1,27 @@
-﻿using Castle.MicroKernel;
-
-namespace FrigidRogue.MonoGame.Core.Components.Mediator;
+﻿namespace FrigidRogue.MonoGame.Core.Components.Mediator;
 
 public class Mediator : IMediator
 {
-    // property-injected
-    public IKernel Kernel { get; set; }
-    
-    public Mediator()
+    private readonly ServiceFactory _serviceFactory;
+
+    public Mediator(ServiceFactory serviceFactory)
     {
+        _serviceFactory = serviceFactory;
     }
     
     public void Publish<T>(T notification) where T : INotification
     {
-        var instances = Kernel.Resolve<ServiceFactory>().GetInstances<INotificationHandler<T>>();
+        var instances = _serviceFactory.GetInstances<INotificationHandler<T>>();
 
-        try
+        foreach (var instance in instances)
         {
-            foreach (var instance in instances)
-                instance.Handle(notification);
-        }
-        finally
-        {
-            foreach (var instance in instances)
-                Kernel.ReleaseComponent(instance);
+            instance.Handle(notification);
         }
     }
 
     public void Send<T>(T request) where T : IRequest
     {
-        var instance = Kernel.Resolve<ServiceFactory>().GetInstance<IRequestHandler<T>>();
-
-        try
-        {
-            instance.Handle(request);
-        }
-        finally
-        {
-            Kernel.ReleaseComponent(instance);
-        }
+        var instance = _serviceFactory.GetInstance<IRequestHandler<T>>();
+        instance.Handle(request);
     }
 }

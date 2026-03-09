@@ -1,27 +1,25 @@
-using Castle.MicroKernel.Registration;
-using Castle.MicroKernel.SubSystems.Configuration;
-using Castle.Windsor;
 using FrigidRogue.MonoGame.Core.Components.Mediator;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FrigidRogue.MonoGame.Core.Installers
 {
-    public class MediatorInstaller : IWindsorInstaller
+    public class MediatorInstaller
     {
-        public void Install(IWindsorContainer container, IConfigurationStore store)
+        public void Install(IServiceCollection services)
         {
-            container.Register(Component.For<IMediator>().ImplementedBy<Mediator>());
-
-            container.Register(Component.For<ServiceFactory>().UsingFactoryMethod<ServiceFactory>(k => (type =>
+            services.AddTransient<ServiceFactory>(sp => type =>
             {
-                var enumerableType = type
-                    .GetInterfaces()
-                    .Concat(new[] { type })
-                    .FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IEnumerable<>));
+                if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+                {
+                    return sp.GetServices(type.GetGenericArguments()[0]);
+                }
 
                 // If a not found exception is thrown here then check that the handler is registered
                 // with a Unit generic parameter
-                return enumerableType != null ? k.ResolveAll(enumerableType.GetGenericArguments()[0]) : k.Resolve(type);
-            })));
+                return sp.GetRequiredService(type);
+            });
+
+            services.AddTransient<IMediator, Mediator>();
         }
     }
 }
