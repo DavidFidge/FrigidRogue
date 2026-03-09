@@ -8,11 +8,23 @@ namespace FrigidRogue.MonoGame.Core.View.Installers
     {
         public void Process(IServiceCollection services, Assembly assembly)
         {
-            foreach (var implementationType in assembly.GetTypes().Where(t =>
+            foreach (var implementationType in GetLoadableTypes(assembly).Where(t =>
                          t is { IsClass: true, IsAbstract: false } &&
                          typeof(Screen).IsAssignableFrom(t)))
             {
                 services.AddTransient(typeof(IScreen), implementationType);
+            }
+        }
+
+        private static IEnumerable<Type> GetLoadableTypes(Assembly assembly)
+        {
+            try
+            {
+                return assembly.GetTypes();
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                return ex.Types.Where(t => t != null)!;
             }
         }
     }

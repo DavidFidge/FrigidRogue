@@ -7,7 +7,7 @@ namespace FrigidRogue.MonoGame.Core.Installers
     {
         public void Process(IServiceCollection services, Assembly assembly)
         {
-            foreach (var implementationType in assembly.GetTypes().Where(t => t is { IsClass: true, IsAbstract: false }))
+            foreach (var implementationType in GetLoadableTypes(assembly).Where(t => t is { IsClass: true, IsAbstract: false }))
             {
                 foreach (var interfaceType in implementationType.GetInterfaces())
                 {
@@ -16,6 +16,18 @@ namespace FrigidRogue.MonoGame.Core.Installers
                         services.AddTransient(interfaceType, implementationType);
                     }
                 }
+            }
+        }
+
+        private static IEnumerable<Type> GetLoadableTypes(Assembly assembly)
+        {
+            try
+            {
+                return assembly.GetTypes();
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                return ex.Types.Where(t => t != null)!;
             }
         }
     }

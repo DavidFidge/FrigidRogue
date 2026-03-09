@@ -66,7 +66,6 @@ namespace FrigidRogue.MonoGame.Core.Installers
             services.AddTransient<IActionMap, ActionMap>();
             services.TryAddTransient<IActionMapStore, EmptyActionMapStore>();
             services.AddTransient<ISceneGraph, SceneGraph>();
-
         }
     }
 }
